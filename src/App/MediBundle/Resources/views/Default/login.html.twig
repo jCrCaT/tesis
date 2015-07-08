@@ -1,0 +1,65 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"> 
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="{{ asset('js/beaverslider.js') }}"></script>
+    <script src="{{ asset('js/beaverslider-effects.js') }}"></script>
+    <link href="{{ asset('css/template.css') }}" rel="stylesheet" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Rokkitt' rel='stylesheet' type='text/css'>
+</head>
+{% block contenido %}
+
+{% if error %}
+    <div>{{ error.message }}</div>
+{% endif %}
+ <html>
+     <body class="white" >
+        <div id="imagenPortada">
+         <div class="formularioInicio">
+            <form action="{{ path('login_check') }}" method="post">
+                <div class="tituloInicioSesion">Iniciar Sesión</div>
+                <table class="cuadroLogin">
+                    <tr class="fila">
+                        <td>
+                            <div class="divInput">
+                                <img src="{{ asset('img/usuario.png') }}">
+                                <input class="loginInput" type="text" id="username" name="_username" value="{{ last_username }}" placeholder="Usuario" />                                
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="fila">
+                        <td>
+                            <div class="divInput outLineTop">
+                                <img src="{{ asset('img/password.png') }}">
+                                <input class="loginInput" type="password" id="password" name="_password" placeholder="Contraseña"/>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="fila">
+                        <td><button class="btnLogin" type="submit">Ingresar</button></td>
+                    </tr>
+                    <tr class="fila lastFila">
+                        <td><a class="recPass">Recuperar contraseña</a></td>
+                    </tr>
+                </table>
+        <input type="hidden" name="_target_path" value="/inicio" />
+     
+            </form>
+         </div>
+         <div class="formularioDescripcion">
+            <div id="btnPaginaInicio">ThinkProject</div>
+            <div id="DescripcionPagina">ThinkProject se caracteriza por ser una plataforma que le permite:</div>
+            <div>
+                <ul>
+                    <li><img class="descripcionImg" src="{{ asset('img/proyecto2.png') }}"><div>Administrar sus proyectos de manera fácil e intuitiva.</div></li>
+                    <li><img class="descripcionImg" src="{{ asset('img/carrera.png') }}"><div>Administrar en la participación de sus licitaciones.</div></li>
+                    <li><img class="descripcionImg" src="{{ asset('img/tiempo.png') }}"><div>Administrar la carga horaria de cada uno de sus profesionales.</div></li>
+                    <li><img class="descripcionImg" src="{{ asset('img/cmmi.png') }}"><div>Administrar sus estrategias a través de un panel de control</div></li>
+                </ul>
+            </div>
+                 
+        </div>
+        </div>
+    </body>
+</html>
+{% endblock %}

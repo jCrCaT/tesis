@@ -1,0 +1,7 @@
+parameters:
+#    dw.example.class: App\DataWarehouseBundle\Example
+
+services:
+#    dw.example:
+#        class: %dw.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

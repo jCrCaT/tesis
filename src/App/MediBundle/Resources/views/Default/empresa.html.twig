@@ -1,0 +1,242 @@
+{% extends '::base.html.twig' %}
+{% block submenu %}
+            <nav class="submenu">
+                <ul>
+                    <li><a href="{{ path('empresa')}}">Empresa</a></li>
+                    <li><a href="{{ path('area')}}">Áreas</a></li>
+                    <li><a href="{{ path('proyecto')}}">Proyectos</a></li>
+                    <li><a href="{{ path('empresa')}}">Actividades</a></li>
+                </ul>
+            </nav>
+{% endblock %}
+{% block contenido %}
+
+<section class="contenido">
+<link href="{{ asset('css/modal.css') }}" rel="stylesheet" media="screen">
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.modificarEmpresa').click(function(){
+        var id = $(this).data("identificador");
+        var rut = $(this).data("rut");
+        var nombre = $(this).data("nombre");
+        var giro = $(this).data("giro");
+        var telefono = $(this).data("telefono");
+        var correo = $(this).data("correo");
+        var direccion = $(this).data("direccion");
+        var comuna = $(this).data("comuna");
+        $("#valorIdentificador").val( id );
+        document.getElementById("valorRut").innerHTML = rut;
+        document.getElementById("valorNombre").innerHTML = nombre;
+        document.getElementById("valorGiro").innerHTML = giro;
+        document.getElementById("valorTelefono").innerHTML = telefono;
+        document.getElementById("valorCorreo").innerHTML = correo;
+        document.getElementById("valorDireccion").innerHTML = direccion;
+        document.getElementById("valorComuna").innerHTML = comuna;
+        $('#popup').fadeIn('slow');
+        $('.popup-overlay').fadeIn('slow');
+        $('.popup-overlay').height($(window).height());
+        return false;
+    });
+    
+    $('#close').click(function(){
+        $('#popup').fadeOut('slow');
+        $('.popup-overlay').fadeOut('slow');
+        return false;
+    });
+});
+</script>
+<script lang="text/javascript">
+    $(document).ready(function(){
+    $(".chosen-select").chosen();
+});
+</script>
+<script language="javascript">
+    $(document).ready(function(){ 
+        $('#agregaritem').on('click',function(e){
+            e.preventDefault();
+            $( "#formAdd").slideToggle( "slow" );
+        });
+    });
+</script>
+<div class="agregarItem">
+    <div>
+    <h4>Agregar Empresa</h4>
+    <a href="#" id="agregaritem" class="toggle linkMostrar">Mostrar/Ocultar</a>
+    <div id="formAdd" style="display:none">
+        <div class="addUbication">
+        <table>
+            <form action="{{ path('empresa')}}" method="post" {{ form_enctype(form) }} novalidate>
+            {{ form_start(form) }}
+            <tr>
+                <td>{{ form_label(form.rut, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.rut, {value : modificar.rut }) }}</td>
+                <td>{{ form_errors(form.rut) }}</td> 
+            </tr>
+            <tr>
+                <td>{{ form_label(form.nombre, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.nombre, {value : modificar.nombre }) }}</td>
+                <td>{{ form_errors(form.nombre) }}</td>  
+            </tr>
+            <tr>
+                <td>{{ form_label(form.giro, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.giro, {value : modificar.giro }) }}</td>
+                <td>{{ form_errors(form.giro) }}</td> 
+            </tr>
+            <tr>
+                <td>{{ form_label(form.direccion, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.direccion, {value : modificar.direccion }) }}</td>
+                <td>{{ form_errors(form.direccion) }}</td> 
+            </tr>
+            <tr>
+                <td>{{ form_label(form.correo, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.correo, {value : modificar.correo }) }}</td>
+                <td>{{ form_errors(form.correo) }}</td> 
+            </tr>
+            <tr>
+                <td>{{ form_label(form.telefono, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.telefono, {value : modificar.telefono }) }}</td>
+                <td>{{ form_errors(form.telefono) }}</td> 
+            </tr>
+            <tr>
+                <td>{{ form_label(form.comuna, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.comuna, {'attr': {'class': 'chosen-select'}}) }}</td>
+            </tr>
+            <tr class="filaFormulario">
+                <td><input type="submit" name="salvarEmpresa" value="Salvar Empresa"></td>
+                <td></td>
+            </tr>
+            {{ form_end(form) }}
+            </form> 
+        </table>
+    </div>    
+</div> 
+</div>
+</div>
+<section class="tabla">    
+    <div class="licitacion">
+<table>
+        <tr class="trHeader">
+            <td class="headerTable1">R.U.T de {{informacion.tabla}}</td>
+            <td class="headerTable1">Nombre de {{informacion.tabla}}</td>
+            <td class="headerTable1">Giro de {{informacion.tabla}}</td>
+            <td class="headerTable1">Direccion de {{informacion.tabla}}</td>
+            <td class="headerTable1">Comuna de {{informacion.tabla}}</td>
+            <td class="headerTable1"></td>
+            <td class="headerTable1"></td>
+            
+        </tr>
+        {% for listar in listar %}
+        <form action="{{ path('empresa')}} " method="post" {{ form_enctype(form) }} novalidate>
+        <tr class="trContent1">    
+            <td class="tabInfo">{{ listar.rut }}</td>
+            <td class="tabInfo">{{ listar.nombre }}</td>
+            <td class="tabInfo">{{ listar.giro }}</td>
+            <td class="tabInfo">{{ listar.direccion }}</td>
+            <td class="tabInfo">{{ listar.comuna.nombre }}</td>
+            <td class="tabInfo"><input type="submit" name="eliminar" value="eliminar"></td>
+            <td class="trContent1"><input type="button" name="modificarEmpresa" value="modificar" class="modificarEmpresa" data-identificador="{{ listar.id }}" data-nombre="{{ listar.nombre }}" data-rut="{{ listar.rut }}" data-giro="{{ listar.giro }}" data-comuna="{{ listar.comuna.nombre }}" data-direccion="{{ listar.direccion }}"></td>
+            <td><input type="hidden" name="valorEliminar" value="{{ listar.id }}"></td>
+            <td><input type="hidden" name="tabla" value="{{ informacion.tabla }}"></td>
+        </tr>    
+        </form>
+        {% endfor %}
+    </table>
+</div>
+</section>  
+</section>  
+<div id="popup" style="display: none;">
+    <div class="content-popup2">
+        <h4 class="modalh4">Usted modificará una Región</h4>
+        <div class="close"><a href="#" id="close"><img src="{{ asset('img/close.png') }}"/></a></div>
+            <form action="{{ path('empresa')}} " method="post" {{ form_enctype(formEmpresa) }} novalidate>
+                <table>
+                    {{ form_start(formEmpresa) }}
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorRut"></div></td>
+                        <td>R.U,T de Empresa</td>
+                        <td>{{ form_widget(formEmpresa.rut) }}</td>
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>{{ form_errors(formEmpresa.rut) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorNombre"></div></td>
+                        <td>Nombre de Empresa</td>
+                        <td>{{ form_widget(formEmpresa.nombre) }}</td>
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>{{ form_errors(formEmpresa.nombre) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorGiro"></div></td>
+                        <td>Giro de Empresa</td>
+                        <td>{{ form_widget(formEmpresa.giro) }}</td>
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>{{ form_errors(formEmpresa.giro) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorDireccion"></div></td>
+                        <td>Dirección de Empresa</td>
+                        <td>{{ form_widget(formEmpresa.direccion) }}</td>
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>{{ form_errors(formEmpresa.direccion) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorComuna"></div></td>
+                        <td>Comuna de Empresa</td>
+                        <td>{{ form_widget(formEmpresa.comuna, {'attr': {'class': 'chosen-select'}}) }}</td>
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>{{ form_errors(formEmpresa.comuna) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorTelefono"></div></td>
+                        <td>Nombre de Región</td>
+                        <td>{{ form_widget(formEmpresa.telefono) }}</td>
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>{{ form_errors(formEmpresa.telefono) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorCorreo"></div></td>
+                        <td>Correo de Comuna</td>
+                        <td>{{ form_widget(formEmpresa.correo) }}</td>
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>{{ form_errors(formEmpresa.correo) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td><input type="submit" name="guardarCambios" value="guardarCambios"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><input type="hidden" name="valorIdentificador" id="valorIdentificador" value=""></td>
+                    </tr>
+                    {{ form_end(formEmpresa) }}
+                </table>
+           </form>
+    </div>
+</div>
+
+{% endblock %}
+{% block horas %}
+
+{{ include ('AppMediBundle:Default:IndexHoras.html.twig',
+    {'formHoras': formHoras }) }}
+
+{{ include ('AppMediBundle:Default:IndexReunion.html.twig',
+    {'reuniones': reuniones }) }}
+
+{{ include ('AppMediBundle:Default:IndexProyecto.html.twig',
+    {'proyectos': proyecto}) }}
+
+{% endblock %}

@@ -1,0 +1,329 @@
+{% extends '::base.html.twig' %}
+{% block contenido %}
+<link href="{{ asset('css/modal.css') }}" rel="stylesheet" media="screen">
+<script src="{{ asset('js/mootools2.js') }}"></script>
+<script src="{{ asset('js/calendar.js') }}"></script>
+<link href="{{ asset('css/calendar.css') }}" rel="stylesheet" media="screen">
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.addEtapa').click(function(){
+        var etapa = $(this).data("etapa");
+        $("#valorProyecto").val( etapa );
+        $('#popup').fadeIn('slow');
+        $('.popup-overlay').fadeIn('slow');
+        $('.popup-overlay').height($(window).height());
+        return false;
+    });
+    
+  $('#close').click(function(){
+    $('#popup').fadeOut('slow');
+    $('.popup-overlay').fadeOut('slow');
+    return false;
+  });
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.addEtapaE').click(function(){
+        var etapa = $(this).data("etapa");
+        $("#valorProyecto1").val( etapa );
+        $('#popup1').fadeIn('slow');
+        $('.popup-overlay').fadeIn('slow');
+        $('.popup-overlay').height($(window).height());
+        return false;
+    });
+    
+  $('#close1').click(function(){
+    $('#popup1').fadeOut('slow');
+    $('.popup-overlay').fadeOut('slow');
+    return false;
+  });
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.addEtapaE').click(function(){
+        var etapa = $(this).data("etapa");
+        $("#valorProyecto1").val( etapa );
+        $('#popup1').fadeIn('slow');
+        $('.popup-overlay').fadeIn('slow');
+        $('.popup-overlay').height($(window).height());
+        return false;
+    });
+    
+  $('#close1').click(function(){
+    $('#popup1').fadeOut('slow');
+    $('.popup-overlay').fadeOut('slow');
+    return false;
+  });
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.addExcepcionPlazo').click(function(){
+        var proyecto = $(this).data("proyecto");
+        $("#valorProyectoEx").val( proyecto );
+        $('#popup2').fadeIn('slow');
+        $('.popup-overlay').fadeIn('slow');
+        $('.popup-overlay').height($(window).height());
+        return false;
+    });
+    
+  $('#close2').click(function(){
+    $('#popup2').fadeOut('slow');
+    $('.popup-overlay').fadeOut('slow');
+    return false;
+  });
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.addExcepcionEtapa').click(function(){
+        var etapa = $(this).data("etapa");
+        $("#valorEtapaEx").val( etapa );
+        $('#popup3').fadeIn('slow');
+        $('.popup-overlay').fadeIn('slow');
+        $('.popup-overlay').height($(window).height());
+        return false;
+    });
+    
+  $('#close3').click(function(){
+    $('#popup3').fadeOut('slow');
+    $('.popup-overlay').fadeOut('slow');
+    return false;
+  });
+});
+</script>
+<script language="javascript">
+    $(document).ready(function(){ 
+        $('#agregaritem').on('click',function(e){
+            e.preventDefault();
+            $( "#formAdd").slideToggle( "slow" );
+        });
+    });
+</script>
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="mensajeAlerta">
+        <img src="{{ asset('img/bien.png') }}" class="handCloser">
+        <div>Éxito!!</div>
+        El registro ha sido almacenado!!
+        <div class="infoAdic">
+        (Para ocultar esta ventana presionar el ticket verde)</div>
+        </div>
+    {% endfor %}
+    <div class="agregarItem">
+    <div>
+    <h4>Agregar Proyecto</h4>
+    <a href="#" id="agregaritem" class="toggle linkMostrar">Mostrar/Ocultar</a>
+    <div id="formAdd" style="display:none">
+        <div class="addUbication">
+        <table>
+            <form action="{{ path('proyecto')}}" method="post" {{ form_enctype(form) }} novalidate>
+            {{ form_start(form) }}
+            <tr>
+                <td>{{ form_label(form.nombreProyecto, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.nombreProyecto, {value : modificar.nombreProyecto }) }}</td>
+                <td>{{ form_errors(form.nombreProyecto) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.descripcion, null, {'label_attr': {'class': 'etiqueta', 'cols': '50', 'rows': '50'}}) }}</td>
+                <td>{{ form_widget(form.descripcion, {value : modificar.descripcion }) }}</td>
+                <td>{{ form_errors(form.descripcion) }}</td> 
+            </tr>
+            <tr>
+                <td>{{ form_label(form.horasProgramadas, null, {'label_attr': {'class': 'etiqueta', 'cols': '50', 'rows': '50'}}) }}</td>
+                <td>{{ form_widget(form.horasProgramadas, {value : modificar.descripcion }) }}</td>
+                <td>{{ form_errors(form.horasProgramadas) }}</td> 
+            </tr>
+            <tr>
+                <td class="etiqueta">Fecha de inicio</td>
+                <td><input type="text" class="DatePicker" name="fechaInicio" type="text"></td> 
+            </tr>
+            <tr>
+                <td class="etiqueta">Fecha de término</td>
+                <td><input class="DatePicker" name="fechaFin"></td>
+            </tr>
+            <tr class="filaFormulario">
+                <td><input type="submit" name="salvarProyecto" class="btnAdd" value="Salvar Proyecto"></td>
+                <td></td>
+            </tr> 
+            {{ form_end(form) }}
+            </form>  
+        </table>
+    </div> 
+    </div>
+    </div>
+    </div>  
+<div class="proyecto">
+    <table>
+        <tr class="trHeader">
+            <td class="headerTable">Nombre</td>
+            <td class="headerTable">Barra</td>
+            <td class="headerTable">Porcentaje</td>
+            <td class="headerTable">Fecha de Inicio</td>
+            <td class="headerTable">Fecha de término</td>
+            <td class="headerTable">Cliente</td>
+            <td></td>
+        </tr>
+        {% for listar in listar %}
+        <tr class="trContent">
+            <td>{{ listar.nombreProyecto }}</td>
+            {% if listar.avance == 0 or listar.horasProgramadas == 0 %}
+                <td class="second"><div class="progress" style="width: 100px; height: 20px; margin-top: 5px; margin-bottom: 5px; padding-bottom: 0">
+                    <div class="bar bar-success" style="width: 0%; background-color: #B4F7A9; height: 100%; margin-bottom: 0 !important; padding-bottom: 0 !important;"></div>
+                </div></td>
+                <td>0%</td>
+                {% else %}
+                {% set avance = (listar.avance * 100) / listar.horasProgramadas %}
+                <td class="second"><div class="progress" style="width: 100px; height: 20px; margin-top: 5px; margin-bottom: 5px; padding-bottom: 0">
+                    <div class="bar bar-success" style="width: {{ avance }}%; background-color: #B4F7A9; height: 100%; margin-bottom: 0 !important; padding-bottom: 0 !important;"></div>
+                </div>
+            </td>
+                <td>
+                    {{ avance|round(2, 'floor') }}%
+                </td>
+
+                {% endif %}
+            <td></td>
+            <td>{{ listar.fechaInicio|date('d-m-Y') }}</td>
+            <td>{{ listar.fechaFin|date('d-m-Y') }}</td>
+            {% if listar.clientes!= null %}
+            <td>{{ listar.clientes.nombre }}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+            <td><a href="{{ path('gproyecto', {'id': listar.id }) }}">Administrar</a></td>
+            
+        </tr>
+        {% endfor %}
+    </table>
+    
+</div>
+<div id="popup" style="display: none;">
+    <div class="content-popup">
+        <h4 class="modalh4">Agregar Etapa a Proyecto</h4>
+        <div class="close"><a href="#" id="close"><img src="{{ asset('img/close.png') }}"/></a></div>
+        <form action="{{ path('proyecto')}}" method="post" {{ form_enctype(formEtapa) }} novalidate>
+            <table>
+                {{ form_start(formEtapa) }}
+                <tr>
+                    <td>{{ form_label(formEtapa.nombre) }}</td>
+                    <td>{{ form_widget(formEtapa.nombre) }}</td>
+                    <td>{{ form_errors(formEtapa.nombre) }}</td>
+                </tr>
+                <tr>
+                    <td class="etiqueta">Fecha de inicio</td>
+                    <td><input class="DatePicker" name="fechaInicio"></td> 
+                </tr>
+                <tr>
+                    <td class="etiqueta">Fecha de término</td>
+                    <td><input class="DatePicker" name="fechaterminoet"></td> 
+                </tr>
+                <tr>
+                    <td><input type="submit" class="btnAdd" name="salvarEtapa" value="Agregar Etapa"></td>
+                    <td><input type="hidden" id="valorProyecto" name="valorProyecto1" value=""></td>
+                </tr>
+                {{ form_end(formEtapa) }}
+            </table>
+        </form>
+    </div>
+</div>
+<div id="popup1" style="display: none;">
+    <div class="content-popup">
+        <h4 class="modalh4">Agregar Etapa existente a Proyecto</h4>
+        <div class="close"><a href="#" id="close1"><img src="{{ asset('img/close.png') }}"/></a></div>
+        <form action="{{ path('proyecto')}}" method="post" {{ form_enctype(formEtapaE) }} novalidate>
+            <table>
+                {{ form_start(formEtapaE) }}
+                <tr>
+                    <td>{{ form_label(formEtapaE.nombre) }}</td>
+                    <td>{{ form_widget(formEtapaE.nombre, {'attr': {'class': 'chosen-select largo-box'}}) }}</td>
+                    <td>{{ form_errors(formEtapaE.nombre) }}</td>
+                </tr>
+                <tr>
+                    <td>Fecha de inicio</td>
+                    <td><input class="DatePicker" name="fechaInicio"></td> 
+                </tr>
+                <tr>
+                    <td>Fecha de término</td>
+                    <td><input class="DatePicker" name="fechaterminoet"></td> 
+                </tr>
+                <tr>
+                    <td><input type="submit" class="btnAdd" name="salvarEtapaE" value="Agregar Etapa"></td>
+                    <td><input type="text" id="valorProyecto1" name="valorProyecto" value=""></td>
+                </tr>
+                {{ form_end(formEtapa) }}
+            </table>
+        </form>
+    </div>
+</div>
+<div id="popup2" style="display: none;">
+    <div class="content-popup">
+        <h4 class="modalh4">Agregar Excepción a Proyecto</h4>
+        <div class="close"><a href="#" id="close2"><img src="{{ asset('img/close.png') }}"/></a></div>
+        <form action="{{ path('proyecto')}}" method="post" {{ form_enctype(formExcPlazoP) }} novalidate>
+            <table>
+                {{ form_start(formExcPlazoP) }}
+                <tr>
+                    <td>Nueva Fecha de término</td>
+                    <td><input class="DatePicker" name="fechaExPro"></td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(formExcPlazoP.horas) }}</td>
+                    <td>{{ form_widget(formExcPlazoP.horas, {'attr': {'class': 'largo-box'}}) }}</td>
+                    <td>{{ form_errors(formExcPlazoP.horas) }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(formExcPlazoP.accion) }}</td>
+                    <td>{{ form_widget(formExcPlazoP.accion, {'attr': {'class': 'chosen-select largo-box'}}) }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(formExcPlazoP.descripcion) }}</td>
+                    <td>{{ form_widget(formExcPlazoP.descripcion, {'attr': {'class': 'largo-box'}}) }}</td>
+                    <td>{{ form_errors(formExcPlazoP.descripcion) }}</td>
+                </tr>
+                <tr>
+                    <td><input type="submit" class="btnAdd" name="salvarExcepcionP" value="Agregar Etapa"></td>
+                </tr>
+                <tr>
+                    <td><input type="hidden" id="valorProyectoEx" name="valorProyectoEx" value=""></td>
+                </tr>
+                {{ form_end(formExcPlazoP) }}
+            </table>
+        </form>
+    </div>
+</div>
+<div id="popup3" style="display: none;">
+    <div class="content-popup">
+        <h4 class="modalh4">Agregar Excepción a Etapa</h4>
+        <div class="close"><a href="#" id="close3"><img src="{{ asset('img/close.png') }}"/></a></div>
+        <form action="{{ path('proyecto')}}" method="post"  novalidate>
+            <table>
+                <tr>
+                    <td>Nueva Fecha de Inicio</td>
+                    <td><input class="DatePicker" name="fechaInicioEtapa"></td>
+                </tr>
+                <tr>
+                    <td>Nueva Fecha de término</td>
+                    <td><input class="DatePicker" name="fechaTerminoEtapa"></td>
+                </tr>
+                <tr>
+                    <td>Motivo de modificación</td>
+                    <td><input type="text" name="descripcion"></td>                    
+                </tr>
+                <tr>
+                    <td><input type="submit" class="btnAdd" name="salvarExcepcionE" value="Salvar Excepción"></td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="valorEtapaEx" name="valorEtapaEx" value=""></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script>
+    $$('input.DatePicker').each( function(el){
+    new DatePicker(el);
+});
+</script>
+{% endblock %}

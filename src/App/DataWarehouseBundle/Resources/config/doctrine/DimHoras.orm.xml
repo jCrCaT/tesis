@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="App\DataWarehouseBundle\Entity\DimHoras" table="dim_horas">
+    <id name="id" type="integer" column="id">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="actividadId" type="integer" column="actividad_id" nullable="true"/>
+    <field name="horasId" type="integer" column="horas_id" nullable="true"/>
+    <field name="fechainicio" type="datetime" column="fechainicio" nullable="true"/>
+    <field name="fechatermino" type="datetime" column="fechatermino" nullable="true"/>
+    <field name="profesionalId" type="integer" column="profesional_id" nullable="true"/>
+  </entity>
+</doctrine-mapping>

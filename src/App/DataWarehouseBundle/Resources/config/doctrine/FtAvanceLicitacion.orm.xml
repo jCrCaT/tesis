@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="App\DataWarehouseBundle\Entity\FtAvanceLicitacion" table="ft_avance_licitacion">
+    <indexes>
+      <index name="IDX_7D2E4B359790D82C" columns="fecha_id"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="licitacion" type="integer" column="licitacion" nullable="true"/>
+    <field name="horasAvanzadas" type="decimal" column="horasavanzadas" precision="18" scale="5" nullable="true"/>
+    <field name="horasAsignadas" type="integer" column="horasprogramadas" nullable="true"/>
+    <field name="porcentajeAvance" type="decimal" column="porcentajeAvance" precision="6" scale="2" nullable="true"/>
+    <many-to-one field="fechaId" target-entity="DimTiempo">
+      <join-columns>
+        <join-column name="fecha_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

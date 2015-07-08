@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="App\DataWarehouseBundle\Entity\DimTiempo" table="dim_tiempo">
+    <id name="id" type="integer" column="id">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="fecha" type="date" column="fecha" nullable="true"/>
+    <field name="dia" type="integer" column="dia" nullable="true"/>
+    <field name="mes" type="integer" column="mes" nullable="true"/>
+    <field name="numeroDia" type="integer" column="numero_dia" nullable="true"/>
+    <field name="numeroDeDiaDelAno" type="integer" column="numero_de_dia_del_ano" nullable="true"/>
+    <field name="nombreDia" type="string" column="nombre_dia" length="20" nullable="true"/>
+    <field name="nombreMes" type="string" column="nombre_mes" length="20" nullable="true"/>
+    <field name="anoMes" type="string" column="ano_mes" length="20" nullable="true"/>
+    <field name="mesAno" type="string" column="mes_ano" length="20" nullable="true"/>
+    <field name="inFinDeSemana" type="integer" column="in_fin_de_semana" nullable="true"/>
+    <field name="inFeriado" type="integer" column="in_feriado" nullable="true"/>
+    <field name="inDiaHabil" type="integer" column="in_dia_habil" nullable="true"/>
+    <field name="numAnoCalendario" type="integer" column="num_ano_calendario" nullable="true"/>
+    <field name="inUltimoDiaMes" type="integer" column="in_ultimo_dia_mes" nullable="true"/>
+  </entity>
+</doctrine-mapping>

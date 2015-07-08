@@ -1,0 +1,406 @@
+{% extends '::base.html.twig' %}
+{% block contenido %}
+<link href="{{ asset('css/chosen.min.css') }}" rel="stylesheet" media="screen"> 
+<link href="{{ asset('css/modal.css') }}" rel="stylesheet" media="screen">
+<script src="{{ asset('js/jqueryvalidate/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('js/jqueryvalidate/additional-methods.min.js') }}"></script>
+<link href="{{ asset('css/jquery.mCustomScrollbar.min.css') }}" rel="stylesheet" media="screen">
+<script src="{{ asset('js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.modificarRango').click(function(){
+         var role = $(this).data("rango");
+         var profesional = $(this).data("button");
+         $('body,html').animate({scrollTop: 0}, 800);
+        $("#valorRole").val( role );
+        $("#valorProfesional").val( profesional );
+        $('#popup').fadeIn('slow');
+        $('.popup-overlay').fadeIn('slow');
+        $('.popup-overlay').height($(window).height());
+        return false;
+    });
+    
+    $('#close').click(function(){
+        $('#popup').fadeOut('slow');
+        $('.popup-overlay').fadeOut('slow');
+        return false;
+    });
+});
+</script>
+<script type="text/javascript">
+    (function($){
+        $(window).load(function(){
+            $("#containerScroll").css('height','400px');
+            $("#containerScroll").mCustomScrollbar();
+        });
+    })(jQuery);
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+       $('.modificarProfesional').click(function(){
+           var id = $(this).data("identificador");
+           var run = $(this).data("run");
+           var pnombre = $(this).data("pnombre");
+           var snombre = $(this).data("snombre");
+           var papellido = $(this).data("papellido");
+           var sapellido = $(this).data("sapellido");
+           var celectronico = $(this).data("celectronico");
+           var direccion = $(this).data("direccion");
+           var telefono = $(this).data("telefono");
+           var empresa = $(this).data("empresa");
+           $('body,html').animate({scrollTop: 0}, 800);
+           $("#valorIdentificador").val( id );
+           $("#valorIdentificador1").val( id );
+           document.getElementById("valorRun").innerHTML = run;
+           document.getElementById("valorPnombre").innerHTML = pnombre;
+           document.getElementById("valorSnombre").innerHTML = snombre;
+           document.getElementById("valorPapellido").innerHTML = papellido;
+           document.getElementById("valorSapellido").innerHTML = sapellido;
+           document.getElementById("valorCelectronico").innerHTML = celectronico;
+           document.getElementById("valorDireccion").innerHTML = direccion;
+           document.getElementById("valorTelefono").innerHTML = telefono;
+           document.getElementById("valorEmpresa").innerHTML = empresa;
+           $('#popup1').fadeIn('slow');
+           $('.popup-overlay').fadeIn('slow');
+           $('.popup-overlay').height($(window).height());
+           return false;
+           
+       }) ;
+       
+       $('#close1').click(function(){
+        $('#popup1').fadeOut('slow');
+        $('.popup-overlay').fadeOut('slow');
+        return false;
+    });
+        
+    });
+    
+</script>
+<script lang="text/javascript">
+    $(document).ready(function(){
+    $(".chosen-select").chosen();
+});
+</script>
+<script language="javascript">
+    $(document).ready(function(){ 
+        $('#agregaritem').on('click',function(e){
+            e.preventDefault();
+            $( "#formAdd").slideToggle( "slow" );
+        });
+    });
+</script>
+    <div class="agregarItem">
+    <div>
+    <h4>Agregar usuario</h4>
+    <a href="#" id="agregaritem" class="toggle linkMostrar">Mostrar/Ocultar</a>
+    <div id="formAdd" style="display:none">
+    <div class="addUbication">
+        <table>
+            <form id="formProfesional" action="{{ path('usuario')}}" method="post" {{ form_enctype(form) }} novalidate>
+            {{ form_start(form) }}
+            <tr>
+                <td>{{ form_label(form.username, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.username, {'attr': {'placeholder': 'Ej. 11222333-4'} }) }}</td>
+                <td>{{ form_errors(form.username) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.pnombre, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.pnombre) }}</td>
+                <td>{{ form_errors(form.pnombre) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.snombre, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.snombre) }}</td>
+                <td>{{ form_errors(form.snombre) }}</td>  
+            </tr>
+            <tr>
+                <td>{{ form_label(form.papellido, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.papellido) }}</td>
+                <td>{{ form_errors(form.papellido) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.sapellido, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.sapellido) }}</td>
+                <td>{{ form_errors(form.sapellido) }}</td> 
+            </tr>
+            <tr>
+                <td>{{ form_label(form.password.Password, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.password.Password) }}</td>
+                <td>{{ form_errors(form.password.Password) }}</td>  
+            </tr>
+            <tr>
+                <td>{{ form_label(form.password.Repetir_Password, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.password.Repetir_Password) }}</td>
+                <td>{{ form_errors(form.password.Repetir_Password) }}</td>  
+            </tr>
+            <tr>
+                <td>{{ form_label(form.correo, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.correo) }}</td>
+                <td>{{ form_errors(form.correo) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.direccion, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.direccion) }}</td>
+                <td>{{ form_errors(form.direccion) }}</td> 
+            </tr>
+            <tr>
+                <td>{{ form_label(form.telefono, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.telefono) }}</td>
+                <td>{{ form_errors(form.telefono) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.empresa, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.empresa, {'attr': {'class': 'chosen-select'}}) }}</td>
+                <td>{{ form_errors(form.empresa) }}</td> 
+            </tr>
+            <tr>
+                <td>{{ form_label(form.rango, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.rango, {'attr': {'class': 'chosen-select'}}) }}</td>
+                <td>{{ form_errors(form.rango) }}</td> 
+            </tr>
+            <tr>
+                <td>{{ form_label(form.imagen.file, null, {'label_attr': {'class': 'etiqueta', 'id': 'imagen'}}) }}</td>
+                <td>{{ form_widget(form.imagen.file)}}</td>
+            </tr>
+            <tr class="filaFormulario">
+                <td><input type="submit" id="botonAgregar" class="btnAdd" name="salvarUsuario" value="Salvar Usuario"></td>
+                <td></td>
+            </tr>
+            {{ form_end(form)}}
+            </form> 
+        </table>
+    </div>  
+    </div>
+    </div> 
+    </div> 
+<div class="proyecto">
+<table class="listar">
+        <tr class="trHeader">
+            <td class="headerTable1">Nombre de {{informacion.tabla}}</td>
+            <td class="headerTable1">Correo de {{informacion.tabla}}</td>
+            <td class="headerTable1">Rango de {{informacion.tabla}}</td>
+            <td class="headerTable1"></td>
+            <td class="headerTable1"></td>
+            <td class="headerTable1"></td>
+            <td class="headerTable1"></td>
+            
+        </tr>
+        {% for listar in listar %}
+        <form action="{{ path('usuario')}}" method="post" {{ form_enctype(form) }} novalidate>
+        <tr class="trContent1">    
+            <td class="tabInfo">{{ listar.username }}</td>
+            <td class="tabInfo">{{ listar.correo }}</td>
+            <td class="tabInfo">
+                <table>
+                    {% for role in listar.roles %}
+                    <tr>
+                        <td>{{ role.name }}</td>
+                        <input type="button" class="modificarRango modificar1" data-button='{{ listar.id }}' data-rango='{{ role.id }}'>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </td>
+            <td class="tabInfo"><input type="button" class="modificarProfesional btnAdd" name="modificar" value="modificar"
+                                       data-identificador="{{ listar.id }}"
+                                       data-run="{{ listar.username }}" 
+                                       data-pnombre="{{ listar.pnombre }}" 
+                                       data-snombre="{{ listar.snombre }}" 
+                                       data-papellido="{{ listar.papellido }}" 
+                                       data-sapellido="{{ listar.sapellido }}" 
+                                       data-celectronico="{{listar.correo }}" 
+                                       data-direccion="{{ listar.direccion }}" 
+                                       data-telefono="{{ listar.telefono }}" 
+                                       data-empresa="{{ listar.empresa.nombre }}"></td>
+            <td class="tabInfo"><input type="submit" class="btnAdd" name="eliminar" value="eliminar"></td>
+            <td><input type="hidden" name="valorEliminar" value="{{ listar.id }}"></td>
+            <td><input type="hidden" name="tabla" value="{{ informacion.tabla }}"></td>
+        </tr>    
+        </form>
+        {% endfor %}
+    </table>
+</div>
+<div id="popup" style="display: none;">
+    <div class="content-popup">
+        <h4 class="modalh4">Modificar Rango de Profesional</h4>
+        <div class="close"><a href="#" id="close"><img src="{{ asset('img/close.png') }}"/></a></div>
+            <form action="{{ path('usuario')}} " method="post" {{ form_enctype(formRango) }} novalidate>
+                {{ form_widget(formRango.name) }}
+                <input type="hidden" id="valorRole" name="valorRole" value="">
+                <input type="hidden" id="valorProfesional" name="valorProfesional" value="">
+                <input type="submit" class="btnForm1 btnAdd" name="modificarRangoProfesional" value="Modificar Rango">
+           </form>
+    </div>
+</div> 
+<div id="popup1" class="formulario" style="display: none;">
+    <div class="content-popup2">
+        <h4 class="modalh4">Usted modificará un Usuario</h4>
+        <div class="close"><a href="#" id="close1"><img src="{{ asset('img/close.png') }}"/></a></div>
+        <div id="containerScroll">
+            <form action="{{ path('usuario')}} " method="post" {{ form_enctype(formUsuario) }} novalidate>
+                <table>
+                    {{ form_start(formUsuario) }}
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorRun"></div></td>
+                        <td>{{ form_label(formUsuario.username, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                        <td>{{ form_widget(formUsuario.username) }}</td>
+                    </tr>
+                    <tr class="filaFormulario" style="display:none">
+                        <td>{{ form_errors(formUsuario.username) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorPnombre"></div></td>
+                        <td>{{ form_label(formUsuario.pnombre, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                        <td>{{ form_widget(formUsuario.pnombre) }}</td>
+                    </tr>
+                    <tr class="filaFormulario" style="display:none">
+                        <td>{{ form_errors(formUsuario.pnombre) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorSnombre"></div></td>
+                        <td>{{ form_label(formUsuario.snombre, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                        <td>{{ form_widget(formUsuario.snombre) }}</td>
+                    </tr>
+                    <tr class="filaFormulario" style="display:none">
+                        <td>{{ form_errors(formUsuario.snombre) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorPapellido"></div></td>
+                        <td>{{ form_label(formUsuario.papellido, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                        <td>{{ form_widget(formUsuario.papellido) }}</td>
+                    </tr>
+                    <tr class="filaFormulario" style="display:none">
+                        <td>{{ form_errors(formUsuario.papellido) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorSapellido"></div></td>
+                        <td>{{ form_label(formUsuario.sapellido, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                        <td>{{ form_widget(formUsuario.sapellido) }}</td>
+                    </tr>
+                    <tr class="filaFormulario" style="display:none">
+                        <td>{{ form_errors(formUsuario.sapellido) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorCelectronico"></div></td>
+                        <td>{{ form_label(formUsuario.correo, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                        <td>{{ form_widget(formUsuario.correo) }}</td>
+                    </tr>
+                    <tr class="filaFormulario" style="display:none">
+                        <td>{{ form_errors(formUsuario.correo) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorDireccion"></div></td>
+                        <td>{{ form_label(formUsuario.direccion, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                        <td>{{ form_widget(formUsuario.direccion) }}</td>
+                    </tr>
+                    <tr class="filaFormulario" style="display:none">
+                        <td>{{ form_errors(formUsuario.direccion) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorTelefono"></div></td>
+                        <td>{{ form_label(formUsuario.telefono, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                        <td>{{ form_widget(formUsuario.telefono) }}</td>
+                    </tr>
+                    <tr class="filaFormulario" style="display:none">
+                        <td>{{ form_errors(formUsuario.telefono) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorEmpresa"></div></td>
+                        <td>{{ form_label(formUsuario.empresa, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                        <td>{{ form_widget(formUsuario.empresa, {'attr': {'class': 'chosen-select'}}) }}</td>
+                    </tr>
+                    <tr class="filaFormulario" style="display:none">
+                        <td>{{ form_errors(formUsuario.empresa) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorEmpresa"></div></td>
+                        <td>{{ form_label(formUsuario.comuna, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                        <td>{{ form_widget(formUsuario.comuna, {'attr': {'class': 'chosen-select'}}) }}</td>
+                    </tr>
+                    <tr class="filaFormulario" style="display:none">
+                        <td>{{ form_errors(formUsuario.comuna) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td><input type="submit" class="btnAdd" name="guardarCambios" value="guardarCambios"></td>
+                        <td></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td><input type="hidden" name="valorIdentificador" id="valorIdentificador" value=""></td>
+                    </tr>
+                    {{ form_end(formUsuario) }}
+                </table>
+           </form>
+            <form action="{{ path('usuario')}} " method="post" {{ form_enctype(formContrasena) }} novalidate>
+                <h4>Modificar Contraseña</h4>
+                <table>
+                    {{ form_start(formContrasena) }}
+                    <tr class="filaFormulario">
+                        <td>{{ form_label(formContrasena.password.Password,null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                        <td>{{ form_widget(formContrasena.password.Password, {'label_attr': {'class': 'largo-box'}}) }}</td>
+                    </tr>
+                    <tr class="filaFormulario" style="display:none">
+                        <td>{{ form_errors(formContrasena.password.Password) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>{{ form_label(formContrasena.password.Repetir_Password, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                        <td>{{ form_widget(formContrasena.password.Repetir_Password, {'label_attr': {'class': 'largo-box'}}) }}</td>
+                    </tr>
+                    <tr class="filaFormulario" style="display:none">
+                        <td>{{ form_errors(formContrasena.password.Repetir_Password) }}</td> 
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="submit" class="btnAdd" name="cambiarContrasena" value="Modificar Contraseña">
+                            <input type="hidden" name="valorIdentificador" id="valorIdentificador1" value="">
+                        </td>
+                    </tr>
+                    {{ form_end(formContrasena) }}
+
+                </table>
+            
+            </form>
+        </div>
+    </div>
+</div>
+<script src="{{ asset('js/chosen.jquery.min.js') }}"></script>
+<script src="{{ asset('js/chosen.proto.js') }}"></script>
+<script>
+// just for the demos, avoids form submit
+jQuery.validator.setDefaults({
+  debug: true,
+  success: "valid"
+});
+$( "#formProfesional" ).validate({
+  rules: {
+    "User1[imagen][file]": {
+      required: true,
+      extension: "png|bmp|jpg|jpeg"
+    }
+  }
+    submitHandler: function(formProfesional) {
+        formProfesional.submit();
+    }  
+});
+
+</script>
+{% endblock %}
+
+{% block horas %}
+
+{{ include ('AppMediBundle:Default:IndexHoras.html.twig',
+    {'formHoras': formHoras }) }}
+
+
+{{ include ('AppMediBundle:Default:IndexProyecto.html.twig',
+    {'proyectos': proyecto}) }}
+
+{% endblock %}

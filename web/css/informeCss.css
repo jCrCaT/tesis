@@ -1,0 +1,175 @@
+.imgHeaderInforme{
+    max-width: 400px;
+    max-height: 200px;
+}
+.contenedorPrueba{
+    width: 900px;
+    height: 1300px;
+    
+}
+
+.infoEmpresa{
+    text-align: right; 
+    margin-left: 600px;
+    font-size: 10px;
+    width: 300px;
+}
+
+*{
+    color: #646465;
+}
+
+.titulo{
+    font-size: 50px !important;
+    font-weight: 600;
+    margin-top: 300px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.infoTitulo{
+    font-size: 16px;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.banner{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 50px;
+    margin-bottom: 100px;
+    text-align: center;
+    
+}
+
+.cuatro{
+    display: inline-block;
+    max-width: 290px;
+    max-height: 200px;
+    margin-bottom: 5px;
+}
+
+.dos{
+    display: inline-block;
+    max-width: 143px;
+    max-height: 100px;
+}
+
+.imgBanner{
+    width: 100%;
+    max-width: 400px;
+    height: 150px;
+    max-height: 150px;
+    border: 2px solid #F7464A;
+}
+
+.cuatro .imgBanner{
+    width: 400px;
+    margin-right: 5px;
+}
+
+.dos .imgBanner{
+    width: 225px;
+    margin-right: 5px;
+}
+
+.reporteUnoSubtitulo{
+    padding-left: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 200px;
+}
+
+.reporteUnoSubtituloHead{
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.reporteSubtDesc{
+    font-size: 12px;
+    margin-bottom: 25px;
+    padding-top: 5px !important;
+}
+
+.infoSubtitulo{
+    font-size: 12px !important;
+}
+
+.infoSubtitulo tbody tr td{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.avancesTinicial tbody tr td{
+    padding-right: 40px;
+}
+
+.nombreProyecto{
+    display:block;
+    padding: 10px 30px;
+    background-color: #F7464A;
+    color: #FCE9E9;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    max-width: 600px;
+}
+
+.genProyecto table,
+.finProyecto table{
+    font-size: 12px;   
+}
+
+.genProyecto table tbody tr td,
+.finProyecto table tbody tr td{
+    border: 1px solid #B8B7B7;
+    padding: 15px 30px;
+    
+}
+
+.tituloGenProyecto{
+    background-color: #ccc;
+    font-weight: 600;
+}
+
+.tituloGenProyecto td{
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.noBorderRight{
+    border-right: none !important;
+}
+
+.noBorderLeft{
+    border-left: none !important;
+}
+
+/* IDENTIFICADORES */
+#avanceProgresado{
+    display: block;
+    width: 50px !important;
+    height: 20px;
+    background-color: #F7464A;
+    border-radius: 2px;
+}
+
+#avanceNProgresado{
+    display: block;
+    width: 50px !important;
+    height: 20px;
+    background-color: #FDB45C;
+    border-radius: 2px;
+}
+
+
+
+
+
+
+

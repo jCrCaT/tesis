@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="App\DataWarehouseBundle\Entity\FtAvanceProyecto" table="ft_avance_proyecto">
+    <indexes>
+      <index name="IDX_7D2E4B359790D82B" columns="fecha_id"/>
+    </indexes>
+    <id name="id" type="integer" column="id">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="proyecto" type="integer" column="proyecto" nullable="true"/>
+    <field name="horasAvanzadas" type="decimal" column="horas_avanzadas" precision="18" scale="1" nullable="true"/>
+    <field name="horasAsignadas" type="integer" column="horas_asignadas" nullable="true"/>
+    <field name="porcentajeavance" type="decimal" column="porcentajeavance" precision="12" scale="2" nullable="true"/>
+    <field name="valorFecha" type="decimal" column="valor_fecha" precision="18" scale="2" nullable="true"/>
+    <field name="valorTotal" type="decimal" column="valor_total" precision="18" scale="2" nullable="true"/>
+    <many-to-one field="fechaId" target-entity="DimTiempo">
+      <join-columns>
+        <join-column name="fecha_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

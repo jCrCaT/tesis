@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="App\DataWarehouseBundle\Entity\DimActividad" table="dim_actividad">
+    <id name="idActividad" type="integer" column="id_actividad">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="nombre" type="string" column="nombre" length="255" nullable="true"/>
+    <field name="empresa" type="integer" column="empresa" nullable="true"/>
+  </entity>
+</doctrine-mapping>

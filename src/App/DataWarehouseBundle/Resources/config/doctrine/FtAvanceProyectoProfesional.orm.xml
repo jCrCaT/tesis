@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="App\DataWarehouseBundle\Entity\FtAvanceProyectoProfesional" table="ft_avance_proyecto_profesional">
+    <id name="id" type="smallint" column="id">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="horasProgresadas" type="decimal" column="horas_progresadas" precision="18" scale="5" nullable="true"/>
+    <field name="horasAsignadas" type="integer" column="horasasignadas" nullable="true"/>
+    <field name="valorHora" type="decimal" column="valorhora" precision="3" scale="2" nullable="true"/>
+    <field name="valorTotal" type="decimal" column="valortotal" precision="18" scale="5" nullable="true"/>
+    <field name="porcentajeAvance" type="decimal" column="porcentajeavance" precision="10" scale="5" nullable="true"/>
+    <field name="valorFecha" type="decimal" column="valorfecha" precision="18" scale="5" nullable="true"/>
+    <many-to-one field="fechaId" target-entity="DimTiempo">
+      <join-columns>
+        <join-column name="fecha_id" referenced-column-name="id"/>
+      </join-columns>
+      </many-to-one>
+      <many-to-one
+            field="profesional"
+            target-entity="DimProfesional"
+            inversed-by="FtAvanceProyectoProfesional"
+            join-column="profesional">
+
+            <join-column name="profesional" referenced-column-name="id_profesional" />
+        </many-to-one>
+        <many-to-one
+            field="proyecto"
+            target-entity="DimProyecto"
+            inversed-by="FtAvanceProyectoProfesional"
+            join-column="proyecto">
+
+            <join-column name="proyecto" referenced-column-name="id_proyecto" />
+        </many-to-one>
+  </entity>
+</doctrine-mapping>

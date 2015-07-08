@@ -1,0 +1,26 @@
+<div class="nextReunion">
+                <div><h4>Mis próximas reuniones</h4></div>
+                <table>
+                    <tr class="encabezadoReunion">
+                        <td>Fecha</td>
+                        <td>Hora</td>
+                        <td>Cliente</td>
+                        <td>Lugar</td>                        
+                    </tr>
+                    {% for reuniones in reuniones %} 
+                    <tr class="contenidoReunion">
+                        <td>{{ reuniones.fechaInicio|date('d-m-Y') }}</td>
+                        <td>{{ reuniones.fechaInicio|date('H:i') }}</td>
+                        <td>{{ reuniones.cliente.nombre }}</td>
+                        <td>la calle #123</td>                        
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td class="border2"></td>
+                        <td class="border2"></td>
+                        <td class="border2"></td>
+                        <td class="border2"></td>
+                    </tr>
+                </table>                              
+            </div>
+            <div>

@@ -1,0 +1,42 @@
+parameters:
+  
+services:
+     addLocation:
+         class: App\MediBundle\Services\AddLocation
+         arguments: [ @doctrine.orm.entity_manager ]
+         
+     encoder:
+         class: App\MediBundle\Services\Encoder 
+         arguments: [ @security.encoder_factory ]          
+            
+     registro:
+         class: App\MediBundle\Services\Registro
+         arguments: [ @doctrine.orm.entity_manager ]
+         
+     listar:
+         class: App\MediBundle\Services\Listar
+         arguments: [ @doctrine.orm.entity_manager ]
+         
+     eliminar:
+         class: App\MediBundle\Services\Eliminar
+         arguments: [ @doctrine.orm.entity_manager ]
+         
+     comprobar:
+         class: App\MediBundle\Services\Comprobar
+         arguments: [ @doctrine.orm.entity_manager, @listar, @addLocation ]    
+         
+     modificar:
+         class: App\MediBundle\Services\Modificar
+         arguments: [ @doctrine.orm.entity_manager ] 
+         
+     grafico:
+         class: App\MediBundle\Services\Grafico
+         arguments: [ @doctrine.orm.entity_manager, @listar, @comprobar, @service_container ] 
+         
+     objetodw:
+         class: App\MediBundle\EventListener\BuscarDw
+         arguments: [ @service_container ]
+         tags:
+            - { name: doctrine.event_listener, event: postLoad, method: postLoad }
+         
+

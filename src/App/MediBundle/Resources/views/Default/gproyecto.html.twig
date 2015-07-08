@@ -1,0 +1,815 @@
+{% extends '::base.html.twig' %}
+{% block contenido %}
+<script src="{{ asset('js/mootools2.js') }}"></script>
+<link href="{{ asset('css/jquery.mCustomScrollbar.min.css') }}" rel="stylesheet" media="screen">
+<link href="{{ asset('css/modal.css') }}" rel="stylesheet" media="screen">
+<script src="{{ asset('js/Chart.js-master/Chart.js') }}"></script>
+<script src="{{ asset('js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+<script src="{{ asset('js/calendar.js') }}"></script>
+<link href="{{ asset('css/calendar.css') }}" rel="stylesheet" media="screen">
+<script>
+    $$('.DatePicker').each( function(el){
+	new DatePicker(el);
+});
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){
+         var cw = $('#infoGeneral').height();
+         $('#infoGeneral').css('height', cw+'px');
+         $('#infoProf').css('height', cw+'px');
+         $('#infoFin').css('height', cw+'px');
+         $('#infoEtapa').css('height', cw+'px');
+         $('#infoAdic').css('height', cw+'px');
+         $('#infoExep').css('height', cw+'px');
+         $('#infoHitos').css('height', cw+'px');
+         $('#infoAvances').css('height', cw+'px');
+         $('#infoActividades').css('height', cw+'px');
+    });
+   
+    
+</script>
+<script type="text/javascript">
+    (function($){
+        $(window).load(function(){
+            var cw = $('#infoGeneral').height();
+            var ce = cw - 38 - cw * 0.30;
+            $('#containerScroll').css('height', ce+'px');
+            $('#containerScroll1').css('height', ce+'px');
+            $('#containerScroll2').css('height', ce+'px');
+            $('#containerScroll3').css('height', ce+'px');
+            $('#containerScroll4').css('height', ce+'px');
+            $("#containerScroll").mCustomScrollbar();
+            $("#containerScroll1").mCustomScrollbar();
+            $("#containerScroll2").mCustomScrollbar();
+            $("#containerScroll3").mCustomScrollbar();
+            $('#containerScroll4').css('height', ce+'px');
+        });
+    })(jQuery);
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#addProfesional').click(function(){
+        var id = $(this).data("id");
+        $("#valorProyecto").val( id );
+        $('#blackWindow').fadeIn('slow');
+        $('#popup').fadeIn('slow');
+        $('.popup-overlay').fadeIn('slow');
+        $('.popup-overlay').height($(window).height());
+        return false;
+    });
+    
+  $('#close').click(function(){
+    $('#popup').fadeOut('slow');
+    $('#blackWindow').fadeOut('slow');
+    $('.popup-overlay').fadeOut('slow');
+    return false;
+  });
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#addExProy').click(function(){
+        var id = $(this).data("id");
+        $("#valorProyecto").val( id );
+        $('#blackWindow').fadeIn('slow');
+        $('#popup1').fadeIn('slow');
+        $('.popup-overlay').fadeIn('slow');
+        $('.popup-overlay').height($(window).height());
+        return false;
+    });
+    
+  $('#close1').click(function(){
+    $('#popup1').fadeOut('slow');
+    $('#blackWindow').fadeOut('slow');
+    $('.popup-overlay').fadeOut('slow');
+    return false;
+  });
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#addExEtapa').click(function(){
+        var etapa = $(this).data("etapa");
+        $("#valorEtapaEx").val( etapa );
+        $('#blackWindow').fadeIn('slow');
+        $('#popup3').fadeIn('slow');
+        $('.popup-overlay').fadeIn('slow');
+        $('.popup-overlay').height($(window).height());
+        return false;
+    });
+    
+  $('#close3').click(function(){
+    $('#popup3').fadeOut('slow');
+    $('#blackWindow').fadeOut('slow');
+    $('.popup-overlay').fadeOut('slow');
+    return false;
+  });
+});
+</script>
+<script lang="text/javascript">
+$(document).ready(function(){
+    $(".chosen-select").chosen();
+});
+</script>
+<script type="text/javascript">
+    (function($){
+        $(window).load(function(){
+            $("#containerScroll").mCustomScrollbar();
+        });
+    })(jQuery);
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#addEtapa').click(function(){
+        var etapa = $(this).data("etapa");
+        $("#valorProyecto1").val( etapa );
+        $('#blackWindow').fadeIn('slow');
+        $('#popup4').fadeIn('slow');
+        $('.popup-overlay').fadeIn('slow');
+        $('.popup-overlay').height($(window).height());
+        return false;
+    });
+    
+  $('#close4').click(function(){
+    $('#popup4').fadeOut('slow');
+    $('#blackWindow').fadeOut('slow');
+    $('.popup-overlay').fadeOut('slow');
+    return false;
+  });
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#addEtapaE').click(function(){
+        var etapaexistente = $(this).data("etapaexistente");
+        $("#valorProyecto2").val( etapaexistente );
+        $('#blackWindow').fadeIn('slow');
+        $('#popup2').fadeIn('slow');
+        $('.popup-overlay').fadeIn('slow');
+        $('.popup-overlay').height($(window).height());
+        return false;
+    });
+    
+  $('#close2').click(function(){
+    $('#popup2').fadeOut('slow');
+    $('#blackWindow').fadeOut('slow');
+    $('.popup-overlay').fadeOut('slow');
+    return false;
+  });
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#addHito').click(function(){
+        var hito = $(this).data("proyecto");
+        $("#valorHito").val( hito );
+        $('#blackWindow').fadeIn('slow');
+        $('#popup5').fadeIn('slow');
+        $('.popup-overlay').fadeIn('slow');
+        $('.popup-overlay').height($(window).height());
+        return false;
+    });
+    
+  $('#close5').click(function(){
+    $('#popup5').fadeOut('slow');
+    $('#blackWindow').fadeOut('slow');
+    $('.popup-overlay').fadeOut('slow');
+    return false;
+  });
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".eEtapa").click(function(e){
+        e.preventDefault();
+        var asEtapa = $(this).data("etapa");
+        $("#aaa").val(1);
+        $("#valorEtapaAsignada").val(asEtapa);
+        $('#blackWindow').fadeIn('slow');
+        $('#popup6').fadeIn('slow');
+    });
+
+    $('#close6').click(function(){
+    $('#popup6').fadeOut('slow');
+    $('#blackWindow').fadeOut('slow');
+    $('.popup-overlay').fadeOut('slow');
+    return false;
+  });
+}
+);    
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".eHito").click(function(e){
+        e.preventDefault();
+        var asHito = $(this).data("hito");
+        $("#aaa").val(2);
+        $("#valorEtapaAsignada").val(asHito);
+        $('#blackWindow').fadeIn('slow');
+        $('#popup6').fadeIn('slow');
+    });
+
+    $('#close6').click(function(){
+    $('#popup6').fadeOut('slow');
+    $('#blackWindow').fadeOut('slow');
+    $('.popup-overlay').fadeOut('slow');
+    return false;
+  });
+}
+);    
+</script>
+<div id="contenedorGraficos">
+<h4 class="tituloDash">Dashboard de Proyecto {{ proyecto.nombreProyecto }}</h4>
+{% set largo = (proyecto.factTable| length) - 1 %}
+    <div  id="infoGeneral" class=" dashboardColumn col-xs-12 col-sm-12 col-md-6 col-lg-4 infoGeneral">
+        <h3>INFORMACIÓN GENERAL</h3>
+        <canvas class="avanceGraficoProyecto" id="myChart" width="180" height="180"></canvas>
+        <table>
+            <tr>
+                <td class="first">Avance:</td>
+                {% if proyecto.avanceHoras == 0 or proyecto.horasProgramadas == 0 %}
+                <td class="second">0%</td>
+                {% else %}
+                <td class="second">{{  (proyecto.avanceHoras * 100) / proyecto.horasProgramadas|round(2, 'floor') }}%</td>
+
+                {% endif %}
+            </tr>
+            <tr>
+                <td class="first">Fecha de Inicio:</td>
+                <td class="second">{{ proyecto.fechaInicio|date('d-m-Y') }}</td>
+            </tr>
+            <tr>
+                <td class="first">Fecha de Término</td>
+                <td class="second">{{ proyecto.fechaFin|date('d-m-Y') }}</td>
+            </tr>
+            <tr>
+                <td class="first">Horas Programadas:</td>
+                <td class="second">{{ proyecto.horasProgramadas  }} horas</td>
+            </tr>
+            <tr>
+                <td class="first">Horas Avanzadas:</td>
+                <td class="second">{{ proyecto.avanceHoras|round(2, 'floor') }} horas</td>
+            </tr>
+            <tr>
+                <td class="first">Horas Restantes:</td>
+                <td class="second">{{ proyecto.horasProgramadas - proyecto.avanceHoras|round(2, 'floor') }} horas</td>
+            </tr>
+        </table>
+        
+    </div>
+    <div id="infoFin" class="dashboardColumn col-xs-12 col-sm-12 col-md-6 col-lg-4 infoFin">
+        <h3>FINANZAS</h3>
+        <canvas class="avanceGraficoProyecto" id="myChartFin" width="180" height="180"></canvas>
+        <table>
+            {% if proyecto.finanzas['valorFecha'] == 0 or proyecto.finanzas['valorPresupuestado'] == 0 %}
+                {% set avanceFinanza = 0 %}
+                    {% else %}
+                {% set avanceFinanza = proyecto.finanzas['valorFecha'] * 100 / proyecto.finanzas['valorPresupuestado'] %}
+            {% endif %}
+            <tr>
+                <td class="first">Avance:</td>
+                <td class="second">{{ avanceFinanza|round(2, 'floor') }}%</td>
+            </tr>
+            <tr>
+                <td class="first">Valor actual:</td>
+                <td class="second">{{ proyecto.finanzas['valorFecha']|round(2, 'floor') }} U.F</td>
+            </tr>
+            <tr>
+                <td class="first">Valor Presupuestado:</td>
+                <td class="second">{{ proyecto.finanzas['valorPresupuestado']|round(2, 'floor') }} U.F</td>
+            </tr>
+        </table>
+        
+        
+    </div>
+    <div id="infoProf" class="dashboardColumn col-xs-12 col-sm-12 col-md-6 col-lg-4 infoProf">
+        <h3>PROFESIONALES ASIGNADOS</h3>
+        <div id="containerScroll">
+        {% for asignacion in proyecto.asignacion %}
+        <div class="profAsignado">
+            <div>
+                {% if asignacion.profesional.imagenPerfil == null %}
+                <div class="dashImgPerfil"><img src="{{ asset('img/male.png')}}" class="img-circle" /></div>
+                {% else %}
+                <div class="dashImgPerfil"><img src="{{ asset('documentos/')}}{{ asignacion.profesional.imagenPerfil.path }}"></div>
+                {% endif %}
+                <div class="dashInfoProf">
+                    <ul> 
+                        {% if asignacion.profesional.papellido|length >= 5 %} 
+                        <li>{{ asignacion.profesional.pnombre }} {{ asignacion.profesional.papellido|slice(0,3) }}...</li>
+                        {% else %}
+                        <li>{{ asignacion.profesional.pnombre }} {{ asignacion.profesional.papellido }}</li>
+                        {% endif %}
+                        <li>{{ asignacion.horas }} h/Prog.</li>
+                        <li>{{ asignacion.valorHora }} U.F</li>
+                        <li>{{ asignacion.fechaInicio|date('d-m-Y') }} F/I</li>
+                        <li>{{ asignacion.fechaTermino|date('d-m-Y') }} F/T</li>
+                    </ul>
+     
+                </div>
+            </div>  
+        </div>
+                
+        {% endfor %}
+        </div>
+        <div><input type="button" id="addProfesional" class="btnAdd center-block" name="agregarProfesional" value="Añadir Profesional" data-id="{{ proyecto.id }}"/></div>
+        
+    </div>
+    <div id="infoEtapa" class="dashboardColumn col-xs-12 col-sm-12 col-md-6 col-lg-6 infoEtapa">
+        <h3>ETAPAS</h3>
+        <div id="containerScroll2">
+        <table>
+            <tr>
+                <td class="first">Etapa</td>
+                <td class="first">Fecha Inicio</td>
+                <td class="first">Fecha Término</td>
+                <td class="first">horas</td>
+                <td class="first">Estado</td>
+            </tr>
+        {% for etapa in proyecto.asignacionEtapa %}
+            <tr>
+                <td class="second etapa"><p>{{ etapa.etapaProyecto.nombre }}</p></td>
+                <td class="second">{{ etapa.fechaInicio|date('d-m-Y')  }}</td>
+                <td class="second">{{ etapa.fechaTermino|date('d-m-Y')  }}</td>
+                <td class="second">{{ etapa.sumaHoras }}</td>
+                <td><a href="#" data-etapa="{{ etapa.id }}" class="eEtapa">{% if etapa.estado is null %}estado{% else %}{{ etapa.estado.estado }}{% endif %}</a></td>
+            </tr>
+        {% endfor %}
+        </table> 
+        </div> 
+        <div><input type="button" id="addEtapa" class="btnAdd center-block" name="agregarNEtapa" value="Añadir Etapa"      data-etapa="{{ proyecto.id }}"/>
+            <input type="button" id="addEtapaE" class="btnAdd center-block" name="agregarEtapaE" value="Añadir Etapa Existente" data-etapaexistente="{{ proyecto.id }}"/>
+        </div>      
+    </div>
+    <div id="infoExep" class="dashboardColumn col-xs-12 col-sm-12 col-md-6 col-lg-6 infoExep">
+        <h3>EXCEPCIONES</h3>
+        <ul class="botones nav nav-tabs">
+            <li><a href="#proyecto" data-toggle="tab">Proyecto</a></li>
+            <li><a href="#etapa" data-toggle="tab">Etapas</a></li>
+             <li><a href="#hitos" data-toggle="tab">Hitos</a></li>    
+        </ul>
+        <div class="tab-content">
+            <div id="proyecto" class="tab-pane active">
+            <div id="containerScroll1">
+                {% for excepcion in proyecto.excepcionesPlazo %}
+                <div class="exepProyecto">
+                    <div>
+                        <table>
+                            <tr>
+                                <td class="first">Fecha de Anterior</td>
+                                <td class="first">Fecha de Término</td>
+                                <td class="first">Fecha de Ingreso</td>
+                            </tr>
+                            <tr>
+                                <td class="second">{{ excepcion.fechaAnterior|date('d-m-Y') }}</td>
+                                <td class="second">{{ excepcion.fechaTermino|date('d-m-Y') }}</td>
+                                <td class="second">{{ excepcion.fechaIngreso|date('d-m-Y') }}</td>
+                            </tr>
+                        </table>
+                        <div>
+                            <ul>
+                                <li>Las horas han {% if excepcion.accion == "a" %} <p style="color: #02C7DC">aumentado</p> {% else %} <p style="color:#f9012a">disminuido</p>{% endif %} </li>
+                                <li>{{ excepcion.descripcion }}</li>
+                                <li>{{ excepcion.horas }} horas han sido modificadas</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+               
+            </div>
+                <input type="button" name="addExProyecto" id="addExProy" value="Añadir Excepción" class="btnAdd center-block">
+        </div>
+            <div id="etapa" class="tab-pane">
+                <div id="containerScroll3">
+                <table>
+                    <tr>
+                        <td class="first">Etapa</td>
+                        <td class="first">Fecha de Inicio</td>
+                        <td class="first">Fecha de Termino</td>
+                    </tr>
+                {% for exepcion in proyecto.asignacionEtapa %}
+                    {% for  excepciones in exepcion.excepcionesEtapa %}  
+                        <tr>
+                            <td class="second">{{ exepcion.etapaProyecto.nombre }}</td>  
+                            <td class="second">{{ excepciones.fechaInicio|date('d-m-Y') }}</td>
+                            <td class="second">{{ excepciones.fechaTermino|date('d-m-Y') }}</td> 
+                        </tr>                       
+                    {% endfor %} 
+                {% endfor %} 
+                </table> 
+                </div>  
+                <input type="button" name="addExEtapa" id="addExEtapa" data-proyecto="{{ proyecto.id }}" value="Añadir Excepción" class="btnAdd center-block">
+                
+            </div>
+            <div id="hitos" class="tab-pane">
+                3
+            </div>
+            
+        </div>
+    </div>
+    <div id="infoAdic" class="dashboardColumn col-xs-12 col-sm-12 col-md-6 col-lg-6 infoAdic">
+        <h3>HITOS</h3>
+        <div id="containerScroll3">
+            <table>
+                <tr>
+                    <td class="first">Nombre</td>
+                    <td class="first">Fecha</td>
+                    <td class="first">Descripción</td>
+                    <td class="first">Estado</td>
+                </tr>
+                {% for hito in proyecto.hito %}
+                    <tr>
+                        <td class="second"><p>{{ hito.nombre }}</p></td>
+                        <td class="third">{{ hito.fecha|date('d-m-Y') }}</td>
+                        <td class="third">{{ hito.descripcion }}</td>
+                        <td class="third"><a href="" class="eHito" data-hito="{{ hito.id }}">{% if hito.estado is null %}estado{% else %}{{ hito.estado.estado }}{% endif %}</a></td>                        
+                    </tr>
+                {% endfor %}
+
+            </table>
+        </div> 
+        <input type="button" name="addHito" id="addHito" data-proyecto="{{ proyecto.id }}" value="Añadir Hito" class="btnAdd center-block">
+    </div>
+    <div id="infoAvances" class="dashboardColumn col-xs-12 col-sm-12 col-md-6 col-lg-6 infoAvances">
+        <h3>AVANCE DE PROFESIONALES</h3>
+        <canvas id="avancesProf" width="270" height="200"></canvas>
+        
+    </div>
+    <div id="infoActividades" class="dashboardColumn col-xs-12 col-sm-12 col-md-6 col-lg-6 infoAvances">
+        <h3>ACTIVIDADES DOCUMENTADAS</h3>
+        <canvas id="avancesAct" width="270" height="200"></canvas> 
+        {% set numeroAct = 1 %}
+            <div id="containerScroll4">
+                <div class="tituloLista">Lista de actividades</div>
+                <ul id="ulItems">
+        {% for actividades in proyecto.actividades %}
+            <li>{{ numeroAct }}.-{{ actividades.nombre }}</li>
+            {% set numeroAct = numeroAct +1 %}
+        {% endfor %} 
+                </ul>
+            </div>
+    </div>
+    <div id="infoActividadesProf" class="dashboardColumn col-xs-12 col-sm-12 col-md-6 col-lg-6 infoAvances">
+        <h3>ACTIVIDADES POR PROFESIONALES</h3>
+            <div id="containerScroll5">
+                <div class="tituloLista">Actividades desarrolladas por Profesionales</div>
+                <table>
+                    <tr>
+                        <td class="first">Profesional</td>
+                        <td class="first">Actividad</td>
+                        <td class="first">Cantidad de horas</td>
+                    </tr>
+                {% for actividad in proyecto.actProf %}
+                    <tr>
+                        <td class="third">{{ actividad.nombre }}</td>
+                        <td class="third">{{ actividad.actnom }}</td>
+                        <td class="third" style="text-align:center">{{ actividad.suma }}</td>
+                    </tr>
+                {% endfor %}
+                </table>
+            </div>
+    </div>
+<script language="javascript">
+           
+                var ctx = document.getElementById("myChart").getContext("2d");
+                var data = [
+                {
+                    value: {{ (proyecto.avanceHoras * 100) / proyecto.horasProgramadas|round(2, 'floor') }},
+                    color:"#363569",
+                    highlight: "#363569",
+                    label: "Avance"
+                },
+                {
+                    value: 100 - {{ (proyecto.avanceHoras * 100) / proyecto.horasProgramadas|round(2, 'floor') }},
+                    color: "#AFAEFA",
+                    highlight: "#AFAEFA",
+                    label: "Restante"
+                }
+                ];
+Chart.defaults.global.animation = false;
+var myPieChart = new Chart(ctx).Pie(data);
+</script>
+<script language="javascript">
+                var ctx = document.getElementById("myChartFin").getContext("2d");
+                var data = [
+                {
+                    value: {{ avanceFinanza|round(2, 'floor') }},
+                    color:"#363569",
+                    highlight: "#363569",
+                    label: "Avance"
+                },
+                {
+                    value: 100 - {{ avanceFinanza|round(2, 'floor') }},
+                    color: "#AFAEFA",
+                    highlight: "#AFAEFA",
+                    label: "Restante"
+                }
+                ];
+Chart.defaults.global.animation = false;
+var myPieChart = new Chart(ctx).Pie(data);
+</script>
+<script language="javascript">
+    itemsNombre = [];
+    avancePropio = [];
+    {% for tiempo in proyecto.avanceProfesionales %}
+            itemsNombre.push("{{ tiempo.nombre }}");
+            avancePropio.push("{{ tiempo.suma }}");      
+    {% endfor %}
+    var avance = document.getElementById("avancesProf").getContext("2d");
+    var data = {
+    labels: itemsNombre,
+    datasets: [
+        {
+            label: "Avances por Profesionales",
+            fillColor: "rgba(220,220,220,0.5)",
+            strokeColor: "rgba(220,220,220,0.8)",
+            highlightFill: "rgba(220,220,220,0.75)",
+            highlightStroke: "rgba(220,220,220,1)",
+            data: avancePropio
+        }
+    ]
+};
+
+var myBarChart = new Chart(avance).Bar(data);
+</script>
+<script language="javascript">
+    itemsNombre = [];
+    avancePropio = [];
+    var numero = 1;
+    {% for tiempo in proyecto.actividades %}
+            itemsNombre.push(numero);
+            avancePropio.push("{{ tiempo.suma }}");   
+            numero = numero +1;   
+    {% endfor %}
+    var avance = document.getElementById("avancesAct").getContext("2d");
+    var data = {
+    labels: itemsNombre,
+    datasets: [
+        {
+            label: "Avances por Profesionales",
+            fillColor: "rgba(220,220,220,0.5)",
+            strokeColor: "rgba(220,220,220,0.8)",
+            highlightFill: "rgba(220,220,220,0.75)",
+            highlightStroke: "rgba(220,220,220,1)",
+            data: avancePropio
+        }
+    ]
+};
+
+var myBarChart = new Chart(avance).Bar(data);
+</script>
+<script language="javascript">
+    itemsGraph = [];
+    porcentaje = [];
+    {% for tiempo in proyecto.factTable %}
+            itemsGraph.push("{{ tiempo.fechaId.fecha|date('d-m-Y') }}");      
+            porcentaje.push("{{ tiempo.porcentajeAvance }}");
+    {% endfor %}
+    var avance = document.getElementById("avances").getContext("2d");
+    var data = {
+    labels: itemsGraph,
+    datasets: [
+        {
+            label: "My First dataset",
+            fillColor: "rgba(220,220,220,0.2)",
+            strokeColor: "rgba(220,220,220,9)",
+            pointColor: "rgba(220,220,220,9)",
+            pointStrokeColor: "rgba(220,220,220,0.5)",
+            pointHighlightFill: "rgba(220,220,220,0.5)",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: porcentaje
+        }
+    ]
+};
+
+var myLineChart = new Chart(avance).Line(data);
+</script>
+<div id="popup" style="display: none;">
+    <div class="content-popup">
+        <h4 class="modalh4">Agregar Profesional a Proyecto</h4>
+        <div class="close"><a href="#" id="close"><img src="{{ asset('img/close.png') }}"/></a></div>
+        <form action="{{ path('gproyecto', {'id': proyecto.id})}} " method="post" {{ form_enctype(formProfesional) }} novalidate>
+                <table>
+                    {{ form_start(formProfesional) }}
+                    <tr>
+                        <td class="etiqueta"><font style="font-weight: bold;">Profesional a asignar:</font></td>
+                        <td>{{ form_widget(formProfesional.profesional, {'attr': {'class': 'largo-box chosen-select'}}) }}</td>
+                    </tr>
+                    <tr>
+                        <td class="etiqueta"><font style="font-weight: bold;">Horas asignadas:</font></td>
+                        <td>{{ form_widget(formProfesional.horas, {'attr': {'class': 'largo-box'}}) }}</td>
+                    </tr>
+                    <tr>
+                        <td class="etiqueta"><font style="font-weight: bold;">Valor de la hora de profesional:</font></td>
+                        <td>{{ form_widget(formProfesional.valorHora, {'attr': {'class': 'largo-box'}}) }}</td>
+                    </tr>
+                    <tr>
+                        <td>Fecha de inicio</td>
+                        <td><input class="DatePicker" name="fechaInicio"></td> 
+                    </tr>
+                    <tr>
+                        <td>Fecha de término</td>
+                        <td><input class="DatePicker" name="fechaTermino"></td> 
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <input type="submit" class="btnAdd" name="agregarProfesional" value="Agregar Profesional">
+                            <input type="hidden" id="valorProyecto" name="valorProyecto" value="">
+                        </td>
+                    </tr>
+                    {{ form_end(formProfesional) }}
+                </table>
+           </form>
+    </div>
+</div>
+<div id="popup1" style="display: none;">
+    <div class="content-popup">
+        <h4 class="modalh4">Agregar Excepción a Proyecto</h4>
+        <div class="close"><a href="#" id="close1"><img src="{{ asset('img/close.png') }}"/></a></div>
+        <form action="{{ path('gproyecto', {'id': proyecto.id})}}" method="post" {{ form_enctype(formExcPlazoP) }} novalidate>
+            <table>
+                {{ form_start(formExcPlazoP) }}
+                <tr>
+                    <td>Nueva Fecha de término</td>
+                    <td><input class="DatePicker" name="fechaExPro"></td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(formExcPlazoP.horas) }}</td>
+                    <td>{{ form_widget(formExcPlazoP.horas, {'attr': {'class': 'largo-box'}}) }}</td>
+                    <td>{{ form_errors(formExcPlazoP.horas) }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(formExcPlazoP.accion) }}</td>
+                    <td>{{ form_widget(formExcPlazoP.accion, {'attr': {'class': 'chosen-select largo-box'}}) }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(formExcPlazoP.descripcion) }}</td>
+                    <td>{{ form_widget(formExcPlazoP.descripcion, {'attr': {'class': 'largo-box'}}) }}</td>
+                    <td>{{ form_errors(formExcPlazoP.descripcion) }}</td>
+                </tr>
+                <tr>
+                    <td><input type="submit" class="btnAdd" name="salvarExcepcionP" value="Agregar Etapa"></td>
+                </tr>
+                <tr>
+                    <td><input type="hidden" id="valorProyectoEx" name="valorProyectoEx" value=""></td>
+                </tr>
+                {{ form_end(formExcPlazoP) }}
+            </table>
+        </form>
+    </div>
+</div>
+<div id="popup2" style="display: none;">
+    <div class="content-popup">
+        <h4 class="modalh4">Agregar Etapa existente a Proyecto</h4>
+        <div class="close"><a href="#" id="close2"><img src="{{ asset('img/close.png') }}"/></a></div>
+        <form action="{{ path('gproyecto', {'id': proyecto.id})}}" method="post" {{ form_enctype(formEtapaE) }} novalidate>
+            <table>
+                {{ form_start(formEtapaE) }}
+                <tr>
+                    <td>{{ form_label(formEtapaE.nombre) }}</td>
+                    <td>{{ form_widget(formEtapaE.nombre, {'attr': {'class': 'chosen-select largo-box'}}) }}</td>
+                    <td>{{ form_errors(formEtapaE.nombre) }}</td>
+                </tr>
+                <tr>
+                    <td>Fecha de inicio</td>
+                    <td><input class="DatePicker" name="fechaInicio"></td> 
+                </tr>
+                <tr>
+                    <td>Fecha de término</td>
+                    <td><input class="DatePicker" name="fechaterminoet"></td> 
+                </tr>
+                <tr>
+                    <td><input type="submit" class="btnAdd" name="salvarEtapaE" value="Agregar Etapa"></td>
+                    <td><input type="hidden" id="valorProyecto2" name="valorProyecto2" value=""></td>
+                </tr>
+                {{ form_end(formEtapaE) }}
+            </table>
+        </form>
+    </div>
+</div>
+<div id="popup3" style="display: none;">
+    <div class="content-popup">
+        <h4 class="modalh4">Agregar Excepción a Etapa</h4>
+        <div class="close"><a href="#" id="close3"><img src="{{ asset('img/close.png') }}"/></a></div>
+        <form action="{{ path('gproyecto', {'id': proyecto.id})}}" method="post" {{ form_enctype(formEtapaProyecto) }}  novalidate>
+            <table>
+                {{ form_start(formEtapaProyecto) }}
+                <tr>
+                    <td>{{ form_label(formEtapaProyecto.etapaProyecto) }}</td>
+                    <td>{{ form_widget(formEtapaProyecto.etapaProyecto, {'attr': {'class': 'chosen-select largo-box'}}) }}</td>
+                    <td>{{ form_errors(formEtapaProyecto.etapaProyecto) }}</td>
+                </tr>
+                <tr>
+                    <td>Nueva Fecha de Inicio</td>
+                    <td><input class="DatePicker" name="fechaInicioEtapa"></td>
+                </tr>
+                <tr>
+                    <td>Nueva Fecha de término</td>
+                    <td><input class="DatePicker" name="fechaTerminoEtapa"></td>
+                </tr>
+                <tr>
+                    <td>Motivo de modificación</td>
+                    <td><input type="text" name="descripcion"></td>                    
+                </tr>
+                <tr>
+                    <td><input type="submit" class="btnAdd" name="salvarExcepcionE" value="Salvar Excepción"></td>
+                </tr>
+                <tr>
+                    <td><input type="hidden" id="valorEtapaEx" name="valorEtapaEx" value="{{ proyecto.id }}"></td>
+                </tr>
+                {{ form_end(formEtapaProyecto) }}
+            </table>
+        </form>
+    </div>
+</div>
+<div id="popup4" style="display: none;">
+    <div class="content-popup">
+        <h4 class="modalh4">Agregar Etapa a Proyecto</h4>
+        <div class="close"><a href="#" id="close4"><img src="{{ asset('img/close.png') }}"/></a></div>
+        <form action="{{ path('gproyecto', {'id': proyecto.id})}}" method="post" {{ form_enctype(formNuevaEtapa) }} novalidate>
+            <table>
+                {{ form_start(formNuevaEtapa) }}
+                <tr>
+                    <td>{{ form_label(formNuevaEtapa.nombre) }}</td>
+                    <td>{{ form_widget(formNuevaEtapa.nombre) }}</td>
+                    <td>{{ form_errors(formNuevaEtapa.nombre) }}</td>
+                </tr>
+                <tr>
+                    <td>Fecha de inicio</td>
+                    <td><input class="DatePicker" name="fechaInicio"></td> 
+                </tr>
+                <tr>
+                    <td>Fecha de término</td>
+                    <td><input class="DatePicker" name="fechaterminoet"></td> 
+                </tr>
+                <tr>
+                    <td><input type="submit" class="btnAdd" name="salvarEtapa" value="Agregar Etapa"></td>
+                    <td><input type="text" id="valorProyecto1" name="valorProyecto1" value=""></td>
+                </tr>
+                {{ form_end(formNuevaEtapa) }}
+            </table>
+        </form>
+    </div>
+</div>
+<div id="popup5" style="display: none;">
+    <div class="content-popup">
+        <h4 class="modalh4">Agregar Hito</h4>
+        <div class="close"><a href="#" id="close5"><img src="{{ asset('img/close.png') }}"/></a></div>
+        <form action="{{ path('gproyecto', {'id': proyecto.id})}}" method="post" {{ form_enctype(formHito) }} novalidate>
+            <table>
+                {{ form_start(formNuevaEtapa) }}
+                <tr>
+                    <td>{{ form_label(formHito.nombre) }}</td>
+                    <td>{{ form_widget(formHito.nombre) }}</td>
+                    <td>{{ form_errors(formHito.nombre) }}</td>
+                </tr>
+                <tr>
+                    <td>Fecha:</td>
+                    <td><input class="DatePicker" name="fechaInicio"></td> 
+                </tr>
+                <tr>
+                    <td>{{ form_label(formHito.descripcion) }}</td>
+                    <td>{{ form_widget(formHito.descripcion) }}</td>
+                    <td>{{ form_errors(formHito.descripcion) }}</td>
+                </tr>
+                <tr>
+                    <td><input type="submit" class="btnAdd" name="salvarHito" value="Agregar Hito"></td>
+                    <td><input type="hidden" id="valorHito" name="valorHito" value=""></td>
+                </tr>
+                {{ form_end(formHito) }}
+            </table>
+        </form>
+    </div>
+</div>
+<div id="popup6" style="display: none;">
+    <div class="content-popup">
+        <h4 class="modalh4">Modificar Estado</h4>
+        <div class="close"><a href="#" id="close6"><img src="{{ asset('img/close.png') }}"/></a></div>
+        <form action="{{ path('gproyecto', {'id': proyecto.id})}}" method="post" {{ form_enctype(formEstadoEtapa) }} novalidate>
+            <table>
+                {{ form_start(formEstadoEtapa) }}
+                <tr>
+                    <td>{{ form_label(formEstadoEtapa.estado) }}</td>
+                    <td>{{ form_widget(formEstadoEtapa.estado, {'attr': {'class': 'chosen-select largo-box'}}) }}</td>
+                    <td>{{ form_errors(formEstadoEtapa.estado) }}</td>
+                </tr>
+                <tr>
+                    <td><input type="submit" class="btnAdd" name="salvarEstadoEtapa" value="Modificar Estado"></td>
+                    <td><input type="hidden" id="valorEtapaAsignada" name="valorEtapa" value=""></td>
+                    <td><input type="hidden" id="aaa" name="aaa" value=""></td>
+                </tr>
+                {{ form_end(formEstadoEtapa) }}
+            </table>
+        </form>
+    </div>
+</div>
+<script>
+    $$('.DatePicker').each( function(el){
+    new DatePicker(el);
+});
+</script>
+</div>
+{% endblock %}
+

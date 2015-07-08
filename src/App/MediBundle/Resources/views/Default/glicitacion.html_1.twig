@@ -1,0 +1,169 @@
+{% extends '::base.html.twig' %}
+{% block contenido %}
+<script src="{{ asset('js/mootools2.js') }}"></script>
+<link href="{{ asset('css/jquery.mCustomScrollbar.min.css') }}" rel="stylesheet" media="screen">
+<link href="{{ asset('css/modal.css') }}" rel="stylesheet" media="screen">
+<script src="{{ asset('js/Chart.js-master/Chart.js') }}"></script>
+<script src="{{ asset('js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+<script src="{{ asset('js/calendar.js') }}"></script>
+<link href="{{ asset('css/calendar.css') }}" rel="stylesheet" media="screen">
+<script type="text/javascript">
+    $(document).ready(function(){
+         var cw = $('#infoGeneral').height();
+         $('#infoProf').css('height', cw+'px');
+    });  
+</script>
+<script type="text/javascript">
+    (function($){
+        $(window).load(function(){
+            $("#containerScroll").mCustomScrollbar();
+        });
+    })(jQuery);
+</script>
+<div id="contenedorGraficos">
+    {% set largo = (licitacion.factTable| length) - 1 %}
+    <h4 class="tituloDash">Dashboard de Licitación {{ licitacion.nombre }}</h4>
+    <div  id="infoGeneral" class=" dashboardColumn col-xs-12 col-sm-12 col-md-6 col-lg-4 infoGeneral">
+        <h3>INFORMACIÓN GENERAL</h3>
+        <canvas class="avanceGraficoProyecto" id="myChart" width="180" height="180"></canvas>
+        <table>
+            <tr>
+                <td class="first">Avance:</td>
+                <td class="second">{{ licitacion.factTable[largo].porcentajeAvance|round(2, 'floor') }}%</td>
+            </tr>
+            <tr>
+                <td class="first">Fecha de Inicio:</td>
+                <td class="second">{{ licitacion.fechaInicio|date('d-m-Y') }}</td>
+            </tr>
+            <tr>
+                <td class="first">Fecha de Término</td>
+                <td class="second">{{ licitacion.fechaTermino|date('d-m-Y') }}</td>
+            </tr>
+            <tr>
+                <td class="first">Horas Programadas:</td>
+                <td class="second">{{ licitacion.horasProgramadas  }} horas</td>
+            </tr>
+            <tr>
+                <td class="first">Horas Avanzadas:</td>
+                <td class="second">{{ licitacion.factTable[largo].horasAvanzadas }} horas</td>
+            </tr>
+            <tr>
+                <td class="first">Horas Restantes:</td>
+                <td class="second">{{ licitacion.horasProgramadas - licitacion.factTable[largo].horasAvanzadas }} horas</td>
+            </tr>
+        </table>
+    </div>
+    <div class="dashboardColumn col-xs-12 col-sm-12 col-md-6 col-lg-4 infoFin">
+        <h3>FINANZAS</h3>
+        
+    </div>
+    <div id="infoProf" class="dashboardColumn col-xs-12 col-sm-12 col-md-6 col-lg-4 infoProf">
+        <h3>PROFESIONALES ASIGNADOS</h3>
+        <div id="containerScroll">
+        {% for asignacion in licitacion.asignacion %}
+        <div class="profAsignado">
+            <div>
+                {% if asignacion.profesional.imagenPerfil == null %}
+                <div class="dashImgPerfil"><img src="{{ asset('img/male.png')}}" class="img-circle" /></div>
+                {% else %}
+                <div class="dashImgPerfil"><img src="{{ asset('documentos/')}}{{ asignacion.profesional.imagenPerfil.path }}"></div>
+                {% endif %}
+                <div class="dashInfoProf">
+                    <ul>
+                        {% if asignacion.profesional.papellido|length >= 5 %} 
+                        <li>{{ asignacion.profesional.pnombre }} {{ asignacion.profesional.papellido|slice(0,3) }}...</li>
+                        {% else %}
+                         <li>{{ asignacion.profesional.pnombre }} {{ asignacion.profesional.papellido }}</li>
+                        {% endif %}
+                        <li>{{ asignacion.horas }} horas</li>
+                    </ul>
+     
+                </div>
+            </div>  
+        </div>
+                
+        {% endfor %}
+        </div>
+        <div><input type="button" id="addProfesional" class="btnAdd center-block" name="agregarProfesional" value="Añadir Profesional" data-id="{{ licitacion.id }}"/></div>
+    </div>
+    <div class="dashboardColumn col-xs-12 col-sm-12 col-md-6 col-lg-4 infoEtapa">
+        <h3>REQUERIMIENTOS</h3>
+        <table>
+            <tr>
+                <td class="first">Requerimiento</td>
+                <td class="first">Horas</td>
+                <td class="first">Profesional</td>
+            </tr>
+        {% for requerimiento in licitacion.dependencia %}
+            <tr>
+                <td class="second"><p>{{ requerimiento.nombre }}</p></td>
+                <td class="second">{{ requerimiento.horas }}</td>
+                <td class="second">{{ requerimiento.profesional.pnombre  }} {{ requerimiento.profesional.snombre }}</td>
+            </tr>
+        {% endfor %}
+        </table> 
+    </div>
+    <div class="dashboardColumn col-xs-12 col-sm-12 col-md-6 col-lg-4 infoAdic">
+        <h3>AVANCE PROGRESIVO</h3>
+        <canvas id="avances" width="270%" height="200%"></canvas>
+    </div>
+    <div class="dashboardColumn col-xs-12 col-sm-12 col-md-6 col-lg-4 infoExep">
+        <h3>EXEPCIONES</h3>
+        <canvas id="avances" width="270%" height="200%"></canvas>
+    </div>
+    
+</div>
+<script language="javascript">
+    itemsGraph = [];
+    porcentaje = [];
+    {#{% for tiempo in licitacion.factTable %}
+            itemsGraph.push("{{ tiempo.fechaId.fecha|date('d-m-Y') }}");      
+            porcentaje.push({{ tiempo.porcentajeAvance }});
+    {% endfor %}#}
+        {% for tiempo in licitacion.factTable %}
+            itemsGraph.push("hello");      
+            porcentaje.push("hola");
+    {% endfor %}
+    var avance = document.getElementById("avances").getContext("2d");
+    var data = {
+    labels: itemsGraph,
+    datasets: [
+        {
+            label: "My First dataset",
+            fillColor: "rgba(220,220,220,0.2)",
+            strokeColor: "rgba(220,220,220,9)",
+            pointColor: "rgba(220,220,220,9)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: porcentaje
+        }
+    ]
+};
+
+var myLineChart = new Chart(avance).Line(data);
+</script>
+<script language="javascript">
+           
+                var ctx = document.getElementById("myChart").getContext("2d");
+                var data = [
+                {
+                    value: {{ licitacion.factTable[largo].porcentajeAvance }},
+                    color:"#363569",
+                    highlight: "#363569",
+                    label: "Avance"
+                },
+                {
+                    value: 100 - {{ licitacion.factTable[largo].porcentajeAvance }},
+                    color: "#AFAEFA",
+                    highlight: "#AFAEFA",
+                    label: "Restante"
+                }
+                ];
+Chart.defaults.global.animation = false;
+var myPieChart = new Chart(ctx).Pie(data);
+</script>
+
+
+{% endblock %}
+

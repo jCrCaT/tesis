@@ -1,0 +1,131 @@
+{% extends '::base.html.twig' %}
+{% block submenu %}
+            <nav class="submenu">
+                <ul>
+                    <li><a href="{{ path('usuario') }}">Profesionales</a></li>
+                    <li><a href="{{ path('cliente') }}">Clientes</a></li>
+                    <li><a href="{{ path('cliente') }}">Proveedores</a></li>
+                    <li><a href="{{ path('cliente') }}">Contactos</a></li>
+                    <li><a href="{{ path('cliente') }}">Reuniones</a></li>
+                </ul>
+            </nav>
+{% endblock %}
+{% block segundoSubMenu %}
+            <nav class="segundoSubMenu">
+                <ul>
+                    <li><a href="{{ path('estudio') }}">Gestión de competencias</a></li>
+                    <li><a href="{{ path('estudio') }}">Gestión de contrato</a></li>
+                </ul>
+            </nav>
+
+{% endblock %}
+{% block contenido %}
+<script src="{{ asset('js/mootools2.js') }}"></script>
+<script src="{{ asset('js/calendar.js') }}"></script>
+<link href="{{ asset('css/calendar.css') }}" rel="stylesheet" media="screen">
+<script language="javascript">
+    
+
+// The following should be put in your external js file,
+// with the rest of your ondomready actions.
+window.addEvent('domready', function(){
+
+	$$('.DatePicker').each( function(el){
+		new DatePicker(el);
+	});
+
+});
+
+
+
+</script>
+<form action="{{ path('estudio')}}" method="post" {{ form_enctype(form) }} novalidate>
+    {% if tipo == "crear" %}
+    <h4>Agregar Estudio</h4>
+    {% else %}
+    <h4>Usted modificará los estudios de <font class="red">"{{modificar.nombre}}"</font> </h4>
+    {% endif %}
+    <div class="addUbication">
+        <table>
+            {{ form_start(form) }}
+            <tr>
+                <td>Fecha de inicio</td>
+                <td><input class="DatePicker" name="fechaInicio"></td>
+            </tr>
+            <tr>
+                <td>Fecha de termino</td>
+                <td><input class="DatePicker" name="fechaTermino"></td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.descripcion, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.descripcion, {value : modificar.descripcion }) }}</td>
+                <td>{{ form_errors(form.descripcion) }}</td> 
+            </tr>
+            <tr>
+                <td>{{ form_label(form.institucion, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.institucion, {value : modificar.institucion }) }}</td>
+                <td>{{ form_errors(form.institucion) }}</td> 
+            </tr>
+            <tr>
+                <td>{{ form_label(form.profesional, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.profesional, {value : modificar.profesional }) }}</td>
+                <td>{{ form_errors(form.profesional) }}</td> 
+            </tr>
+            {% if tipo == "crear" %}
+            <tr class="filaFormulario">
+                <td><input type="submit" name="salvarEstudio" value="Salvar Estudio"></td>
+                <td></td>
+            </tr>
+            {% else %}
+            <tr class="filaFormulario">
+                <td><input type="submit" name="modificarEstudio" value="Modificar Estudio"></td>
+                <td><input type="hidden" name="valorEstudio" value="{{ modificar.id }}"></td>
+                <td></td>
+            </tr>
+            {% endif %}
+        </table>
+    </div>    
+</form>    
+
+<table class="listar">
+        <tr>
+            
+            <td class="tabSup">Identificador de {{informacion.tabla}}</td>
+            <td class="tabSup">Año de inicio</td>
+            <td class="tabSup">Año de termino</td>
+            <td class="tabSup">Profesional al que pertenece</td>
+            <td class="tabSup">Descripción</td>
+            <td class="tabSup">Institucion</td>
+            <td class="tabSup"></td>
+            <td class="tabSup"></td>            
+            
+        </tr>
+        {% for listar in listar %}
+        <form action="{{ path('estudio')}} " method="post" {{ form_enctype(form) }} novalidate>
+        <tr>    
+            <td class="tabInfo">{{ listar.id }}</td>
+            <td class="tabInfo">{{ listar.anoInicio|date('d-m-Y') }}</td>
+            <td class="tabInfo">{{ listar.anoTermino|date('d-m-Y') }}</td>
+            <td class="tabInfo">{{ listar.profesional.username }}</td>
+            <td class="tabInfo">{{ listar.descripcion }}</td>
+            <td class="tabInfo">{{ listar.institucion }}</td>
+            <td class="tabInfo"><input type="submit" name="eliminar" value="eliminar"></td>
+            <td class="tabInfo"><input type="submit" name="modificar" value="modificar"></td>
+            <td><input type="hidden" name="valorEliminar" value="{{ listar.id }}"></td>
+        <tr/>    
+        </form>
+        {% endfor %}
+    </table> 
+{% endblock %}
+{% block horas %}
+
+{{ include ('AppMediBundle:Default:IndexHoras.html.twig',
+    {'formHoras': formHoras }) }}
+
+{{ include ('AppMediBundle:Default:IndexReunion.html.twig',
+    {'reuniones': reuniones }) }}
+
+{{ include ('AppMediBundle:Default:IndexProyecto.html.twig',
+    {'proyectos': proyecto}) }}
+
+{% endblock %}

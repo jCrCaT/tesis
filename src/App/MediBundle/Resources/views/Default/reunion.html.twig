@@ -1,0 +1,260 @@
+{% extends '::base.html.twig' %}
+{% block submenu %}
+            <nav class="submenu">
+                <ul>
+                    <li><a href="{{ path('empresa') }}">Empresa</a></li>
+                    <li><a href="{{ path('area') }}">Área</a></li>
+                    <li><a href="{{ path('proyecto') }}">Proyectos</a></li>
+                    <li><a href="{{ path('empresa') }}">Encargados</a></li>
+                </ul>
+            </nav>
+{% endblock %}
+{% block contenido %}
+<link href="{{ asset('css/calendar.css') }}" rel="stylesheet" media="screen">
+<link href="{{ asset('css/modal.css') }}" rel="stylesheet" media="screen">
+<script src="{{ asset('js/mootools2.js') }}"></script>
+<script src="{{ asset('js/calendar.js') }}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.botonAgregar').click(function(){
+        var reunion = $(this).data("button");
+        $("#valorReunion").val( reunion );      
+        $('#popup').fadeIn('slow');
+        $('.popup-overlay').fadeIn('slow');
+        $('.popup-overlay').height($(window).height());
+        return false;
+    });
+    
+    $('#close').click(function(){
+        $('#popup').fadeOut('slow');
+        $('.popup-overlay').fadeOut('slow');
+        return false;
+    });
+    
+});
+</script>
+<script language="javascript">
+    
+
+// The following should be put in your external js file,
+// with the rest of your ondomready actions.
+window.addEvent('domready', function(){
+
+	$$('.DatePicker').each( function(el){
+		new DatePicker(el);
+	});
+
+});
+
+
+
+</script>
+<script language="javascript">
+    $(document).ready(function(){ 
+        $('#agregaritem').on('click',function(e){
+            e.preventDefault();
+            $( "#formAdd").slideToggle( "slow" );
+        });
+    });
+</script>
+
+<div class="avisoExitoso" style="display: none;">
+    <div>Registro Añadido exitósamente</div>   
+</div>
+<link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-clockpicker.min.css') }}">
+<div class="agregarItem">
+<div>
+    <h4>Agendar Reunión</h4>
+    <a href="#" id="agregaritem" class="toggle linkMostrar">Mostrar/Ocultar</a>
+    <div id="formAdd" style="display:none">
+    <div class="addUbication">
+        <table>
+            <form action="{{ path('reunion')}}" method="post" {{ form_enctype(form) }} novalidate>
+            {{ form_start(form) }}
+            <tr>
+                <td class="etiqueta">Fecha de Reunión: </td>
+                <td><input class="DatePicker" name="fechaInicio"></td> 
+            </tr>
+            <tr>
+                <td class="etiqueta">Hora de inicio de Reunion: </td>
+                <td>
+                    <div id="reloj" class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true">
+                        <input type="text" class="form-control" value="13:14" name="horaInicio">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.cliente, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.cliente, {value : modificar.cliente }) }}</td>
+                <td>{{ form_errors(form.cliente) }}</td>
+            </tr>
+            {% if tipo == "crear" %}
+            <tr class="filaFormulario">
+                <td><input type="submit" class="btnAdd" name="salvarReunion" value="Agendar Reunión"></td>
+                <td></td>
+            </tr>
+            {% else %}
+            <tr class="filaFormulario">
+                <td><input type="submit" name="modificarHora" value="Documentar hora"></td>
+                <td><input type="hidden" name="valorModificar" value="{{ modificar.id }}"></td>
+                <td></td>
+            </tr>
+            {% endif %}
+            {{ form_end(form) }}
+            </form> 
+        </table>
+    </div>  
+    </div>
+    </div>
+    </div>    
+<div class="proyecto">
+<table class="listar">
+        <tr class="trHeader">            
+            <td class="headerTable1">Fecha de inicio</td>
+            <td class="headerTable1">Hora de inicio</td>
+            <td class="headerTable1">Cliente</td>
+            <td class="headerTable1">Participantes</td>
+            <td class="headerTable1"></td>
+            <td class="headerTable1"></td> 
+            <td class="headerTable1"></td>
+            
+        </tr>
+        {% for listar in listar %}
+        <form action="{{ path('reunion')}} " method="post" {{ form_enctype(form) }} novalidate>
+        <tr class="trContent1">    
+            <td class="tabInfo">{{ listar.fechaInicio|date('d-m-Y') }}</td>
+            <td class="tabInfo">{{ listar.fechaInicio|date('H:i') }}</td>
+            <td class="tabInfo">{{ listar.cliente.nombre }}</td>
+            <td class="tabInfo text-center">
+                <table class="profReu">
+                    {% for dependencia in listar.dependencia %}
+                    <tr>
+                        <td>{{ dependencia.pnombre }} {{ dependencia.snombre }}</td>
+                        <td><input type="submit" class="btnRemProf" name="remProfReu" value=""></td>
+                        <td><input type="hidden" id="valorEliminar" name="profReuRem" value="{{ dependencia.id }}"></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                
+                <input type="button" class="botonAgregar center-block" data-button="{{ listar.id }}">
+            <td class="tabInfo"><input type="submit" class="btnForm" name="eliminar" value="eliminar"></td>
+            <td class="tabInfo"><input type="submit" class="btnForm" name="modificar" value="modificar"></td>
+            <td class="tabInfo"><input type="submit" class="btnForm" name="minuta" value="minuta"></td>
+            <td><input type="hidden" id="valorEliminar" name="valorEliminar" value="{{ listar.id }}"></td>
+            <td><input type="hidden" name="tabla" value="{{ informacion.tabla }}"></td>
+        </tr>    
+        </form>
+        
+        {% endfor %}
+    </table> 
+</div>
+<div id="popup" style="display: none;">
+    <div class="content-popup">
+        <h4 class="modalh4">Agregar profesional a reunión</h4>
+        <div class="close"><a href="#" id="close"><img src="{{ asset('img/close.png') }}"/></a></div>
+            <form action="{{ path('reunion')}} " method="post" {{ form_enctype(formProfesional) }} novalidate>
+                {{ form_widget(formProfesional.psnombre) }}
+                <input type="hidden" id="valorReunion" name="valorReunion" value="">
+                <input type="submit" class="btnForm1" name="agregarProfesional" value="Agregar Profesional">
+           </form>
+    </div>
+</div>
+<script type="text/javascript" src="{{ asset('js/bootstrap-clockpicker.min.js') }}"></script>
+<script type="text/javascript">
+$('.clockpicker').clockpicker({
+	placement: 'right',
+	align: 'left',
+})
+	.find('input').change(function(){
+		console.log(this.value);
+	});
+var input = $('#single-input').clockpicker({
+	placement: 'top',
+	align: 'left',
+	autoclose: true,
+	'default': 'now'
+});
+
+$('.clockpicker-with-callbacks').clockpicker({
+		donetext: 'Done',
+		init: function() { 
+			console.log("colorpicker initiated");
+		},
+		beforeShow: function() {
+			console.log("before show");
+		},
+		afterShow: function() {
+			console.log("after show");
+		},
+		beforeHide: function() {
+			console.log("before hide");
+		},
+		afterHide: function() {
+			console.log("after hide");
+		},
+		beforeHourSelect: function() {
+			console.log("before hour selected");
+		},
+		afterHourSelect: function() {
+			console.log("after hour selected");
+		},
+		beforeDone: function() {
+			console.log("before done");
+		},
+		afterDone: function() {
+			console.log("after done");
+		}
+	})
+	.find('input').change(function(){
+		console.log(this.value);
+	});
+
+// Manually toggle to the minutes view
+$('#check-minutes').click(function(e){
+	// Have to stop propagation here
+	e.stopPropagation();
+	input.clockpicker('show')
+			.clockpicker('toggleView', 'minutes');
+});
+if (/mobile/i.test(navigator.userAgent)) {
+	$('input').prop('readOnly', true);
+}
+</script>
+<script lang="javascript">
+function GetUrlValue(VarSearch){
+	var SearchString = window.location.search.substring(1);
+	var VariableArray = SearchString.split('&');
+	for(var i = 0; i < VariableArray.length; i++){
+		var KeyValuePair = VariableArray[i].split('=');
+		if(KeyValuePair[0] === VarSearch){
+                    return KeyValuePair[1];
+
+		}
+	}
+}; 
+if(GetUrlValue('status') === 'success'){
+    /*$(".avisoExitoso").css({"display":"block"});*/
+    /*$(".avisoExitoso").fadeIn('slow').delay(30000);*/
+    $(".avisoExitoso").animate({opacity: 1.0}, 500).slideDown('slow');
+}
+</script>
+{% endblock %}
+
+{% block horas %}
+
+{{ include ('AppMediBundle:Default:IndexHoras.html.twig',
+    {'formHoras': formHoras }) }}
+
+{{ include ('AppMediBundle:Default:IndexReunion.html.twig',
+    {'reuniones': reuniones }) }}
+
+{{ include ('AppMediBundle:Default:IndexProyecto.html.twig',
+    {'proyectos': proyecto}) }}
+
+{% endblock %}
+
+
+

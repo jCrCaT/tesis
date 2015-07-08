@@ -1,0 +1,154 @@
+{% extends '::base.html.twig' %}
+{% block submenu %}
+            <nav class="submenu">
+                <ul>
+                    <li><a href="{{ path('pais')}}">País</a></li>
+                    <li><a href="{{ path('region')}}">Región</a></li>
+                    <li><a href="{{ path('ciudad')}}">Ciudad</a></li>
+                    <li><a href="{{ path('comuna')}}">Comuna</a></li>
+                </ul>
+            </nav>
+{% endblock %}
+{% block contenido %}
+<link href="{{ asset('css/modal.css') }}" rel="stylesheet" media="screen">
+<script lang="text/javascript">
+    $(document).ready(function(){
+    $(".chosen-select").chosen();
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.modificarComuna').click(function(){
+        var id = $(this).data("identificador");
+        var nombre = $(this).data("nombre");
+        var superior = $(this).data("superior");
+        $("#valorIdentificador").val( id );
+        document.getElementById("valorNombre").innerHTML = nombre;
+        document.getElementById("valorSuperior").innerHTML = superior;
+        $('#popup').fadeIn('slow');
+        $('.popup-overlay').fadeIn('slow');
+        $('.popup-overlay').height($(window).height());
+        return false;
+    });
+    
+    $('#close').click(function(){
+        $('#popup').fadeOut('slow');
+        $('.popup-overlay').fadeOut('slow');
+        return false;
+    });
+});
+</script>
+<form action="{{ path('comuna')}}" method="post" {{ form_enctype(form) }} novalidate>
+{% if tipo == "crear" %}
+    <h4>Agregar Ciudad</h4>
+    {% else %}
+    <h4>Usted modificará la Ciudad <font class="red">"{{modificar.nombre}}"</font> </h4>
+    {% endif %}
+    <div class="addUbication">
+        <table>
+            {{ form_start(form) }}
+            <tr class="filaFormulario">
+                <td>{{ form_label(form.nombre, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.nombre, {value : modificar.nombre }) }}</td>
+            </tr>
+            <tr class="filaFormulario">
+                <td></td>
+                <td>{{ form_errors(form.nombre) }}</td>                
+            </tr>
+            <tr class="filaFormulario">
+                <td>{{ form_label(form.superior, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.superior, {'attr': {'class': 'chosen-select'}}) }}</td>
+            </tr>
+            {% if tipo == "crear" %}
+            <tr class="filaFormulario">
+                <td><input type="submit" name="salvarComuna" value="Salvar Comuna"></td>
+                <td></td>
+            </tr>
+            {% else %}
+            <tr class="filaFormulario">
+                <td><input type="submit" name="modificarComuna" value="Modificar Comuna"></td>
+                <td><input type="hidden" name="valorModificar" value="{{ modificar.id }}"></td>
+                <td></td>
+            </tr>
+            {% endif %}
+        </table>
+    </div>    
+</form>    
+<section class="tabla"> 
+    <h4>Listado de {{informacion.listado}}</h4>
+<table class="listar">
+        <tr>
+            
+            <td class="tabSup">Identificador de {{informacion.tabla}}</td>
+            <td class="tabSup">Nombre de {{informacion.tabla}}</td>
+            <td class="tabSup">Ciudad a la que pertenece</td>
+            <td class="tabSup"></td>
+            <td class="tabSup"></td>
+            
+        </tr>
+        {% for listar in listar %}
+        <form action="{{ path('comuna')}} " method="post" {{ form_enctype(form) }} novalidate>
+        <tr>    
+            <td class="tabInfo">{{ listar.id }}</td>
+            <td class="tabInfo">{{ listar.nombre }}</td>
+            <td class="tabInfo">{{ listar.superior.nombre }}</td>
+            <td class="tabInfo"><input type="submit" name="eliminar" value="eliminar"></td>
+            <td class="tabInfo"><input type="button" class="modificarComuna" name="modificarComuna" value="modificar" data-nombre="{{ listar.nombre }}" data-identificador="{{ listar.id }}" data-superior="{{ listar.superior.nombre }}"></td>
+            <td><input type="hidden" name="valorEliminar" value="{{ listar.id }}"></td>
+            <td><input type="hidden" name="inferior" value="{{ informacion.inferior }}"></td>
+            <td ><input type="hidden" name="tabla" value="{{ informacion.tabla }}"></td>
+        <tr/>    
+        </form>
+        {% endfor %}
+    </table> 
+</section>   
+<div id="popup" style="display: none;">
+    <div class="content-popup2">
+        <h4 class="modalh4">Usted modificará una Región</h4>
+        <div class="close"><a href="#" id="close"><img src="{{ asset('img/close.png') }}"/></a></div>
+            <form action="{{ path('comuna')}} " method="post" {{ form_enctype(formComuna) }} novalidate>
+                <table>
+                    {{ form_start(formComuna) }}
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorNombre"></div></td>
+                        <td>Nombre de Región</td>
+                        <td>{{ form_widget(formComuna.nombre) }}</td>
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>{{ form_errors(formComuna.nombre) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorSuperior"></div></td>
+                        <td>País al que pertenece:</td>
+                        <td>{{ form_widget(formComuna.superior, {'attr': {'class': 'chosen-select'}}) }}</td>
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>{{ form_errors(formComuna.nombre) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td><input type="submit" name="guardarCambios" value="guardarCambios"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><input type="hidden" name="valorIdentificador" id="valorIdentificador" value=""></td>
+                    </tr>
+                    {{ form_end(formComuna) }}
+                </table>
+           </form>
+    </div>
+</div>
+{% endblock %}
+{% block horas %}
+
+{{ include ('AppMediBundle:Default:IndexHoras.html.twig',
+    {'formHoras': formHoras }) }}
+
+{{ include ('AppMediBundle:Default:IndexReunion.html.twig',
+    {'reuniones': reuniones }) }}
+
+{{ include ('AppMediBundle:Default:IndexProyecto.html.twig',
+    {'proyectos': proyecto}) }}
+
+{% endblock %}

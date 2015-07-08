@@ -1,0 +1,106 @@
+{% extends '::base.html.twig' %}
+{% block contenido %}
+    <script language="javascript">
+    $(document).ready(function(){ 
+        $('#agregaritem').on('click',function(e){
+            e.preventDefault();
+            $( "#formAdd").slideToggle( "slow" );
+        });
+    });
+</script>
+    <div class="agregarItem">
+    <div>
+    <h4>Agregar Cliente</h4>
+    <a href="#" id="agregaritem" class="toggle linkMostrar">Mostrar/Ocultar</a>
+    <div id="formAdd" style="display:none">
+    <div class="addUbication">
+        <table>
+            <form action="{{ path('cliente')}}" method="post" {{ form_enctype(form) }} novalidate>
+            {{ form_start(form) }}
+            <tr>
+                <td>{{ form_label(form.rut, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.rut, {value : modificar.rut }) }}</td>
+                <td>{{ form_errors(form.rut) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.nombre, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.nombre, {value : modificar.nombre }) }}</td>
+                <td>{{ form_errors(form.nombre) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.direccion, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.direccion, {value : modificar.direccion }) }}</td>
+                <td>{{ form_errors(form.direccion) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.giro, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.giro, {value : modificar.giro }) }}</td>
+                <td>{{ form_errors(form.giro) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.telefono, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.telefono, {value : modificar.telefono }) }}</td>
+                <td>{{ form_errors(form.telefono) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.correoelectronico, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.correoelectronico, {value : modificar.correoelectronico }) }}</td>
+                <td>{{ form_errors(form.correoelectronico) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.comuna, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.comuna) }}</td>
+                <td>{{ form_errors(form.comuna) }}</td>
+            </tr>
+            <tr class="filaFormulario">
+                <td><input type="submit" name="salvarCliente" value="Salvar Cliente"></td>
+                <td></td>
+            </tr>   
+            {{ form_end(form) }}
+        </form>
+        </table>
+    </div>    
+    </div>
+    </div>
+    </div>   
+<div class="proyecto">
+<table class="listar">
+        <tr class="trHeader">
+            <td class="headerTable1">Nombre de {{informacion.tabla}}</td>
+            <td class="headerTable1">Dirección de {{informacion.tabla}}</td>
+            <td class="headerTable1">Teléfono de {{informacion.tabla}}</td>
+            <td class="headerTable1"></td>
+            <td class="headerTable1"></td>
+            <td class="headerTable1"></td>
+            
+        </tr>
+        {% for listar in listar %}
+        <form action="{{ path('cliente')}} " method="post" {{ form_enctype(form) }} novalidate>
+        <tr class="trContent1">    
+            <td class="tabInfo">{{ listar.nombre }}</td>
+            <td class="tabInfo">{{ listar.direccion }}</td>
+            <td class="tabInfo">{{ listar.telefono }}</td>
+            <td class="tabInfo"><input type="submit" name="eliminar" value="eliminar"></td>
+            <td class="tabInfo"><input type="submit" name="modificar" value="modificar"></td>
+            <td class="tabInfo"><input type="submit" name="fichacliente" value="Desplegar Ficha"></td>
+            <td><input type="hidden" name="valorEliminar" value="{{ listar.id }}"></td>
+            <td><input type="hidden" name="tabla" value="{{ informacion.tabla }}"></td>
+        </tr>    
+        </form>
+        {% endfor %}
+    </table> 
+</div>
+
+{% endblock %}
+{% block horas %}
+
+{{ include ('AppMediBundle:Default:IndexHoras.html.twig',
+    {'formHoras': formHoras }) }}
+
+{{ include ('AppMediBundle:Default:IndexReunion.html.twig',
+    {'reuniones': reuniones }) }}
+
+{{ include ('AppMediBundle:Default:IndexProyecto.html.twig',
+    {'proyectos': proyecto}) }}
+
+{% endblock %}

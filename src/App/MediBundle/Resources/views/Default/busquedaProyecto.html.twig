@@ -1,0 +1,81 @@
+{% extends '::base.html.twig' %}
+{% block contenido %}
+
+{#{{ include ('AppMediBundle:Default:IndexHoras.html.twig',
+    {'formHoras': formHoras }) }}
+
+{{ include ('AppMediBundle:Default:IndexReunion.html.twig',
+    {'reuniones': reuniones }) }}
+
+{{ include ('AppMediBundle:Default:IndexProyecto.html.twig',
+    {'proyectos': proyecto}) }} #}
+    {% set contador = 1 %}
+    {% for items in proyecto %}
+    <div class="busquedaProyecto col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    	<div class="tittle">{{ items.nombreProyecto }}</div>
+    	<div class="ulInfo">
+    		<ul class="nav nav-tabs">
+    			<li class="col-xs-12 col-sm-12 col-md-4 col-lg-4"><a href="#general{{ contador }}" data-toggle="tab">General</a></li>
+    			<li class="col-xs-12 col-sm-12 col-md-4 col-lg-4"><a href="#profesionales{{ contador }}" data-toggle="tab">Profesionales</a></li>
+    			<li class="col-xs-12 col-sm-12 col-md-4 col-lg-4"><a href="#etapas{{ contador }}" data-toggle="tab">Etapas</a></li>
+    		</ul>
+    	</div>
+    	<div class="tab-content">
+    		<div id="general{{ contador }}" class="tab-pane active">
+    		<ul class="ulBusquedaProyecto">
+    			<li>Información General</li>
+    			<li>Fecha de Inicio: {{ items.fechaInicio|date('d-m-Y') }}</li>
+    			<li>Fecha de Término: {{ items.fechaFin|date('d-m-Y') }}</li>
+    			<li>Horas Programadas: {{ items.horasProgramadas }}</li>
+    		</ul>
+    		</div>
+    		<div id="profesionales{{ contador }}" class="tab-pane">
+    			<table class="proyectoBusquedaP">
+    				<tr>
+    					<td class="first"></td>
+    					<td class="first">Nombre</td>
+    					<td class="first">Horas</td>
+    					<td class="first">Ingreso</td>
+    					<td class="first">Retiro</td>
+    				</tr>
+    			{% for asignacion in items.asignacion %}
+    				<tr>
+    					<td class="third">{% if asignacion.profesional.imagenPerfil == null %}
+                <div class="dashImgPerfilSec"><img src="{{ asset('img/male.png')}}" class="img-circle" /></div>
+                {% else %}
+                <div class="dashImgPerfilSec"><img src="{{ asset('documentos/')}}{{ asignacion.profesional.imagenPerfil.path }}"></div>
+                {% endif %}</td>
+    					<td class="third">
+    				{{ asignacion.profesional.pnombre }} {{ asignacion.profesional.papellido }}
+    					</td>
+    					<td class="third">{{ asignacion.horas }}</td>
+    					<td class="third">30-02-2015</td>
+    					<td class="third">30-02-2015</td>
+    				</tr>
+    			{% endfor %}
+    			</table>
+    		</div>
+    		<div id="etapas{{ contador }}" class="tab-pane">
+    			<table class="proyectoBusquedaP">
+    				<tr>
+    					<td class="first">Nombre</td>
+    					<td class="first">Fecha de Inicio</td>
+    					<td class="first">Fecha de término</td>
+    				</tr>
+    			{% for etapa in items.asignacionEtapa %}
+    				<tr>
+    					<td class="third"><p>{{ etapa.etapaProyecto.nombre }}</p></td>
+                		<td class="second">{{ etapa.fechaInicio|date('d-m-Y')  }}</td>
+                		<td class="second">{{ etapa.fechaTermino|date('d-m-Y')  }}</td>
+    				</tr>
+    			{% endfor %}
+    			</table>
+    		</div>
+
+
+    	</div>
+    </div>
+    {% set contador = contador + 1 %}
+	{% endfor %}
+{% endblock %}
+

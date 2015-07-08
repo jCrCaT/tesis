@@ -1,0 +1,26 @@
+{% extends '::base.html.twig' %}
+{% block contenido %}
+
+<form action="{{ path('pais')}}" method="post" {{ form_enctype(form) }} novalidate>
+    <h3>Agregar País</h3>
+    <div class="addUbication">
+        <table>
+            {{ form_start(form) }}
+            <tr>
+                <td>{{ form_label(form.nombre) }}</td>
+                <td>{{ form_widget(form.nombre) }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>{{ form_errors(form.nombre) }}</td>                
+            </tr>
+            <tr>
+                <td>{{ form_row(form.salvarPais) }}</td>
+                <td></td>
+            </tr>
+        </table>
+    </div>    
+</form>
+   {% include 'AppMediBundle::localidad.html.twig' with {'informacion': informacion} %}
+
+{% endblock %}

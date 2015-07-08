@@ -1,0 +1,58 @@
+{% extends '::base.html.twig' %}
+{% block submenu %}
+            <nav class="submenu">
+                <ul>
+                    <li><a href="{{ path('empresa') }}">Empresa</a></li>
+                    <li><a href="{{ path('area') }}">Área</a></li>
+                    <li><a href="{{ path('proyecto') }}">Proyectos</a></li>
+                    <li><a href="{{ path('empresa') }}">Encargados</a></li>
+                </ul>
+            </nav>
+{% endblock %}
+{% block contenido %}
+<form action="{{ path('actividad')}}" method="post" {{ form_enctype(form) }} novalidate>
+    <h4>Mi información</h4>
+    <div class="addUbication">
+        <table>
+            <tr>
+                <td>Nombre completo:</td>
+                <td>{{ app.user.pnombre }} {{ app.user.papellido }}</td>
+            </tr>
+            <tr>
+                <td>Nombre completo:</td>
+                <td>{{ usuario.fechaNacimiento|date('d - m - Y') }}</td>
+            </tr>
+            <tr>
+                <td>Dirección</td>
+                <td>{{ app.user.direccion }}</td>                
+            </tr>
+        </table>
+    </div>    
+</form>    
+
+<table class="listar">
+        <tr>
+            
+            <td class="tabSup">Identificador de {{informacion.tabla}}</td>
+            <td class="tabSup">Nombre de {{informacion.tabla}}</td>
+            <td class="tabSup">Descripción de {{informacion.tabla}}</td>
+            <td class="tabSup"></td>
+            <td class="tabSup"></td>            
+            
+        </tr>
+        {% for listar in listar %}
+        <form action="{{ path('actividad')}} " method="post" {{ form_enctype(form) }} novalidate>
+        <tr>    
+            <td class="tabInfo">{{ listar.id }}</td>
+            <td class="tabInfo">{{ listar.nombre }}</td>
+            <td class="tabInfo">{{ listar.descripcion }}</td>
+            <td class="tabInfo"><input type="submit" name="eliminar" value="eliminar"></td>
+            <td class="tabInfo"><input type="submit" name="modificar" value="modificar"></td>
+            <td><input type="hidden" name="valorEliminar" value="{{ listar.id }}"></td>
+            <td><input type="hidden" name="tabla" value="{{ informacion.tabla }}"></td>
+        <tr/>    
+        </form>
+        {% endfor %}
+    </table> 
+{% endblock %}
+

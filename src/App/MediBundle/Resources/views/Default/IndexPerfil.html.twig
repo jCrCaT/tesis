@@ -1,0 +1,45 @@
+<link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-clockpicker.min.css') }}">
+<script src="{{ asset('js/mootools2.js') }}"></script>
+<script src="{{ asset('js/calendar.js') }}"></script>
+<link href="{{ asset('css/calendar.css') }}" rel="stylesheet" media="screen">
+<script language="javascript">
+    
+
+// The following should be put in your external js file,
+// with the rest of your ondomready actions.
+window.addEvent('domready', function(){
+
+	$$('.DatePicker').each( function(el){
+		new DatePicker(el);
+	});
+
+});
+
+
+
+</script>
+<div>
+    <div class="perfil">
+        <div class="perfilBienvenida">Bienvenido {{ app.security.getToken().getUser().getPnombre() }} {{ app.security.getToken().getUser().getPapellido() }}</div>
+        <div>{% if app.security.getToken.getUser.getImagenPerfil == null %}{% else %}<img src="{{ asset('documentos/')}}{{ app.security.getToken().getUser().getImagenPerfil().getPath() }}{% endif %} " class="img-circle" /></div>
+        <table class="infoPerfil">
+            <tr>
+                <td>Valor UF:</td>
+                <td>{{ uf }} (pesos chilenos)</td>                
+            </tr>
+            <tr>
+                <td>Valor Dolar:</td>
+                <td>$500 (pesos chilenos)</td>                
+            </tr>
+            <tr>
+                <td><img src="{{asset('img/config.png')}}"><a href="#">Configuración</a></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><img src="{{asset('img/exit2.png')}}"><a href="{{path('logout')}}">Cerrar Sesión</a></td>
+                <td></td>
+            </tr>
+        </table>
+        
+    </div>    
+</div>

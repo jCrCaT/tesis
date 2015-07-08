@@ -1,0 +1,164 @@
+dw:
+    resource: "@DwBundle/Resources/config/routing.yml"
+    prefix:   /
+
+inicio:
+    pattern:  /inicio
+    defaults: { _controller: AppMediBundle:Inicio:admInicio } 
+    
+pais:
+    pattern:  /pais
+    defaults: { _controller: AppMediBundle:Pais:admPais } 
+
+mpais:
+    pattern:  /mpais
+    defaults: { _controller: AppMediBundle:Pais:mPais } 
+    
+producto:
+    pattern:  /producto
+    defaults: { _controller: AppMediBundle:Producto:admProducto }     
+    
+region:
+    pattern:  /region
+    defaults: { _controller: AppMediBundle:Region:admRegion }
+    
+ciudad:
+    pattern:  /ciudad
+    defaults: { _controller: AppMediBundle:Ciudad:admCiudad } 
+   
+comuna:
+    pattern:  /comuna
+    defaults: { _controller: AppMediBundle:Comuna:admComuna }     
+    
+usuario:
+    pattern:  /usuario
+    defaults: { _controller: AppMediBundle:User1:admUser1 }  
+
+empresa:
+    pattern:  /empresa
+    defaults: { _controller: AppMediBundle:Empresa:admEmpresa }  
+    
+login:
+    pattern:   /login
+    defaults:  { _controller: AppMediBundle:Seguridad:login }
+    
+login_check:
+    pattern:   /login_check
+    
+logout:
+    path:   /logout  
+    
+rango:
+    pattern:  /rango
+    defaults: { _controller: AppMediBundle:RangoAdm:admRango }    
+    
+area:
+    pattern:  /area
+    defaults: { _controller: AppMediBundle:Area:admArea }  
+    
+proyecto:
+    pattern:  /proyecto
+    defaults: { _controller: AppMediBundle:Proyecto:admProyecto }
+    
+gproyecto:
+    pattern:  /dashboard/proyecto/{id}
+    defaults: { _controller: AppMediBundle:Gproyecto:Gproyecto }    
+    
+asignararea:
+    pattern:  /asignararea
+    defaults: { _controller: AppMediBundle:AsArea:admAsArea } 
+
+asignarproyecto:
+    pattern:  /asignarproyecto
+    defaults: { _controller: AppMediBundle:AsProyecto:admAsProyecto }     
+    
+cliente:
+    pattern:  /cliente
+    defaults: { _controller: AppMediBundle:Cliente:admCliente }  
+    
+actividad:
+    pattern:  /actividad
+    defaults: { _controller: AppMediBundle:Actividad:admActividad }   
+    
+estudio:
+    pattern:  /estudio
+    defaults: { _controller: AppMediBundle:Estudio:admEstudio }
+
+horas:
+    pattern:  /horas
+    defaults: { _controller: AppMediBundle:Horas:admHoras }  
+    
+grafico:
+    pattern:  /grafico
+    defaults: { _controller: AppMediBundle:Grafico:admGrafico } 
+    
+tipoestudio:
+    pattern:  /tipoestudio
+    defaults: { _controller: AppMediBundle:Tipoestudio:admTipoEstudio } 
+    
+reunion:
+    pattern:  /reunion
+    defaults: { _controller: AppMediBundle:Reunion:admReunion } 
+    
+minuta:
+    pattern:  /minuta/{key}
+    defaults: { _controller: AppMediBundle:Minuta:admMinuta }   
+    requirements:
+        key:  \d+
+        
+minutaForm:
+    pattern:  /minuta
+    defaults: { _controller: AppMediBundle:Minuta:admMinutaForm }           
+    
+filtro:
+    pattern:  /filtro
+    defaults: { _controller: AppMediBundle:Filtro:admFiltro }     
+    
+licitacion:
+    pattern:  /licitacion
+    defaults: { _controller: AppMediBundle:Licitacion:admLicitacion }  
+    
+asignarlicitacion:
+    pattern:  /asignarlicitacion
+    defaults: { _controller: AppMediBundle:AsLicitacion:admAsLicitacion } 
+    
+prueba:
+    pattern:  /prueba
+    defaults: { _controller: DwBundle:Prueba:Datawarehouse }     
+    
+proyectoEtapa:
+    pattern:  /proyecto
+    defaults: { _controller: AppMediBundle:Proyecto:etapaProyecto }
+    requirements:
+        _method:  POST
+        
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"    
+    
+etapaProyecto:
+    pattern:  /proyecto
+    defaults: { _controller: AppMediBundle:Proyecto:admProyecto }
+    options:
+        expose: true   
+
+peticionAjax:
+    pattern:  /peticionAjax
+    defaults: { _controller: AppMediBundle:Proyecto:admProyecto }
+    options:
+        expose: true    
+    
+glicitacion:
+    pattern:  /dashboard/licitacion/{id}
+    defaults: { _controller: AppMediBundle:Glicitacion:Glicitacion } 
+    
+permiso:
+    pattern:  /permiso
+    defaults: { _controller: AppMediBundle:Permiso:admPermiso }  
+
+busqueda:
+    pattern:  /busqueda
+    defaults: { _controller: AppMediBundle:Busqueda:admBusqueda }
+
+estadoevento:
+    pattern:  /estadoevento
+    defaults: { _controller: AppMediBundle:EstadoAcciones:admEstadoAcciones }            

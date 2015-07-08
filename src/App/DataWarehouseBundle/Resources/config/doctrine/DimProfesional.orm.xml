@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="App\DataWarehouseBundle\Entity\DimProfesional" table="dim_profesional">
+    <id name="idProfesional" type="integer" column="id_profesional">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="empresa" type="string" column="empresa" length="255" nullable="true"/>
+    <field name="pnombre" type="string" column="pnombre" length="255" nullable="true"/>
+    <field name="snombre" type="string" column="snombre" length="255" nullable="true"/>
+    <field name="papellido" type="string" column="papellido" length="255" nullable="true"/>
+    <field name="sapellido" type="string" column="sapellido" length="255" nullable="true"/>
+    <one-to-many
+            field="FtAvanceProyectoProfesional"
+            target-entity="FtAvanceProyectoProfesional"
+            mapped-by="profesional" />
+  </entity>
+</doctrine-mapping>

@@ -1,0 +1,257 @@
+{% extends '::base.html.twig' %}
+{% block contenido %}
+<script src="{{ asset('js/mootools2.js') }}"></script>
+<script src="{{ asset('js/calendar.js') }}"></script>
+<link href="{{ asset('css/calendar.css') }}" rel="stylesheet" media="screen">
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script language="javascript">
+    
+
+// The following should be put in your external js file,
+// with the rest of your ondomready actions.
+window.addEvent('domready', function(){
+
+	$$('.DatePicker').each( function(el){
+		new DatePicker(el);
+	});
+
+});
+
+
+
+</script>
+<script>
+    $(document).ready(function(){
+        $('.proyecto').change(function(){
+            alert("hola");
+            var getTeamsUrl = Routing.generate('etapaProyecto');
+            $.ajax({
+                    type: 'POST',
+                    url: '{{ path('peticionAjax') }}',
+                    success: function(data){           
+                        alert(data.name);
+            }});
+        });  
+    });
+</script>
+<script lang="text/javascript">
+$(document).ready(function(){
+    $(".chosen-select").chosen();
+});
+</script>
+<script lang="text/javascript">
+$(document).ready(function(){
+    $(".handCloser").click(function(){
+        $('.mensajeAlerta').fadeOut('slow');
+        
+    });
+});
+</script>
+{% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="mensajeAlerta">
+        <img src="{{ asset('img/bien.png') }}" class="handCloser">
+        <div>Éxito!!</div>
+        El registro ha sido almacenado!!
+        <div class="infoAdic">
+        (Para ocultar esta ventana presionar el ticket verde)</div>
+        </div>
+{% endfor %}
+<link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-clockpicker.min.css') }}">
+<form action="{{ path('horas')}}" method="post" {{ form_enctype(form) }} novalidate>
+    <h4 class="tituloFormulario">Agregar Hora de trabajo</h4>
+            <ul class="nav nav-tabs botonesHoras">
+                    <li class="active">
+                        <a href="#proyectos" data-toggle="tab">Proyectos</a>
+                    </li>
+                    <li>
+                        <a href="#licitaciones" data-toggle="tab">Licitación</a>
+                    </li>
+                </ul>
+    <div class="tab-content">
+    <div id="proyectos" class="addUbication tab-pane active">
+        <table>
+            {{ form_start(form) }}
+            <tr>
+                <td class="etiqueta">Fecha de inicio</td>
+                <td><input class="DatePicker" name="fechaInicio"></td> 
+            </tr>
+            <tr>
+                <td class="etiqueta">Fecha de término</td>
+                <td><input class="DatePicker" name="fechaTermino"></td> 
+            </tr>
+            <tr>
+                <td>{{ form_label(form.actividad, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.actividad, {'attr': {'class': 'chosen-select largo-box'}}) }}</td>
+                <td>{{ form_errors(form.actividad) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.proyecto, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.proyecto, {'attr': {'class': 'chosen-select largo-box proyecto'}}) }}</td>
+                <td>{{ form_errors(form.proyecto) }}</td>
+            </tr>
+            <tr>
+                <td class="etiqueta">Hora de inicio de actividad</td>
+                <td>
+                    <div id="reloj" class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true">
+                        <input type="text" class="form-control" value="13:14" name="horaInicio">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="etiqueta">Hora de fin de actividad</td>
+                <td>
+                    <div id="reloj" class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true">
+                        <input type="text" class="form-control" value="13:14" name="horaTermino">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                    </div>
+                </td>
+            </tr>
+            <tr class="filaFormulario">
+                <td><input type="submit" class="btnAdd" name="salvarHora" value="Documentar hora"></td>
+                <td></td>
+            </tr>
+            {{ form_end(form) }}
+        </table>
+    </div>
+    <div id="licitaciones" class="addUbication tab-pane">
+        <table>
+            {{ form_start(formLic) }}
+            <tr>
+                <td class="etiqueta">Fecha de inicio</td>
+                <td><input class="DatePicker" name="fechaLicInicio"></td> 
+            </tr>
+            <tr>
+                <td class="etiqueta">Fecha de término</td>
+                <td><input class="DatePicker" name="fechaLicTermino"></td> 
+            </tr>
+            <tr>
+                <td>{{ form_label(formLic.requerimiento, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(formLic.requerimiento, {'attr': {'class': 'largo-box chosen-select '}}) }}</td>
+                <td>{{ form_errors(formLic.requerimiento) }}</td>
+            </tr>
+            <tr>
+                <td class="etiqueta">Hora de inicio de actividad</td>
+                <td>
+                    <div id="reloj" class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true">
+                        <input type="text" class="form-control" value="13:14" name="horaLicInicio">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="etiqueta">Hora de fin de actividad</td>
+                <td>
+                    <div id="reloj" class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true">
+                        <input type="text" class="form-control" value="13:14" name="horaLicTermino">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                    </div>
+                </td>
+            </tr>
+            <tr class="filaFormulario">
+                <td><input type="submit" class="btnAdd" name="salvarLicHora" value="Documentar hora"></td>
+                <td></td>
+            </tr>
+            {{ form_end(form) }}
+        </table>
+    </div>  
+    </div>
+</form>    
+<div class="proyecto">
+<table class="listar">
+        <tr class="trHeader">
+            <td class="headerTable1">Fecha de inicio de actividad</td>
+            <td class="headerTable1">Fecha de termino de actividad</td>
+            <td class="headerTable1">Hora de inicio de actividad</td>
+            <td class="headerTable1">Hora de termino de actividad</td>
+            <td class="headerTable1">Duración de actividad</td>
+            <td class="headerTable1"></td>            
+        </tr>
+        {% for listar in listar %}
+        <form action="{{ path('horas')}} " method="post" {{ form_enctype(form) }} novalidate>
+        <tr class="trContent1">    
+            <td class="tabInfo">{{ listar.fechaInicio|date('d-m-Y') }}</td>
+            <td class="tabInfo">{{ listar.fechaTermino|date('d-m-Y') }}</td>
+            <td class="tabInfo">{{ listar.fechaInicio|date('H:i ') }}</td>
+            <td class="tabInfo">{{ listar.fechaTermino|date('H:i ') }}</td> 
+            <td class="tabInfo">{{ listar.duracionActividad|date('%H:%i') }} horas</td>
+            <td class="tabInfo"><input type="submit" class="btnAdd btnEliminar" name="eliminar" value="eliminar"></td>
+            <td><input type="hidden" name="valorEliminar" value="{{ listar.id }}"></td>
+            <td><input type="hidden" name="tabla" value="{{ informacion.tabla }}"></td>
+        <tr/>    
+        </form>
+        {% endfor %}
+    </table>
+</div>
+<script type="text/javascript" src="{{ asset('js/bootstrap-clockpicker.min.js') }}"></script>
+<script type="text/javascript">
+$('.clockpicker').clockpicker({
+	placement: 'right',
+	align: 'left',
+})
+	.find('input').change(function(){
+		console.log(this.value);
+	});
+var input = $('#single-input').clockpicker({
+	placement: 'top',
+	align: 'left',
+	autoclose: true,
+	'default': 'now'
+});
+
+$('.clockpicker-with-callbacks').clockpicker({
+		donetext: 'Done',
+		init: function() { 
+			console.log("colorpicker initiated");
+		},
+		beforeShow: function() {
+			console.log("before show");
+		},
+		afterShow: function() {
+			console.log("after show");
+		},
+		beforeHide: function() {
+			console.log("before hide");
+		},
+		afterHide: function() {
+			console.log("after hide");
+		},
+		beforeHourSelect: function() {
+			console.log("before hour selected");
+		},
+		afterHourSelect: function() {
+			console.log("after hour selected");
+		},
+		beforeDone: function() {
+			console.log("before done");
+		},
+		afterDone: function() {
+			console.log("after done");
+		}
+	})
+	.find('input').change(function(){
+		console.log(this.value);
+	});
+
+// Manually toggle to the minutes view
+$('#check-minutes').click(function(e){
+	// Have to stop propagation here
+	e.stopPropagation();
+	input.clockpicker('show')
+			.clockpicker('toggleView', 'minutes');
+});
+if (/mobile/i.test(navigator.userAgent)) {
+	$('input').prop('readOnly', true);
+}
+</script>
+{% endblock %}
+

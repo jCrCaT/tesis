@@ -1,0 +1,234 @@
+{% extends '::base.html.twig' %}
+{% block submenu %}
+            <nav class="submenu">
+                <ul>
+                    <li><a href="{{ path('empresa') }}">Empresa</a></li>
+                    <li><a href="{{ path('area') }}">Área</a></li>
+                    <li><a href="{{ path('proyecto') }}">Proyectos</a></li>
+                    <li><a href="{{ path('empresa') }}">Encargados</a></li>
+                </ul>
+            </nav>
+{% endblock %}
+{% block contenido %}
+<script src="{{ asset('js/Chart.js-master/Chart.js') }}"></script>
+<script language="javascript">
+    {% set toggle = 1 %}
+            {% for proyectos in proyectos %}
+            {% for avance in proyectos.factTable %}
+    $(document).ready(function(){ 
+   $('#botonToggle{{toggle }}').on('click',function(e){
+       e.preventDefault();
+       $( "#contenidoToggle{{ toggle }}" ).slideToggle( "slow" );
+      
+   });
+});
+{% set toggle = toggle + 1 %}
+{% endfor %}
+    {% endfor %}
+</script>
+<script language="javascript">
+    {% set avanceProf = 1 %}
+            {% for proyectos in proyectos %}
+            {% for avance in proyectos.avancesProfesionales %}
+    $(document).ready(function(){ 
+   $('#botonToggleProf{{ avanceProf }}').on('click',function(e){
+       e.preventDefault();
+       $( "#contenidoToggleProf{{ avanceProf }}" ).slideToggle( "slow" );
+      
+   });
+});
+{% set avanceProf = avanceProf + 1 %}
+{% endfor %}
+    {% endfor %}
+</script>
+{% set contador = 1 %}
+{% set ciclo = 1 %}
+{% set cicloAvanceProf = 1 %}
+{% for proyectos in proyectos %}
+<div class="graficoProyecto col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="headerInfo">
+        <h3>{{ proyectos.nombreProyecto|upper }}</h3>        
+    </div>
+    <div class="text-center">
+                <ul class="botones nav nav-tabs">
+                    <li><a href="#generalPro{{ contador }}" data-toggle="tab">General</a></li>
+                    <li><a href="#Profesional{{ contador }}" data-toggle="tab">Profesionales</a></li>
+                    <li><a href="#avance{{ contador }}" data-toggle="tab">Avance</a></li>
+                    <li><a href="#avanceProf{{ contador }}" data-toggle="tab">Avance por Profesional</a></li>
+                </ul>
+    </div>
+    <div class="tab-content">
+        <div id="generalPro{{ contador }}" class="infoPro tab-pane active">
+            <ul> 
+                <li><font style="font-weight: bold;">Inicio:</font></font> {{ proyectos.fechaInicio|date('d-m-Y') }}</li>
+                <li><font style="font-weight: bold;">Término:</font> {{ proyectos.fechaFin|date('d-m-Y') }}</li>
+                <li><font style="font-weight: bold;">Horas:</font> {{ proyectos.horasProgramadas }}</li>
+                <li><font style="font-weight: bold;">Patrocinador:</font> {% if proyectos.clientes == null %}"Por asignar"{% else %}{{ proyectos.clientes.nombre }}{% endif %}</li>
+            </ul>        
+        </div>
+        <div id="Profesional{{ contador }}" class="tab-pane">
+            <h4>Profesionales asignados a Proyecto</h4>
+            <table class="reqLicitacion">                        
+                        <tr>
+                            <td class="tituloReLic">Profesional</td>
+                            <td class="tituloReLic">Horas</td>
+                            <td class="tituloReLic">Valor por hora (UF)</td>
+                            
+                        </tr>
+                        {% for asignacion in proyectos.asignacion %}
+                        <tr>
+                            <form action="{{ path('licitacion')}} " method="post" novalidate>
+                            <td>{{ asignacion.profesional.pnombre }} {{ asignacion.profesional.snombre }}</td>
+                            <td>{{ asignacion.horas }}</td>
+                            <td>{{ asignacion.valorHora }}</td>
+ 
+                            </form>
+                        </tr>
+                        {% endfor %}
+                    </table>
+        </div>
+        <div id="avance{{ contador }}" class="tab-pane">
+            <h4>Avances de Proyecto</h4>
+            <canvas id="avanceGeneral{{ contador }}" width="300" height="150"></canvas>
+            {% for resumen in proyectos.factTable %}
+            <div class="avanceProyecto">
+                <p><a href="#" id="botonToggle{{ ciclo }}">{{ resumen.fechaId.fecha|date('d-m-Y') }}</a></p>
+                <div  id="contenidoToggle{{ ciclo }}" class="contenidoToggle{{ ciclo }}" style="display:none">
+                <canvas class="avanceGraficoProyecto" id="myChart{{ ciclo }}" width="180" height="180"></canvas>
+                <div>
+                    <table>
+                        <tr>
+                            <td>Porcentaje de Avance:</td>
+                            <td>{{ resumen.porcentajeAvance }}%</td>
+                        </tr>
+                        <tr>
+                            <td>Porcentaje restante:</td>
+                            <td>{{ 100 - resumen.porcentajeAvance }}%</td>
+                        </tr>
+                        <tr>
+                            <td>Horas programadas:</td>
+                            <td>{{ resumen.horasAsignadas }}</td>
+                        </tr>
+                        <tr>
+                            <td>Horas de Avance:</td>
+                            <td>{{ resumen.horasAvanzadas }}</td>
+                        </tr>
+                        <tr>
+                            <td>Costo a la fecha:</td>
+                            <td>{{ resumen.valorFecha }}</td>
+                        </tr>
+                        <tr>
+                            <td>Costo presupuestado:</td>
+                            <td>{{ resumen.valorTotal }}</td>
+                        </tr>
+                        
+                    </table>
+                </div>
+            </div>  
+            </div>
+                {% set ciclo = ciclo + 1%}
+            {% endfor %}
+        </div>
+        <div id="avanceProf{{ contador }}" class="tab-pane">
+            <h4>Avances de Proyecto por profesional</h4>
+            {% for avanceProf in proyectos.avancesProfesionales %}
+            <div>
+                <p><a href="#" id="botonToggleProf{{ cicloAvanceProf }}">{{ avanceProf.profesional.pnombre }} {{ avanceProf.profesional.papellido }} {{ avanceProf.profesional.sapellido }} - {{ avanceProf.fechaId.fecha|date('d-m-Y') }} </a></p>
+                <div  id="contenidoToggleProf{{ cicloAvanceProf }}" class="contenidoToggle{{ cicloAvanceProf }}" style="display:none">
+                    <table class="reqLicitacion">
+                        <tr>
+                            <td style="min-width: 100px;">Gráfico</td>
+                            <td>Horas Avanzadas</td>
+                            <td>Horas Asignadas</td>
+                            <td>Porcentaje Avance</td>
+                            <td>Valor por hora (UF)</td>
+                            <td>Valor a la Fecha</td>
+                            <td>Valor Plafinificado</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 60%" alt="hello">
+                                        <span class="sr-only">40% Complete (success)</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ avanceProf.horasProgresadas }}</td>
+                            <td>{{ avanceProf.horasAsignadas }}</td>
+                            <td>{{ avanceProf.porcentajeAvance }}%</td>
+                            <td>{{ avanceProf.valorHora }}</td>
+                            <td>{{ avanceProf.valorFecha }}</td>
+                            <td>{{ avanceProf.valorTotal }}</td>
+                            
+                        </tr>
+                    </table>
+                </div>
+                {% set cicloAvanceProf = cicloAvanceProf + 1 %}
+                </div>
+            {% endfor %}
+
+        </div>
+    {% set contador = contador + 1 %}
+    </div>
+</div>
+
+{% endfor %}
+<script language="javascript">
+    {% set js = 1 %}
+        {% for proyectos in proyectos %}
+            {% for avance in proyectos.factTable %}
+                var ctx = document.getElementById("myChart{{ js }}").getContext("2d");
+                var data = [
+                {
+                    value: {{ avance.porcentajeAvance }},
+                    color:"#F7464A",
+                    highlight: "#FF5A5E",
+                    label: "Avance"
+                },
+                {
+                    value: {{ 100 - avance.porcentajeAvance }},
+                    color: "#ddd",
+                    highlight: "#ddd",
+                    label: "Restante"
+                }
+                ];
+Chart.defaults.global.animation = false;
+var myPieChart = new Chart(ctx).Pie(data);
+    {% set js = js + 1 %}
+    {% endfor %}
+        {% endfor %}
+        
+</script>
+<script language="javascript">
+    {% set contador = 1 %}
+    {% for proyectos in proyectos %}
+        itemsGraph = [];
+        porcentaje = [];
+        var lineGraph = document.getElementById("avanceGeneral{{ contador }}").getContext("2d");
+        {% for tiempo in proyectos.factTable %}
+            itemsGraph.push("{{ tiempo.fechaId.fecha|date('d-m-Y') }}");      
+            porcentaje.push({{ tiempo.porcentajeAvance }});
+            {% endfor %}
+        var data = {
+    labels: itemsGraph,
+    datasets: [
+        {
+            label: "My First dataset",
+            fillColor: "rgba(220,220,220,0.2)",
+            strokeColor: "rgba(220,220,220,1)",
+            pointColor: "rgba(220,220,220,1)",
+            pointStrokeColor: "#fff",
+            pointHighlightFill: "#fff",
+            pointHighlightStroke: "rgba(220,220,220,1)",
+            data: porcentaje
+        
+        }
+    ]
+};
+var myLineChart = new Chart(lineGraph).Line(data);
+{% set contador = contador + 1 %}         
+    {% endfor %}
+    
+</script>
+{% endblock %}
+

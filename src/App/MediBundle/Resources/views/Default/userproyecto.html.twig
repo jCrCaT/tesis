@@ -1,0 +1,84 @@
+{% extends '::base.html.twig' %}
+{% block contenido %}
+<script lang="text/javascript">
+    $(document).ready(function(){
+    $(".chosen-select").chosen();
+});
+</script>
+<form action="{{ path('asignarproyecto')}}" method="post" {{ form_enctype(form) }} novalidate>
+    {% if tipo == "crear" %}
+    <h4>Asignar Proyecto</h4>
+    {% else %}
+    <h4>Usted modificará la asignación <font class="red">""</font> </h4>
+    {% endif %}
+    <div class="addUbication">
+        <table>
+            {{ form_start(form) }}
+            <tr>
+                <td>{{ form_label(form.profesional, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.profesional, {'attr': {'class': 'chosen-select'}}) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.proyecto, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.proyecto, {'attr': {'class': 'chosen-select'}}) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.horas, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.horas) }}</td>
+                <td>{{ form_errors(form.horas) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.valorHora, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.valorHora) }}</td>
+                <td>{{ form_errors(form.valorHora) }}</td>
+            </tr>
+            {% if tipo == "crear" %}
+            <tr class="filaFormulario">
+                <td><input class="btn btn-danger" type="submit" name="asignarProyecto" value="Asignar Proyecto"></td>
+                <td></td>
+            </tr>
+            {% else %}
+            <tr class="filaFormulario">
+                <td><input class="btn btn-danger" type="submit" name="modificarProyecto" value="Modificar Proyecto"></td>
+                <td><input type="hidden" name="valorModificar" value="{{ modificar.id }}"></td>
+                <td></td>
+            </tr>
+            {% endif %}
+        </table>
+    </div>    
+</form>    
+
+<table class="listar">
+        <tr>
+            
+            <td class="tabSup">Id</td>
+            <td class="tabSup">Profesional</td>
+            <td class="tabSup">Proyecto</td>
+            <td class="tabSup">Horas asignadas</td>
+            <td class="tabSup">Valor hora (UF)</td>
+            <td class="tabSup"></td>
+            <td class="tabSup"></td>
+            <td class="tabSup"></td>            
+            
+        </tr>
+        {% for listar in listar %}
+        <form action="{{ path('asignarproyecto')}}" method="post" {{ form_enctype(form) }} novalidate>
+        <tr>    
+            <td class="tabInfo">{{ listar.id }}</td>
+            <td class="tabInfo">{{ listar.profesional.pnombre }} {{ listar.profesional.snombre }}</td>
+            <td class="tabInfo">{{ listar.proyecto.nombreProyecto }}</td>
+            <td class="tabInfo">{{ listar.horas }}</td>
+            <td class="tabInfo">{{ listar.valorHora|number_format(2, '.', ',') }}</td>
+            <td class="tabInfo">Añadir excepción</td>
+            <td class="tabInfo"><input class="btn btn-danger" type="submit" name="modificar" value="modificar"></td>
+            <td class="tabInfo"><input class="btn btn-danger" type="submit" name="eliminar" value="eliminar"></td>
+            <td><input type="hidden" name="valorEliminar" value="{{ listar.id }}"></td>
+            <td><input type="hidden" name="area" value="{{ listar.proyecto.nombreProyecto }}"></td>
+            <td><input type="hidden" name="profesional" value="{{ listar.profesional.username }}"></td>
+            <td><input type="hidden" name="tabla" value="{{ informacion.tabla }}"></td>
+        <tr/>    
+        </form>
+        {% endfor %}
+
+    </table> 
+{% endblock %}

@@ -1,0 +1,27 @@
+app_medi_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: AppMediBundle:Default:index }
+    
+pais:
+    pattern:  /pais
+    defaults: { _controller: AppMediBundle:Pais:admPais }
+    
+region:
+    pattern:  /region
+    defaults: { _controller: AppMediBundle:Region:admRegion }
+    
+usuario:
+    pattern:  /usuario
+    defaults: { _controller: AppMediBundle:Usuario:admUsuario } 
+    
+producto:
+    pattern:  /producto
+    defaults: { _controller: AppMediBundle:Producto:admProducto }
+    
+empresa:
+    pattern:  /empresa
+    defaults: { _controller: AppMediBundle:Empresa:admEmpresa }    
+    
+    
+    
+    

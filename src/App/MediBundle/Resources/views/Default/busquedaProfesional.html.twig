@@ -1,0 +1,66 @@
+{% extends '::base.html.twig' %}
+{% block contenido %}
+
+{#{{ include ('AppMediBundle:Default:IndexHoras.html.twig',
+    {'formHoras': formHoras }) }}
+
+{{ include ('AppMediBundle:Default:IndexReunion.html.twig',
+    {'reuniones': reuniones }) }}
+
+{{ include ('AppMediBundle:Default:IndexProyecto.html.twig',
+    {'proyectos': proyecto}) }} #}
+    {% set contador = 1 %}
+    {% for items in licitacion %}
+    <div class="busquedaProyecto col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    	<div class="tittle">{{ items.pnombre }} {{ items.papellido }}</div>
+    	<div class="ulInfo">
+    		<ul class="nav nav-tabs">
+    			<li class="col-xs-12 col-sm-12 col-md-4 col-lg-4"><a href="#general{{ contador }}" data-toggle="tab">General</a></li>
+    			<li class="col-xs-12 col-sm-12 col-md-4 col-lg-4"><a href="#proyectos{{ contador }}" data-toggle="tab">Proyectos</a></li>
+    			<li class="col-xs-12 col-sm-12 col-md-4 col-lg-4"><a href="#licitaciones{{ contador }}" data-toggle="tab">Licitaciones</a></li>
+    		</ul>
+    	</div>
+    	<div class="tab-content">
+    		<div id="general{{ contador }}" class="tab-pane active">
+    		<ul class="ulBusquedaProyecto">
+    			<li>Información General</li>
+    			<li>Nombre Completo: {{ items.pnombre }} {{ items.snombre }} {{ items.papellido }} {{ items.sapellido }}</li>
+    			<li>Fecha de Nacimiento: {{ items.fechaNacimiento|date('d-m-Y') }}</li>
+    			<li>Correo de contacto: {{ items.correo }}</li>
+    		</ul>
+    		</div>
+            <div id="proyectos{{ contador }}" class="tab-pane">
+                <table class"proyectoBusquedaP">
+                    <tr>
+                        <td class="first">Proyecto</td>
+                        <td class="first">Porcentaje avance</td>
+                        <td class="first"></td>
+                    </tr>
+                    {% for proyecto in items.misAvances %}
+                    <tr>
+                        <td class="second">{{ proyecto.nombreProyecto }}</td>
+                        {% set avance = proyecto.suma * 100 / proyecto.horas %}
+                        <td class="second">{{ avance|number_format(2, '.', ',') }}%</td>
+                        <td class="second" style="width: 30%">
+                            <div class="progress">
+  <div class="progress-bar progress-bar-danger" role="progressbar"
+       aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+       style="width:{{ proyecto.suma / proyecto.horas *100 }}%">
+    <span class="sr-only">80% completado (peligro / error)</span>
+  </div>
+  {% set avance = 0 %}
+</div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </table>
+            </div>
+    		
+
+
+    	</div>
+    </div>
+    {% set contador = contador + 1 %}
+	{% endfor %}
+{% endblock %}
+

@@ -1,0 +1,79 @@
+@media screen
+and (min-width: 320px)
+and (max-width: 480px){
+    #cssmenu{
+        margin-bottom: 2em;        
+    }
+    
+    #cssmenu ul li a{
+        text-align: center !important;
+    }
+
+    #fraseinicial a{
+		display:block !important;
+		text-align: center !important;
+		margin: 0 auto;
+
+	}
+
+	#btnBuscar{
+		width: 100%;
+	}
+
+	.navbar-brand{
+		text-align: center !important;
+		float: none;
+	}
+
+	#changeStatus{
+		display: block !important;
+	}
+}
+
+@media screen
+and (min-width: 481px)
+and (max-width: 767px){
+	.formularioDescripcion,
+	.formularioInicio{
+		display:block !important;
+	}
+	#fraseinicial{
+		display:block !important;
+		text-align: center !important;
+		margin: 0 auto;
+
+	}
+
+    #cssmenu{
+        margin-bottom: 2em;        
+    }
+    
+    #cssmenu ul li a{
+        text-align: center !important;
+    }
+
+    .navbar-brand{
+		text-align: center !important;
+		float: none;
+	}
+}
+
+
+@media screen
+and (min-width: 768px)
+and (max-width: 1024px){
+
+	#fraseinicial{
+		display:block !important;
+		text-align: center !important;
+
+	}
+
+	#cssmenu{
+		margin-bottom: 2em;
+	}
+
+	#cssmenu ul li a{
+		text-align: center !important;
+	}
+}

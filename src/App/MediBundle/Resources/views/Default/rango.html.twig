@@ -1,0 +1,131 @@
+{% extends '::base.html.twig' %}
+{% block contenido %}
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.modificarRango').click(function(){
+        var id = $(this).data("identificador");
+        var nombre = $(this).data("nombre");
+        var role = $(this).data("role");
+        $("#valorIdentificador").val( id );
+        document.getElementById("valorNombre").innerHTML = nombre;
+        document.getElementById("valorRole").innerHTML = role;
+        $('#popup').fadeIn('slow');
+        $('.popup-overlay').fadeIn('slow');
+        $('.popup-overlay').height($(window).height());
+        return false;
+    });
+    
+    $('#close').click(function(){
+        $('#popup').fadeOut('slow');
+        $('.popup-overlay').fadeOut('slow');
+        return false;
+    });
+});
+</script>
+<link href="{{ asset('css/modal.css') }}" rel="stylesheet" media="screen">
+<form action="{{ path('rango')}}" method="post" {{ form_enctype(form) }} novalidate>
+    <h3>Agregar rango</h3>
+    
+    <div class="addUbication">
+        <table>
+            {{ form_start(form) }}
+            <tr>
+                <td>{{ form_label(form.name) }}</td>
+                <td>{{ form_widget(form.name) }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>{{ form_errors(form.name) }}</td>                
+            </tr>
+            <tr>
+                <td>{{ form_label(form.role) }}</td>
+                <td>{{ form_widget(form.role) }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>{{ form_errors(form.role) }}</td>                
+            </tr>
+            <tr class="filaFormulario">
+                <td><input type="submit" name="salvarRango" value="Salvar Rango"></td>
+                <td></td>
+            </tr>
+            {{ form_end(form) }}
+        </table>
+    </div>    
+</form>
+    
+<table class="listar">
+        <tr>
+            
+            <td class="tabSup">Identificador de {{informacion.tabla}}</td>
+            <td class="tabSup">Nombre de {{informacion.tabla}}</td>
+            <td class="tabSup">Nombre interno de {{informacion.tabla}}</td>          
+            <td class="tabSup"></td>
+            <td class="tabSup"></td>
+            
+        </tr>
+        {% for listar in listar %}
+        <form action="{{ path('rango')}} " method="post" {{ form_enctype(form) }} novalidate>
+        <tr>    
+            <td class="tabInfo">{{ listar.id }}</td>
+            <td class="tabInfo">{{ listar.name }}</td>
+            <td class="tabInfo">{{ listar.role }}</td>
+            <td class="tabInfo"><input type="submit" name="eliminar" value="eliminar"></td>
+            <td class="tabInfo"><input type="button" class="modificarRango" name="modificarRango" value="modificar" data-identificador="{{ listar.id }}" data-nombre="{{ listar.name}}" data-role="{{ listar.role }}"></td>
+            <td><input type="hidden" name="valorEliminar" value="{{ listar.id }}"></td>
+            <td><input type="hidden" name="tabla" value="{{ informacion.tabla }}"></td>
+        <tr/>    
+        </form>
+        {% endfor %}
+    </table>
+<div id="popup" style="display: none;">
+    <div class="content-popup2">
+        <h4 class="modalh4">Usted modificará un Rango</h4>
+        <div class="close"><a href="#" id="close"><img src="{{ asset('img/close.png') }}"/></a></div>
+            <form action="{{ path('rango')}} " method="post" {{ form_enctype(formRango) }} novalidate>
+                <table>
+                    {{ form_start(formRango) }}
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorNombre"></div></td>
+                        <td>Nombre de Rango</td>
+                        <td>{{ form_widget(formRango.name) }}</td>
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>{{ form_errors(formRango.name) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorRole"></div></td>
+                        <td>Nombre Interno:</td>
+                        <td>{{ form_widget(formRango.role) }}</td>
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>{{ form_errors(formRango.role) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td><input type="submit" name="guardarCambios" value="Salvar Rango"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><input type="hidden" name="valorIdentificador" id="valorIdentificador" value=""></td>
+                    </tr>
+                    {{ form_end(formRango) }}
+                </table>
+           </form>
+    </div>
+</div>
+
+{% endblock %}
+{% block horas %}
+
+{{ include ('AppMediBundle:Default:IndexHoras.html.twig',
+    {'formHoras': formHoras }) }}
+
+{{ include ('AppMediBundle:Default:IndexReunion.html.twig',
+    {'reuniones': reuniones }) }}
+
+{{ include ('AppMediBundle:Default:IndexProyecto.html.twig',
+    {'proyectos': proyecto}) }}
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends ':App:MediBundle:Resources:views:Default:pais.html.twig' %}
+{% block listarLocalidad %}
+    <table class="listar">
+        <tr>
+            <td>Identificador de</td>
+            <td>Nombre de</td>
+            
+        </tr>
+        {% for listar in listar %}
+        <tr>    
+            <td>{{ listar.id }}</td>
+            <td>{{ listar.nombre }}</td>
+        <tr/>    
+        {% endfor %}
+    </table>    
+
+{% endblock %}

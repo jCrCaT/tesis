@@ -1,0 +1,87 @@
+{% extends '::base.html.twig' %}
+{% block contenido %}
+    <script language="javascript">
+    $(document).ready(function(){ 
+        $('#agregaritem').on('click',function(e){
+            e.preventDefault();
+            $( "#formAdd").slideToggle( "slow" );
+        });
+    });
+</script>
+    <div class="agregarItem">
+    <div>
+    <h4>Agregar Actividad</h4>
+    <a href="#" id="agregaritem" class="toggle linkMostrar">Mostrar/Ocultar</a>
+    <div id="formAdd" style="display:none">
+    <div class="addUbication">
+        <table>
+            <form action="{{ path('actividad')}}" method="post" {{ form_enctype(form) }} novalidate>
+            {{ form_start(form) }}
+            <tr>
+                <td>{{ form_label(form.nombre, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.nombre, {value : modificar.nombre }) }}</td>
+                <td>{{ form_errors(form.nombre) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.descripcion, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.descripcion, {value : modificar.descripcion }) }}</td>
+                <td>{{ form_errors(form.descripcion) }}</td> 
+            </tr>
+            {% if tipo == "crear" %}
+            <tr class="filaFormulario">
+                <td><input type="submit" name="salvarActividad" value="Salvar Actividad"></td>
+                <td></td>
+            </tr>
+            {% else %}
+            <tr class="filaFormulario">
+                <td><input type="submit" name="modificarActividad" value="Modificar Actividad"></td>
+                <td><input type="hidden" name="valorModificar" value="{{ modificar.id }}"></td>
+                <td></td>
+            </tr>
+            {% endif %}
+            {{ form_end(form) }}
+            </form> 
+        </table>
+    </div>
+    </div>
+    </div>
+    </div>       
+<div class="proyecto">
+<table class="listar">
+        <tr class="trHeader">  
+            <td class="headerTable1">Identificador de {{informacion.tabla}}</td>
+            <td class="headerTable1">Nombre de {{informacion.tabla}}</td>
+            <td class="headerTable1">Descripción de {{informacion.tabla}}</td>
+            <td class="headerTable1"></td>
+            <td class="headerTable1"></td>            
+            
+        </tr>
+        {% for listar in listar %}
+        <form action="{{ path('actividad')}} " method="post" {{ form_enctype(form) }} novalidate>
+        <tr class="trContent1">    
+            <td class="tabInfo">{{ listar.id }}</td>
+            <td class="tabInfo">{{ listar.nombre }}</td>
+            <td class="tabInfo">{{ listar.descripcion }}</td>
+            <td class="tabInfo"><input type="submit" name="eliminar" value="eliminar"></td>
+            <td class="tabInfo"><input type="submit" name="modificar" value="modificar"></td>
+            <td><input type="hidden" name="valorEliminar" value="{{ listar.id }}"></td>
+            <td><input type="hidden" name="tabla" value="{{ informacion.tabla }}"></td>
+        </tr>    
+        </form>
+        {% endfor %}
+    </table> 
+</div>
+{% endblock %}
+{% block horas %}
+
+{{ include ('AppMediBundle:Default:IndexHoras.html.twig',
+    {'formHoras': formHoras }) }}
+
+{{ include ('AppMediBundle:Default:IndexReunion.html.twig',
+    {'reuniones': reuniones }) }}
+
+{{ include ('AppMediBundle:Default:IndexProyecto.html.twig',
+    {'proyectos': proyecto}) }}
+
+{% endblock %}
+

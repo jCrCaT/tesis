@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="App\DataWarehouseBundle\Entity\DimProyecto" table="dim_proyecto">
+    <id name="idProyecto" type="integer" column="id_proyecto">
+      <generator strategy="SEQUENCE"/>
+    </id>
+    <field name="nombre" type="string" column="nombre" length="255" nullable="true"/>
+    <field name="empresa" type="string" column="empresa" length="20" nullable="true"/>
+    <field name="fechainicio" type="date" column="fechainicio" nullable="true"/>
+    <field name="fechatermino" type="date" column="fechatermino" nullable="true"/>
+    <field name="horasprogramadas" type="integer" column="horasprogramadas" nullable="true"/>
+    <field name="cliente" type="string" column="cliente" length="200" nullable="true"/>
+    <field name="estado" type="string" column="estado" length="200" nullable="true"/>
+  </entity>
+</doctrine-mapping>

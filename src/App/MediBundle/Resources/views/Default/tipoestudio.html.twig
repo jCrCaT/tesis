@@ -1,0 +1,78 @@
+{% extends '::base.html.twig' %}
+{% block submenu %}
+            <nav class="submenu">
+                <ul>
+                    <li><a href="{{ path('pais')}}">País</a></li>
+                    <li><a href="{{ path('region')}}">Región</a></li>
+                    <li><a href="{{ path('ciudad')}}">Ciudad</a></li>
+                    <li><a href="{{ path('comuna')}}">Comuna</a></li>
+                </ul>
+            </nav>
+{% endblock %}
+{% block contenido %}
+
+<form action="{{ path('tipoestudio')}}" method="post" {{ form_enctype(form) }} novalidate>
+    {% if tipo == "crear" %}
+    <h4>Agregar Tipo de estudio</h4>
+    {% else %}
+    <h4>Usted modificará el tipo de estudio <font class="red">"{{modificar.nombre}}"</font> </h4>
+    {% endif %}
+    <div class="addUbication">
+        <table>
+            {{ form_start(form) }}
+            <tr class="filaFormulario">
+                <td>{{ form_label(form.nombre, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.nombre, {value : modificar.nombre }) }}</td>
+                <td>{{ form_errors(form.nombre) }}</td> 
+            </tr>
+            <tr class="filaFormulario">
+                <td>{{ form_label(form.descripcion, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.descripcion, {value : modificar.nombre }) }}</td>
+                <td>{{ form_errors(form.descripcion) }}</td> 
+            </tr>
+            {% if tipo == "crear" %}
+            <tr class="filaFormulario">
+                <td><input type="submit" name="salvarTipoEstudio" value="Salvar tipo de estudio"></td>
+                <td></td>
+            </tr>
+            {% else %}
+            <tr class="filaFormulario">
+                <td><input type="submit" name="modificarTipoEstudio" value="Modificar Tipo de estudio"></td>
+                <td><input type="hidden" name="valorModificar" value="{{ modificar.id }}"></td>
+                <td></td>
+            </tr>
+            {% endif %}
+            {{ form_end(form) }}
+        </table>
+    </div>    
+</form>
+<section class="tabla">    
+    <h4>Listado de {{informacion.listado}}</h4>
+<table class="listar">
+        <tr>
+            
+            <td class="tabSup">Identificador de tipo de estudio</td>
+            <td class="tabSup">Nombre de tipo de estudio</td>
+            <td class="tabSup">Descripción de tipo de estudio</td>
+            <td class="tabSup"></td>
+            <td class="tabSup"></td>
+            
+        </tr>
+        {% for listar in listar %}
+        <form action="{{ path('tipoestudio')}} " method="post" {{ form_enctype(form) }} novalidate>
+        <tr>    
+            <td class="tabInfo">{{ listar.id }}</td>
+            <td class="tabInfo">{{ listar.nombre }}</td>
+            <td class="tabInfo">{{ listar.descripcion }}</td>
+            <td class="tabInfo"><input type="submit" name="eliminar" value="eliminar"></td>
+            <td class="tabInfo"><input type="submit" name="modificar" value="modificar"></td>
+            <td><input type="hidden" name="valorEliminar" value="{{ listar.id }}"></td>
+            <td><input type="hidden" name="tabla" value="{{ informacion.tabla }}"></td>
+        <tr/>    
+        </form>
+        {% endfor %}
+    </table>
+</section>
+{% endblock %}
+
+

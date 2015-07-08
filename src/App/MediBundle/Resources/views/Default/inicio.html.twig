@@ -1,0 +1,281 @@
+    {% extends '::base.html.twig' %}
+{% block contenido %}
+<link href="{{ asset('css/calendar.css') }}" rel="stylesheet" media="screen">
+<link href="{{ asset('css/modal.css') }}" rel="stylesheet" media="screen">
+<script src="{{ asset('js/mootools2.js') }}"></script>
+<script src="{{ asset('js/calendar.js') }}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.botonAgregar').click(function(){
+         var reunion = $(this).data("button");
+        $("#valorReunion").val( reunion );      
+        $('#popup').fadeIn('slow');
+        $('.popup-overlay').fadeIn('slow');
+        $('.popup-overlay').height($(window).height());
+        return false;
+    });
+    
+    $('#close').click(function(){
+        $('#popup').fadeOut('slow');
+        $('.popup-overlay').fadeOut('slow');
+        return false;
+    });
+});
+</script>
+<script language="javascript">
+    
+
+// The following should be put in your external js file,
+// with the rest of your ondomready actions.
+window.addEvent('domready', function(){
+
+	$$('.DatePicker').each( function(el){
+		new DatePicker(el);
+	});
+
+});
+
+
+
+</script>
+<script language="javascript">
+    $(document).ready(function(){ 
+        {% set mostrarCon = 1 %}
+        {% for mostrar in app.user.misAvances %}
+        $('#agregaritem{{ mostrarCon }}').on('click',function(e){
+            e.preventDefault();
+            $( "#mostrarContenido{{ mostrarCon }}").slideToggle( "slow" );
+        });
+        {% set mostrarCon = mostrarCon + 1 %}
+        {% endfor %}
+    });
+</script>
+<script src="{{ asset('js/Chart.js-master/Chart.js') }}"></script>
+<div class="informacionAvanceProyecto">
+    <div class="headerInicio1">
+        <h3>Hitos</h3> 
+        <ul class="botones nav nav-tabs">
+            <li><a href="#hproyecto" data-toggle="tab">Proyectos</a></li>
+            <li><a href="#hlicitacion" data-toggle="tab">Licitaciones</a></li> 
+        </ul>      
+    </div>
+    <div class="tab-content">
+    <div id="hproyecto" class="containerScroll tab-pane active">
+        <table class="hito">
+        {% for hito in hitos %}
+            <tr>
+                <td class="second">{{ hito.fecha|date('d-m-Y') }}</td>
+                <td class="second">{{ hito.nombre }}</td>
+                <td class="second">{{ hito.descripcion }}</td>
+                <td class="second">{{ hito.proyecto.nombreProyecto }}</td>  
+                <td class="second"><div class="etiquetaP">{{ hito.tipo }}</div></td> 
+            </tr>
+    {% endfor %}
+        </table>
+    </div> 
+    <div id="hlicitacion" class="containerScroll tab-pane">
+        <table class="hito">
+        {% for hito in hitosLic %}
+            <tr>
+                <td class="second">{{ hito.fecha|date('d-m-Y') }}</td>
+                <td class="second">{{ hito.nombre }}</td>
+                <td class="second">{{ hito.descripcion }}</td>
+                <td class="second">{{ hito.licitacion.nombre }}</td>  
+                <td class="second"><div id="etiquetaP">{{ hito.tipo }}</div></td> 
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+    </div>
+</div>
+<div class="ultimasCosas col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 contenedor">
+       {{ include ('AppMediBundle:Default:IndexHoras.html.twig',
+    {'formHoras': formHoras,
+     'formHorasLic': formHorasLic }) }} 
+    </div> 
+</div>
+<div class="misAvances">
+    {% set avanceP = 1 %}
+{% for avance in misAvances %}
+<div class="informacionAvanceProyecto col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="headerInicio">
+        <h3>{{ avance.nombre }}</h3> <a href="#" id="agregaritem{{ avanceP }}" class="toggle text-right linkMostrar">Mostrar información</a>
+    </div>
+    <div id="mostrarContenido{{ avanceP }}" class="mostrarContenido">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <canvas class="avanceGraficoProyecto" id="myChart{{ avanceP }}" width="150" height="150"></canvas>
+        <div>
+            <table>
+                <tr>
+                    <td><div class="rojo"> </div></td>
+                    <td>Porcentaje Avance</td>
+                </tr>
+                <tr>
+                    <td><div class="plomo"> </div></td>
+                    <td>Porcentaje Restante</td>                    
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-8">
+        <div>
+            <div class="text-center">
+                <ul class="botones nav nav-tabs">
+                    <li><a href="#avance{{ avanceP }}" data-toggle="tab">Avances</a></li>
+                </ul>
+        </div>
+       </div>
+         <div class="tab-content">
+             <div id="avance{{ avanceP }}" class="tab-pane active">
+                <table class="graficoInicio">
+                    <tr>
+                        <td class="upper">Horas Avanzadas:</td>
+                        <td class="upper">{{ avance.suma }}</td>
+                    </tr>
+                    <tr>
+                        <td>Horas Asignadas:</td>
+                        <td>{{ avance.horas }}</td>
+                    </tr>
+                    <tr>
+                        <td>Porcentaje Avance:</td>
+                        <td>{{ avance.suma / avance.horas *100 }}%</td>
+                    </tr>   
+                </table>
+            </div>
+     </div>
+    </div>
+        </div>
+</div>
+    {% set avanceP = avanceP + 1 %}
+ {% endfor %}   
+</div>
+<script type="text/javascript" src="{{ asset('js/bootstrap-clockpicker.min.js') }}"></script>
+<script type="text/javascript">
+$('.clockpicker').clockpicker({
+	placement: 'right',
+	align: 'left'
+})
+	.find('input').change(function(){
+		console.log(this.value);
+	});
+var input = $('#single-input').clockpicker({
+	placement: 'top',
+	align: 'left',
+	autoclose: true,
+	'default': 'now'
+});
+
+$('.clockpicker-with-callbacks').clockpicker({
+		donetext: 'Done',
+		init: function() { 
+			console.log("colorpicker initiated");
+		},
+		beforeShow: function() {
+			console.log("before show");
+		},
+		afterShow: function() {
+			console.log("after show");
+		},
+		beforeHide: function() {
+			console.log("before hide");
+		},
+		afterHide: function() {
+			console.log("after hide");
+		},
+		beforeHourSelect: function() {
+			console.log("before hour selected");
+		},
+		afterHourSelect: function() {
+			console.log("after hour selected");
+		},
+		beforeDone: function() {
+			console.log("before done");
+		},
+		afterDone: function() {
+			console.log("after done");
+		}
+	})
+	.find('input').change(function(){
+		console.log(this.value);
+	});
+
+// Manually toggle to the minutes view
+$('#check-minutes').click(function(e){
+	// Have to stop propagation here
+	e.stopPropagation();
+	input.clockpicker('show')
+			.clockpicker('toggleView', 'minutes');
+});
+if (/mobile/i.test(navigator.userAgent)) {
+	$('input').prop('readOnly', true);
+}
+</script>
+<script lang="javascript">
+function GetUrlValue(VarSearch){
+	var SearchString = window.location.search.substring(1);
+	var VariableArray = SearchString.split('&');
+	for(var i = 0; i < VariableArray.length; i++){
+		var KeyValuePair = VariableArray[i].split('=');
+		if(KeyValuePair[0] === VarSearch){
+                    return KeyValuePair[1];
+
+		}
+	}
+}; 
+if(GetUrlValue('status') === 'success'){
+    $(".avisoExitoso").css({"display":"block"});
+}
+</script>
+<script language="javascript">
+    {% set js = 1 %}
+        {% for avance in misAvances %}
+            var ctx = document.getElementById("myChart{{ js }}").getContext("2d");
+            if ({{avance.suma / avance.horas * 100 }} >= 100){
+                var data = [
+            {
+                value: 100,
+                color:"#F7464A",
+                highlight: "#FF5A5E",
+                label: "Avance"
+            },
+            {
+                value: 0,
+                color: "#ddd",
+                highlight: "#EAE7E7",
+                label: "Restante"
+            }
+            ];
+                
+            }else{
+            var data = [
+            {
+                value: {{ avance.suma / avance.horas * 100 }},
+                color:"#F7464A",
+                highlight: "#FF5A5E",
+                label: "Avance"
+            },
+            {
+                value: 100 - {{ avance.suma / avance.horas * 100 }},
+                color: "#ddd",
+                highlight: "#EAE7E7",
+                label: "Restante"
+            }
+            ];}
+Chart.defaults.global.animation = true;
+var myPieChart = new Chart(ctx).Pie(data);
+    {% set js = js + 1 %}
+    {% endfor %}
+        
+</script> 
+{% endblock %}
+
+{% block horas %}
+
+{{ include ('AppMediBundle:Default:IndexPerfil.html.twig',
+    {'uf': uf })}}
+
+{% endblock %}
+
+
+

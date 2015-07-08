@@ -1,0 +1,148 @@
+{% extends '::base.html.twig' %}
+{% block submenu %}
+            <nav class="submenu">
+                <ul>
+                    <li><a href="{{ path('empresa') }}">Empresa</a></li>
+                    <li><a href="{{ path('area') }}">Área</a></li>
+                    <li><a href="{{ path('proyecto') }}">Proyectos</a></li>
+                    <li><a href="{{ path('empresa') }}">Encargados</a></li>
+                </ul>
+            </nav>
+{% endblock %}
+{% block contenido %}
+<link href="{{ asset('css/modal.css') }}" rel="stylesheet" media="screen">
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.modificar').click(function(){
+        var id = $(this).data("identificador");
+        var nombre = $(this).data("nombre");
+        var descripcion = $(this).data("descripcion");
+        $("#valorIdentificador").val( id );
+        document.getElementById("valorNombre").innerHTML = nombre;
+        document.getElementById("valorDescripcion").innerHTML = descripcion;
+        $('#popup').fadeIn('slow');
+        $('.popup-overlay').fadeIn('slow');
+        $('.popup-overlay').height($(window).height());
+        return false;
+    });
+    
+    $('#close').click(function(){
+        $('#popup').fadeOut('slow');
+        $('.popup-overlay').fadeOut('slow');
+        return false;
+    });
+});
+</script>
+<script language="javascript">
+    $(document).ready(function(){ 
+        $('#agregaritem').on('click',function(e){
+            e.preventDefault();
+            $( "#formAdd").slideToggle( "slow" );
+        });
+    });
+</script>
+<div class="agregarItem" >
+    <div>
+    <h4>Crear nueva Área</h4>
+    <a href="#" id="agregaritem" class="toggle linkMostrar">Mostrar/Ocultar</a>
+    <div id="formAdd" style="display:none">
+    <div class="addUbication">
+        <table>
+            <form action="{{ path('area')}}" method="post" {{ form_enctype(form) }} novalidate>
+            {{ form_start(form) }}
+            <tr>
+                <td>{{ form_label(form.nombre, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.nombre) }}</td>
+                <td>{{ form_errors(form.nombre) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form.descripcion, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form.descripcion) }}</td>
+                <td>{{ form_errors(form.descripcion) }}</td> 
+            </tr>
+            <tr class="filaFormulario">
+                <td><input type="submit" name="salvarArea" value="Salvar Área" class="btnAdd"></td>
+                <td></td>
+            </tr>
+            {{ form_end(form) }}
+            </form>
+        </table>
+    </div>
+    </div>
+    </div>        
+<section class="tabla">    
+    <div class="licitacion">
+    <table>
+        <tr class="trHeader">
+            <td class="headerTable1">Nombre de {{informacion.tabla}}</td>
+            <td class="headerTable1">Descripción de {{informacion.tabla}}</td>
+            <td class="headerTable1"></td>
+            <td class="headerTable1"></td>           
+        </tr>
+        {% for listar in listar %}
+        <form action="{{ path('area')}} " method="post" {{ form_enctype(form) }} novalidate>
+        <tr class="trContent1">    
+            <td class="tabInfo" data-nombre="{{ listar.nombre }}">{{ listar.nombre }}</td>
+            <td class="tabInfo" data-descripcion="{{ listar.descripcion }}">{{ listar.descripcion }}</td>
+            <td class="tabInfo"><input type="submit" name="eliminar" value="eliminar" class="btnAdd"></td>
+            <td class="tabInfo"><input type="button" value="modificar" class="modificar btnAdd" data-identificador="{{ listar.id }}" data-nombre = "{{ listar.nombre }}" data-descripcion = "{{ listar.descripcion }}"></td>
+            <td><input type="hidden" name="valorEliminar" value="{{ listar.id }}"></td>
+            <td><input type="hidden" name="inferior" value="{{ informacion.inferior }}"></td>
+            <td><input type="hidden" name="tabla" value="{{ informacion.tabla }}"></td>
+        </tr>    
+        </form>
+        {% endfor %}
+    </table>
+    </div>
+</section>
+
+<div id="popup" style="display: none;">
+    <div class="content-popup2">
+        <h4 class="modalh4">Usted modificará un Área</h4>
+        <div class="close"><a href="#" id="close"><img src="{{ asset('img/close.png') }}"/></a></div>
+            <form action="{{ path('area')}} " method="post" {{ form_enctype(formArea) }} novalidate>
+                <table>
+                    {{ form_start(formArea) }}
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorNombre"></div></td>
+                        <td>{{ form_label(formArea.nombre, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                        <td>{{ form_widget(formArea.nombre) }}</td>
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>{{ form_errors(formArea.nombre) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorDescripcion"></div></td>
+                        <td>{{ form_label(formArea.descripcion, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                        <td>{{ form_widget(formArea.descripcion) }}</td>
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>{{ form_errors(formArea.descripcion) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td><input type="submit" name="guardarCambios" value="guardarCambios"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" name="valorIdentificador" id="valorIdentificador" value=""></td>
+                    </tr>
+                    {{ form_end(formArea) }}
+                </table>
+           </form>
+    </div>
+</div>
+{% endblock %}
+{% block horas %}
+
+{{ include ('AppMediBundle:Default:IndexHoras.html.twig',
+    {'formHoras': formHoras }) }}
+
+{{ include ('AppMediBundle:Default:IndexReunion.html.twig',
+    {'reuniones': reuniones }) }}
+
+{{ include ('AppMediBundle:Default:IndexProyecto.html.twig',
+    {'proyectos': proyecto}) }}
+
+{% endblock %}

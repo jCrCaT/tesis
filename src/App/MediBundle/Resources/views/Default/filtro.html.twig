@@ -1,0 +1,287 @@
+{% extends '::base.html.twig' %}
+{% block submenu %}
+            <nav class="submenu">
+                <ul>
+                    <li><a href="{{ path('pais')}}">País</a></li>
+                    <li><a href="{{ path('region')}}">Región</a></li>
+                    <li><a href="{{ path('ciudad')}}">Ciudad</a></li>
+                    <li><a href="{{ path('comuna')}}">Comuna</a></li>
+                </ul>
+            </nav>
+{% endblock %}
+{% block contenido %}
+<script src="{{ asset('js/mootools2.js') }}"></script>
+<script src="{{ asset('js/calendar.js') }}"></script>
+<link href="{{ asset('css/calendar.css') }}" rel="stylesheet" media="screen">
+<script language="javascript">
+    
+
+// The following should be put in your external js file,
+// with the rest of your ondomready actions.
+window.addEvent('domready', function(){
+
+	$$('.DatePicker').each( function(el){
+		new DatePicker(el);
+	});
+
+});
+
+
+
+</script>
+<link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-clockpicker.min.css') }}">
+<ul class="nav nav-tabs">
+  <li class="active">
+    <a href="#Proyecto" data-toggle="tab">Proyecto</a>
+  </li>
+  <li>
+      <a href="#ProyectoTiempo" data-toggle="tab">Proyecto/Tiempo</a>
+  </li>
+    <li>
+      <a href="#ProyectoProfesional" data-toggle="tab">Proyecto/Profesional</a>
+  </li>
+    <li>
+      <a href="#Profesional" data-toggle="tab">Profesional</a>
+  </li>
+</ul>
+ <div class="tab-content">
+   <div id="Proyecto" class="tab-pane active">
+     <form action="{{ path('filtro')}}" method="post" {{ form_enctype(form) }} novalidate>
+{% if tipo == "crear" %}
+    <h4>Filtrar información</h4>
+    {% else %}
+    <h4>Usted modificará la Ciudad <font class="red">"{{modificar.nombre}}"</font> </h4>
+    {% endif %}
+    <div class="addUbication">
+        <table>
+            {{ form_start(form) }}
+            <tr class="filaFormulario">
+                <td>{{ form_label(form.nombreProyecto, null, {'label_attr': {'class': 'etiqueta', 'id': 'proyecto'}}) }}</td>
+                <td>{{ form_widget(form.nombreProyecto) }}</td>
+            </tr>
+            {% if tipo == "crear" %}
+            <tr class="filaFormulario">
+                <td><input type="submit" name="filtrarProyectoTiempo" value="Filtrar"></td>
+                <td></td>
+            </tr>
+            {% endif %}
+        </table>
+    </div>    
+</form> 
+   </div>
+   <div id="ProyectoTiempo" class="tab-pane">
+     <form action="{{ path('filtro')}}" method="post" {{ form_enctype(form1) }} novalidate>
+{% if tipo == "crear" %}
+    <h4>Filtrar información</h4>
+    {% else %}
+    <h4>Usted modificará la Ciudad <font class="red">"{{modificar.nombre}}"</font> </h4>
+    {% endif %}
+    <div class="addUbication">
+        <table>
+            {{ form_start(form1) }}
+            <tr class="filaFormulario">
+                <td>{{ form_label(form1.nombreProyecto1, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form1.nombreProyecto1) }}</td>
+            </tr>
+            <tr>
+                <td class="etiqueta">Fecha de inicio</td>
+                <td><input class="DatePicker" name="fechaInicio"></td> 
+            </tr>
+            <tr>
+                <td class="etiqueta">Fecha de término</td>
+                <td><input class="DatePicker" name="fechaTermino"></td> 
+            </tr>
+            <tr>
+            <tr>
+                <td class="etiqueta">Hora de inicio de actividad</td>
+                <td>
+                    <div id="reloj" class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true">
+                        <input type="text" class="form-control" value="13:14" name="horaInicio">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="etiqueta">Hora de fin de actividad</td>
+                <td>
+                    <div id="reloj" class="input-group clockpicker" data-placement="left" data-align="top" data-autoclose="true">
+                        <input type="text" class="form-control" value="13:14" name="horaTermino">
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-time"></span>
+                            </span>
+                    </div>
+                </td>
+            </tr>   
+            {% if tipo == "crear" %}
+            <tr class="filaFormulario">
+                <td><input type="submit" name="filtrarProyectoTiempo" value="Filtrar"></td>
+                <td></td>
+            </tr>
+            {% endif %}
+        </table>
+    </div>    
+</form> 
+   </div>
+     <div id="ProyectoProfesional" class="tab-pane">
+     <form action="{{ path('filtro')}}" method="post" {{ form_enctype(form2) }} novalidate>
+{% if tipo == "crear" %}
+    <h4>Filtrar información</h4>
+    {% else %}
+    <h4>Usted modificará la Ciudad <font class="red">"{{modificar.nombre}}"</font> </h4>
+    {% endif %}
+    <div class="addUbication">
+        <table>
+            {{ form_start(form) }}
+            <tr class="filaFormulario">
+                <td>{{ form_label(form2.nombreProyecto2, null, {'label_attr': {'class': 'etiqueta', 'id': 'proyecto'}}) }}</td>
+                <td>{{ form_widget(form2.nombreProyecto2) }}</td>
+            </tr>
+            <tr>
+                <td>{{ form_label(form2.username, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form2.username) }}</td>
+            </tr>
+            {% if tipo == "crear" %}
+            <tr class="filaFormulario">
+                <td><input type="submit" name="filtrarProyecto" value="Filtrar"></td>
+                <td></td>
+            </tr>
+            {% endif %}
+        </table>
+    </div>    
+</form> 
+   </div>
+     <div id="Profesional" class="tab-pane">
+     <form action="{{ path('filtro')}}" method="post" {{ form_enctype(form3) }} novalidate>
+{% if tipo == "crear" %}
+    <h4>Filtrar información</h4>
+    {% else %}
+    <h4>Usted modificará la Ciudad <font class="red">"{{modificar.nombre}}"</font> </h4>
+    {% endif %}
+    <div class="addUbication">
+        <table>
+            {{ form_start(form3) }}
+                <td>{{ form_label(form3.username1, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(form3.username1) }}</td>
+            </tr>
+            {% if tipo == "crear" %}
+            <tr class="filaFormulario">
+                <td><input type="submit" name="filtrarProyecto" value="Filtrar"></td>
+                <td></td>
+            </tr>
+            {% endif %}
+        </table>
+    </div>    
+</form>
+   </div>
+</div>   
+<section class="tabla"> 
+    <h4>Listado de {{informacion.listado}}</h4>
+<table class="listar">
+        <tr>
+            
+            <td class="tabSup">Identificador de {{informacion.tabla}}</td>
+            <td class="tabSup">Fecha de inicio</td>
+            <td class="tabSup">Fecha de término</td>
+            <td class="tabSup">Hora de inicio</td>
+            <td class="tabSup">Hora de término</td>
+            <td class="tabSup">Profesional</td>
+            <td class="tabSup">Actividad realizada</td>
+            <td class="tabSup"></td>
+            <td class="tabSup"></td>
+            
+        </tr>
+        {% for listar in listar %}
+        <form action="{{ path('filtro')}} " method="post" {{ form_enctype(form) }} novalidate>
+        <tr>    
+            <td class="tabInfo">{{ listar.id }}</td>
+            <td class="tabInfo">{{ listar.fechaInicio|date('d-m-Y') }}</td>
+            <td class="tabInfo">{{ listar.fechaTermino|date('d-m-Y') }}</td>
+            <td class="tabInfo">{{ listar.fechaInicio|date('H:i') }}</td>
+            <td class="tabInfo">{{ listar.fechaTermino|date('H:i') }}</td>
+            <td class="tabInfo">{{ listar.profesional.pnombre }} {{ listar.profesional.snombre }}</td>
+            <td class="tabInfo">{{ listar.actividad.nombre }}</td>
+            <td class="tabInfo"><input type="submit" name="eliminar" value="eliminar"></td>
+            <td class="tabInfo"><input type="submit" name="modificar" value="modificar"></td>
+            <td><input type="hidden" name="valorEliminar" value="{{ listar.id }}"></td>
+            <td ><input type="hidden" name="tabla" value="{{ informacion.tabla }}"></td>
+        <tr/>    
+        </form>
+        {% endfor %} 
+    </table> 
+</section> 
+<script type="text/javascript" src="{{ asset('js/bootstrap-clockpicker.min.js') }}"></script>
+<script type="text/javascript">
+$('.clockpicker').clockpicker({
+	placement: 'right',
+	align: 'left',
+})
+	.find('input').change(function(){
+		console.log(this.value);
+	});
+var input = $('#single-input').clockpicker({
+	placement: 'top',
+	align: 'left',
+	autoclose: true,
+	'default': 'now'
+});
+
+$('.clockpicker-with-callbacks').clockpicker({
+		donetext: 'Done',
+		init: function() { 
+			console.log("colorpicker initiated");
+		},
+		beforeShow: function() {
+			console.log("before show");
+		},
+		afterShow: function() {
+			console.log("after show");
+		},
+		beforeHide: function() {
+			console.log("before hide");
+		},
+		afterHide: function() {
+			console.log("after hide");
+		},
+		beforeHourSelect: function() {
+			console.log("before hour selected");
+		},
+		afterHourSelect: function() {
+			console.log("after hour selected");
+		},
+		beforeDone: function() {
+			console.log("before done");
+		},
+		afterDone: function() {
+			console.log("after done");
+		}
+	})
+	.find('input').change(function(){
+		console.log(this.value);
+	});
+
+// Manually toggle to the minutes view
+$('#check-minutes').click(function(e){
+	// Have to stop propagation here
+	e.stopPropagation();
+	input.clockpicker('show')
+			.clockpicker('toggleView', 'minutes');
+});
+if (/mobile/i.test(navigator.userAgent)) {
+	$('input').prop('readOnly', true);
+}
+</script>
+{% endblock %}
+{% block horas %}
+
+{{ include ('AppMediBundle:Default:IndexHoras.html.twig',
+    {'formHoras': formHoras }) }}
+
+{{ include ('AppMediBundle:Default:IndexReunion.html.twig',
+    {'reuniones': reuniones }) }}
+
+{{ include ('AppMediBundle:Default:IndexProyecto.html.twig',
+    {'proyectos': proyecto}) }}
+
+{% endblock %}

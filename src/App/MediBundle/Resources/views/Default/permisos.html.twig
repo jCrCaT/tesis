@@ -1,0 +1,10 @@
+{% extends '::base.html.twig' %}
+{% block contenido %}
+<h4>Administrar Permisos</h4>
+{% if accion is defined %}
+<div>
+    No se encuentran configurados los permisos. Por esto mismo, luego de presionar el siguiente boton, se configurarán todos los permisos para que los demás usuarios no posean acceso a ninguna característica. Luego de esto, usted podrá modificar cada uno de los permisos como usted desee.
+</div>
+{% endif %}
+
+{% endblock %}

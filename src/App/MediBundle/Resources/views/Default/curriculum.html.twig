@@ -1,0 +1,84 @@
+{% extends '::base.html.twig' %}
+{% block submenu %}
+            <nav class="submenu">
+                <ul>
+                    <li><a href="{{ path('usuario') }}">Profesionales</a></li>
+                    <li><a href="{{ path('cliente') }}">Clientes</a></li>
+                    <li><a href="{{ path('cliente') }}">Proveedores</a></li>
+                    <li><a href="{{ path('cliente') }}">Contactos</a></li>
+                    <li><a href="{{ path('cliente') }}">Reuniones</a></li>
+                </ul>
+            </nav>
+{% endblock %}
+{% block segundoSubMenu %}
+            <nav class="segundoSubMenu">
+                <ul>
+                    <li><a href="{{ path('estudio') }}">Gestión de competencias</a></li>
+                    <li><a href="{{ path('estudio') }}">Gestión de contrato</a></li>
+                </ul>
+            </nav>
+
+{% endblock %}
+{% block contenido %}
+{% for usuario in usuario %}
+<section class="curriculum">
+    <div class="headerCurriculum">
+        <table>
+            <tr>
+                <td class="tituloCurri">Curriculum de {{ usuario.pnombre }} {{ usuario.snombre }}<br><br></td>
+            </tr>
+            <tr>
+                <td class="tituloCurri">Nombre completo:</td>
+                <td>{{ usuario.pnombre }} {{ usuario.snombre }} {{ usuario.papellido }} {{ usuario.sapellido }} </td>
+            </tr>
+            <tr>
+                <td class="tituloCurri">Rol Único Nacional:</td>
+                <td>{{ usuario.username }}</td>
+            </tr>
+            <tr>
+                <td class="tituloCurri">Fecha de nacimiento:</td>
+                <td>{{ usuario.fechaNacimiento|date('d - m - Y') }}</td>
+            </tr>
+            <tr>
+                <td class="tituloCurri">Domicilio:</td>
+                <td>{{ usuario.direccion }} - {{ usuario.comuna.nombre}}</td>
+            </tr>
+            <tr>
+                <td class="tituloCurri">Teléfono de contacto:</td>
+                <td>{{ usuario.telefono }}</td>
+            </tr>
+            <tr>
+                <td class="tituloCurri"><br><br>Formación académica<br><br></td>
+            </tr>
+            {% for estudio in estudio %}
+            <tr>
+                <td>{{ estudio.anoInicio|date('Y') }} - {{ estudio.anoTermino|date('Y') }}</td>
+                <td>{{ estudio.descripcion }} realizado en {{ estudio.institucion }}</td>
+            </tr>
+            <tr>
+                <td><br><br></td>
+                <td><br><br></td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td class="tituloCurri">Experiencia laboral</td>
+            </tr>
+        </table>
+    </div>
+    <div class="mainCurriculum"></div>
+    <div class="footerCurriculum"></div>    
+</section>
+{% endfor %}
+{% endblock %}
+{% block horas %}
+
+{{ include ('AppMediBundle:Default:IndexHoras.html.twig',
+    {'formHoras': formHoras }) }}
+
+{{ include ('AppMediBundle:Default:IndexReunion.html.twig',
+    {'reuniones': reuniones }) }}
+
+{{ include ('AppMediBundle:Default:IndexProyecto.html.twig',
+    {'proyectos': proyecto}) }}
+
+{% endblock %}

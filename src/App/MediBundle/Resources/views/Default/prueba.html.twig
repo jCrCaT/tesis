@@ -1,0 +1,182 @@
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/var/www/mediApp/web/css/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/var/www/mediApp/web/css/informeCss.css" rel="stylesheet" media="screen">
+    <link href="/var/www/mediApp/web/css/styles.css" rel="stylesheet" media="screen">
+    <script src="/var/www/mediApp/web/js/js2.js"></script>
+    <script src="/var/www/mediApp/web/js/jquery.dd.min.js"></script>
+    <script type="text/javascript" src="/var/www/mediApp/web/js/Chart.js-master/src/Chart.Core.js"></script>
+    <script type="text/javascript" src="/var/www/mediApp/web/js/Chart.js-master/src/Chart.Bar.js"></script>
+    <script type="text/javascript" src="/var/www/mediApp/web/js/Chart.js-master/src/Chart.Doughnut.js"></script>
+    <script type="text/javascript" src="/var/www/mediApp/web/js/Chart.js-master/src/Chart.Line.js"></script>
+    <script type="text/javascript" src="/var/www/mediApp/web/js/Chart.js-master/src/Chart.PolarArea.js"></script>
+    <script type="text/javascript" src="/var/www/mediApp/web/js/Chart.js-master/src/Chart.Radar.js"></script>
+    <script type="text/javascript" src="/var/www/mediApp/web/js/Chart.js-master/Chart.js"></script>
+    <link href="{{ asset('css/informeCss.css') }}" rel="stylesheet" media="screen">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">        
+        <link href="{{ asset('css/styles.css') }}" rel="stylesheet" media="screen">
+        <script src="{{ asset('js/js2.js') }}"></script>
+        <script src="{{ asset('js/jquery.dd.min.js') }}"></script>
+        <script src="{{ asset('js/modal.js') }}"></script>
+        <script src="{{ asset('js/script.js') }}"></script>
+        
+            
+</head>
+{# <canvas id="myChart" width="400" height="400"></canvas>#}
+<div class="contenedorPrueba">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <img class="imgHeaderInforme" src="http://localhost/web/img/cpda.png"/>
+        </div>
+        <div class="tableInfo">
+            <table class="infoEmpresa">
+                <tr>
+                    <td>CPD & A</td>
+                </tr>
+                <tr>
+                    <td>(02)22051510</td>
+                </tr>
+                <tr>
+                    <td>(09)77073576</td>
+                </tr>
+                <tr>
+                    <td>Av. Pedro de Valdivia 555 Of 402</td>
+                </tr>
+                <tr>
+                    <td>Providencia - Santiago</td>
+                </tr>
+            </table>            
+        </div>
+        
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="titulo">Informe de avances</div>
+        <div class="infoTitulo">Informe Gerencial orientado al desgloce de información con relación al desarrollo de proyectos</div>
+    </div>
+    <div class="banner col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="photo cuatro"><img class="imgBanner" src="http://localhost/web/img/img1.jpg"/></div>
+        <div class="photo cuatro"><img class="imgBanner" src="http://localhost/web/img/img2.jpg"/></div>
+        <div class="photo cuatro"><img class="imgBanner" src="http://localhost/web/img/img3.jpg"/></div>
+        <div class="photo dos"><img class="imgBanner" src="http://localhost/web/img/img4.jpg"/></div>
+        <div class="photo dos"><img class="imgBanner" src="http://localhost/web/img/img5.jpg"/></div>
+        <div class="photo dos"><img class="imgBanner" src="http://localhost/web/img/img6.jpg"/></div>
+        <div class="photo dos"><img class="imgBanner" src="http://localhost/web/img/img7.jpg"/></div>
+        <div class="photo dos"><img class="imgBanner" src="http://localhost/web/img/img8.jpg"/></div>
+        <div class="photo dos"><img class="imgBanner" src="http://localhost/web/img/img9.png"/></div>
+            
+    </div>
+    <div class="reporteUnoSubtitulo col-xs-12 col-sm-12 col-md-12 col-lg-12">            
+        <div class="reporteUnoSubtituloHead">Información necesaria</div>
+        <div class="reporteSubtDesc">Este informe evidencia la situación actual de los proyectos en los que CPD & A se encuentra desarrollando.Con el fin de brindar una toma de decisiones eficiente, tanto para los integrantes de la organización como para sus clientes. En el informe que se presenta a continuación, usted podrá encontrar toda la información detallada sobre los factores críticos que se ven involucrados en los proyectos; dígase informes financieros, progresos e información general de sobre cada uno de estos.</div>
+        <table class="infoSubtitulo">
+            <tr>
+                <td>Fecha de generación de informe:</td>
+                <td>12/11/2014</td>
+            </tr>
+        </table>
+        <table class="infoSubtitulo avancesTinicial">
+            <tr>
+                <td><div id="avanceProgresado"></div></td>
+                <td>Avance Progresado</td>
+            </tr>
+            <tr>
+                <td><div id="avanceNProgresado"></div></td>
+                <td>Avance no progresado</td>
+            </tr>
+        </table>
+    </div>
+    <div class="infoProyectos">
+        {% set ciclo = 1 %}
+        {% for informacion in informacion  %}
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="nombreProyecto"><h4>{{ informacion.proyecto}}</h4></div>
+            <section class="grafProyecto col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <canvas id="myChart{{ ciclo }}" width="200" height="200"></canvas>                
+            </section>
+            <section class="genProyecto col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <table>
+                    <tr class="tituloGenProyecto">
+                        <td class="noBorderRight">Información General</td>
+                        <td class="noBorderLeft"></td>
+                    </tr>
+                    <tr>
+                        <td>Cliente a quien pertenece:</td>
+                        <td>Cliente S.A</td>
+                    </tr>                    
+                    <tr>
+                        <td>Fecha de inicio:</td>
+                        <td>12/10/2014</td>
+                    </tr>
+                    <tr>
+                        <td>Fecha de término:</td>
+                        <td>12/11/2014</td>
+                    </tr>
+                    <tr>
+                        <td>Cantidad total de horas pactadas:</td>
+                        <td>500</td>
+                    </tr>
+                    <tr>
+                         <td>Cantidad total de horas avanzadas:</td>
+                        <td>450</td>                        
+                    </tr>
+                </table>
+                
+            </section>
+            <section class="finProyecto col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                <table>
+                    <tr class="tituloGenProyecto">
+                        <td class="noBorderRight">Información Financiera</td>
+                        <td class="noBorderLeft"></td>
+                    </tr>
+                    <tr>
+                        <td>Valor Pactado (UF)</td>
+                        <td>1000</td>
+                    </tr>
+                    <tr>
+                        <td>Inversión en Profesionales(UF)</td>
+                        <td>700</td>
+                    </tr>
+                    <tr>
+                        <td>Inversión en Gastos(UF)</td>
+                        <td>100</td>
+                    </tr>
+                    <tr>
+                        <td>Inversión total(UF)</td>
+                        <td>1000</td>
+                    </tr>
+                    
+                </table>                
+            </section>
+        </div> 
+        {% set ciclo = ciclo + 1 %}
+        {% endfor %}
+        
+</div>  
+    {#<script src="/var/www/mediApp/chart/Chart.js"></script> #}
+<script src="{{ asset('js/Chart.js-master/Chart.js')}}"></script>
+<script language="javascript">
+    {% set js = 1 %}
+    {% for informacion in informacion %}
+    var ctx = document.getElementById("myChart{{ js }}").getContext("2d");
+    var data = [
+    {
+        value: {{ informacion.avance}},
+        color:"#F7464A",
+        highlight: "#FF5A5E",
+        label: "Red"
+    },
+    {
+        value: {{ 100 - informacion.avance}},
+        color: "#FDB45C",
+        highlight: "#FFC870",
+        label: "Yellow"
+    }
+]
+Chart.defaults.global.animation = false;
+var myPieChart = new Chart(ctx).Pie(data);
+    {% set js = js + 1 %}
+    {% endfor %}
+</script>
+
+    
+   

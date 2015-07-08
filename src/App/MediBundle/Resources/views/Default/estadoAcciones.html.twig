@@ -1,0 +1,114 @@
+{% extends '::base.html.twig' %}
+{% block contenido %}
+<link href="{{ asset('css/modal.css') }}" rel="stylesheet" media="screen">
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.modificarPais').click(function(){
+        var id = $(this).data("identificador");
+        var nombre = $(this).data("nombre");
+        $("#valorIdentificador").val( id );
+        document.getElementById("valorNombre").innerHTML = nombre;
+        $('#popup').fadeIn('slow');
+        $('.popup-overlay').fadeIn('slow');
+        $('.popup-overlay').height($(window).height());
+        return false;
+    });
+    
+    $('#close').click(function(){
+        $('#popup').fadeOut('slow');
+        $('.popup-overlay').fadeOut('slow');
+        return false;
+    });
+});
+</script>
+<form action="{{ path('estadoevento')}}" method="post" {{ form_enctype(formEstadoAcciones) }} novalidate>    
+    <h4>Agregar Estado a eventos importantes</h4>
+    <div class="addUbication">
+        <table>
+            {{ form_start(formEstadoAcciones) }}
+            <tr class="filaFormulario">
+                <td>{{ form_label(formEstadoAcciones.estado, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(formEstadoAcciones.estado) }}</td>
+                <td>{{ form_errors(formEstadoAcciones.estado) }}</td> 
+            </tr>
+            <tr class="filaFormulario">
+                <td>{{ form_label(formEstadoAcciones.descripcion, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                <td>{{ form_widget(formEstadoAcciones.descripcion) }}</td>
+                <td>{{ form_errors(formEstadoAcciones.descripcion) }}</td> 
+            </tr>
+            <tr class="filaFormulario">
+                <td><input type="submit" name="salvarEstadoE" value="Salvar Etapa"></td>
+                <td></td>
+            </tr>
+            {{ form_end(formEstadoAcciones) }}
+        </table>
+    </div>    
+</form>
+<section class="tabla">    
+    <h4>Listado de {{informacion.listado}}</h4>
+    <div class="licitacion">
+<table class="listar">
+        <tr class="trHeader">
+            <td class="headerTable1">Nombre de estado</td>
+            <td class="headerTable1">Descripción</td>
+            <td class="headerTable1"></td>
+            <td class="headerTable1"></td>
+            <td class="headerTable1"></td>
+            
+        </tr>
+        {% for estado in listar %}
+        <tr class="trContent1"> 
+        <form action="{{ path('estadoevento')}} " method="post" novalidate>   
+            <td class="tabInfo" data-nombre="{{ estado.estado }}">{{ estado.estado }}</td>
+            <td class="tabInfo" data-nombre="{{ estado.descripcion }}">{{ estado.descripcion }}</td>
+            <td class="tabInfo"><input type="submit" name="eliminar" value="eliminar"></td>
+            <td><input type="hidden" name="valorEliminar" value="{{ estado.id }}"></td>
+            <td><input type="hidden" name="tabla" value="{{ informacion.tabla }}"></td>
+        </form>
+        <tr/>    
+        {% endfor %}
+    </table>
+</section>
+{#<div id="popup" style="display: none;">
+    <div class="content-popup2">
+        <h4 class="modalh4">Usted modificará un País</h4>
+        <div class="close"><a href="#" id="close"><img src="{{ asset('img/close.png') }}"/></a></div>
+            <form action="{{ path('pais')}} " method="post" {{ form_enctype(formPais) }} novalidate>
+                <table>
+                    {{ form_start(formPais) }}
+                    <tr class="filaFormulario">
+                        <td>Valor Actual:</td>
+                        <td><div id="valorNombre"></div></td>
+                        <td>{{ form_label(formPais.nombre, null, {'label_attr': {'class': 'etiqueta'}}) }}</td>
+                        <td>{{ form_widget(formPais.nombre) }}</td>
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td>{{ form_errors(formPais.nombre) }}</td> 
+                    </tr>
+                    <tr class="filaFormulario">
+                        <td><input type="submit" name="guardarCambios" value="guardarCambios"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><input type="hidden" name="valorIdentificador" id="valorIdentificador" value=""></td>
+                    </tr>
+                    {{ form_end(formPais) }}
+                </table>
+           </form>
+    </div>
+</div>#}
+{% endblock %}
+{% block horas %}
+
+{{ include ('AppMediBundle:Default:IndexHoras.html.twig',
+    {'formHoras': formHoras,
+    'formHorasLic': formHorasLic }) }}
+
+{{ include ('AppMediBundle:Default:IndexReunion.html.twig',
+    {'reuniones': reuniones }) }}
+
+{{ include ('AppMediBundle:Default:IndexProyecto.html.twig',
+    {'proyectos': proyecto}) }}
+
+{% endblock %}
+

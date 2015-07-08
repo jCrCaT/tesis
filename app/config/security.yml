@@ -1,0 +1,64 @@
+security:
+    encoders:
+        App\MediBundle\Entity\User1:
+            algorithm: bcrypt
+            cost: 15
+            iterations:       0        
+        Symfony\Component\Security\Core\User\User1:
+          algorithm: bcrypt
+          cost: 15
+
+    role_hierarchy:
+        #ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN,ROLE_FINANZA, ROLE_AREA, ROLE_JP, ROLE_PROFESIONAL]
+        ROLE_ADMIN: [ROLE_AREA, ROLE_JP, ROLE_PROFESIONAL]
+        ROLE_AREA: [ROLE_JP, ROLE_PROFESIONAL]
+        ROLE_FINANZA: [ROLE_JP, ROLE_PROFESIONAL]
+        ROLE_JP: [ROLE_PROFESIONAL]
+
+    providers:
+        chain_provider:
+            chain:
+                providers: [in_memory, main]
+        in_memory:
+            memory:
+                users:
+                    user:  { password: userpass, roles: [ 'ROLE_USER' ] }
+                    admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+        main:
+            entity: { class: App\MediBundle\Entity\User1, property: username }            
+
+    firewalls:
+        secured_area:
+            pattern:    ^/
+            anonymous:  ~
+            http_basic:
+                realm: "Secured Demo Area"
+            form_login:
+                check_path: login_check
+                login_path: login        
+            logout:
+                path:   /logout
+                target: /login
+        login_firewall:
+            pattern:    ^/login
+            anonymous:  ~    
+            anonymous: ~
+            http_basic:
+                realm: "Secured Demo Area"
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        # { path: /, roles: ROLE_EMPLEADO }
+        #- { path: ^/, roles: ROLE_USER }
+        - { path: ^/empresa, roles: ROLE_SUPER_ADMIN }
+        - { path: ^/pais, roles: ROLE_SUPER_ADMIN }
+        - { path: ^/region, roles: ROLE_SUPER_ADMIN }
+        - { path: ^/ciudad, roles: ROLE_SUPER_ADMIN }
+        - { path: ^/comuna, roles: ROLE_SUPER_ADMIN }
+        #- { path: ^/usuario, roles: ROLE_ADMIN }
+        - { path: ^/area, roles: ROLE_AREA }
+        - { path: ^/actividad, roles: ROLE_PROFESIONAL }
+        - { path: ^/dashboard/proyecto, roles: ROLE_FINANZA }
+        
+        

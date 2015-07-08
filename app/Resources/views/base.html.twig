@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8" />
+        <title>{% block title %}CPD & Asociados{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link href="{{ asset('css/dd.css') }}" rel="stylesheet" media="screen">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">        
+        <link href="{{ asset('css/template.css') }}" rel="stylesheet" media="screen">
+        <link href="{{ asset('css/styles.css') }}" rel="stylesheet" media="screen">
+        <link href="{{ asset('css/chosen.min.css') }}" rel="stylesheet" media="screen">      
+        <script src="{{ asset('js/js2.js') }}"></script>
+        {#<script src="{{ asset('js/jquery.dd.min.js') }}"></script>#}
+        <script src="{{ asset('js/modal.js') }}"></script>
+        {#<script src="{{ asset('js/script.js') }}"></script>#}
+        <script src="{{ asset('js/chosen.jquery.min.js') }}"></script>
+        <link href="{{ asset('css/mediaQuery.css') }}" rel="stylesheet" media="screen">
+        <script src="{{ asset('js/selectbox.js') }}"></script>
+        
+        <link href='http://fonts.googleapis.com/css?family=Rokkitt' rel='stylesheet' type='text/css'>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    </head>
+    <script type="text/javascript">
+    var id = $("#myDropdown").data('ddslick');
+
+
+    </script>
+    <div id="blackWindow"></div>
+    <nav class="navbar navbar-default container">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="search"></span>
+      </button>
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu-inicial">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+    </div>
+    <div id="fraseinicial">
+    <a class="navbar-brand" href="#">Cecilia Peschke Dagnino & Asociados</a>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+      </ul>
+      <form class="navbar-form navbar-left" role="search" action="{{ path('busqueda')}}" method="post" novalidate>
+        <div class="form-group">
+            {#{% block busqueda %}{% endblock %} #}
+            <div id="contenedorBusqueda">
+                <input type="text" name="txtBuscar" id="inputBuscar" placeholder="Buscar">
+                <div id="myDropdown">
+                <select id="demo-htmlselect" selected="2" value="tipo" name="selectOption">
+                    <option value="1" data-imagesrc="{{ asset('img/proyecto1.png') }}">Proyecto</option>
+                    <option value="2" data-imagesrc="{{ asset('img/licitacion.png') }}">Licitación</option>
+                    <option value="3" data-imagesrc="{{ asset('img/profesional.png') }}">Profesional</option>
+                </select>
+                </div>
+                <input type="submit" class="btnBuscar" id="btnBuscar" name="buscarContenido" value="Buscar">
+                <input type="hidden" id="tipoBuscar" name="tipoBuscar" value="">
+            </div>
+
+        </div>
+      </form>
+          <div class="infoProfesional pull-right">
+        <div>{% if app.security.getToken.getUser.getImagenPerfil == null %}{% else %}<img src="{{ asset('documentos/')}}{{ app.security.getToken().getUser().getImagenPerfil().getPath() }}{% endif %} " class="img-circle" /></div>
+        <div>Bienvenido {{ app.security.getToken().getUser().getPnombre() }} {{ app.security.getToken().getUser().getPapellido() }}</div>        
+    </div> 
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+  <div>   
+</div>
+</nav>
+    <body>
+        <div class="container">
+        <section class="header col-xs-12 col-sm-12 col-md-2 col-lg-2">
+            <div id="menu-inicial">
+            <div id='cssmenu'>
+                <ul>
+                    <li class='active has-sub'><a href='{{ path('horas') }}'><span>Horas</span></a>
+                        <ul>
+                            <li class='has-sub'><a href='{{ path('area') }}'><span>Áreas</span></a>
+                                <ul>
+                                    <li><a href='{{ path('area') }}'><span>Gestión de Áreas</span></a></li>
+                                    <li class='last'><a href='{{ path('asignararea') }}'><span>Asignación de Áreas</span></a></li>
+                                </ul>
+                            </li>
+                            <li class='has-sub'><a href='#'><span>Proyectos</span></a>
+                                <ul>
+                                    <li><a href='{{ path('proyecto') }}'><span>Gestión de Proyectos</span></a></li>
+                                    <li class='last'><a href='{{ path('asignarproyecto') }}'><span>Asignación de Proyectos</span></a></li>
+                                </ul>
+                            <li><a href='{{ path('actividad') }}'><span>Gestión de actividades</span></a></li>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class='active has-sub'><a href='{{ path('usuario') }}'><span>Profesionales</span></a>
+                        <ul>
+                            <li><a href='{{ path('usuario') }}'><span>Gestión de profesionales</span></a></li>
+                            <li><a href='{{ path('estudio') }}'><span>Gestión de estudios</span></a></li>
+                            <li><a href='{{ path('estudio') }}'><span>Gestión de experiencia laboral</span></a></li>
+                            <li><a href='{{ path('rango') }}'><span>Gestión de Rangos</span></a></li>
+                            
+                        </ul>
+                    </li>
+                    <li><a href='{{ path('empresa') }}'><span>Empresas</span></a></li>
+                    <li><a href='{{ path('area') }}'><span>Áreas</span></a></li>
+                    <li><a href='{{ path('licitacion') }}'><span>Licitaciones</span>{#{% if licTerm > 0 %}<div class="number pull-right circle-image">{{ licTerm }}</div>{% endif %}#}</a></li>
+                    <li><a href='{{ path('proyecto') }}'><span>Proyectos</span></a></li>
+                    <li><a href='{{ path('reunion') }}'><span>Reuniones</span></a></li>
+                    <li><a href='{{ path('cliente') }}'><span>Clientes</span></a></li>
+                    <li><a href='{{ path('actividad') }}'><span>Actividades</span></a></li>
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    <li><a href='{{ path('pais') }}'><span>País</span></a></li>
+                    <li><a href='{{ path('region') }}'><span>Región</span></a></li>
+                    <li><a href='{{ path('ciudad') }}'><span>Ciudad</span></a></li>
+                    <li><a href='{{ path('comuna') }}'><span>Comuna</span></a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        </section>
+        {% if app.request.get('_route') == 'gproyecto' or app.request.get('_route') == 'glicitacion'  %}
+            <section class="main col-xs-12 col-sm-12 col-md-9 col-lg-10">
+        {% else %}
+            <section class="main col-xs-12 col-sm-12 col-md-7 col-lg-7">
+        {% endif %}    
+            {% block contenido %}{% endblock %} 
+        </section> 
+        {% if app.request.get('_route') == 'grafico' %}      
+        {% else %}
+        <section class="right col-xs-12 col-sm-12 col-md-3 col-lg-3">     
+            {% block horas %}{% endblock %}
+        </section> 
+        {% endif %}        
+            </div>
+    </body>
+<script src="{{ asset('js/chosen.jquery.min.js') }}"></script>
+<script src="{{ asset('js/chosen.proto.js') }}"></script>
+     <script>
+    $("#myDropdown").ddslick({
+        selectText: "Select your favorite social network",
+        onSelected: function(selectedData){
+            var ddData = $('#myDropdown').data('ddslick');
+            $("#tipoBuscar").val( ddData.selectedIndex );
+
+            
+        }
+        });
+    </script>
+</html>
